@@ -1,0 +1,43 @@
+extends ../../layouts/admin
+
+block head
+  title 管理面板
+
+block neck
+  link(rel='stylesheet', href='/views/admin/index.min.css?#{cacheBreaker}')
+
+block body
+  div.row
+    div.col-sm-6
+      div.page-header
+        h1 管理面板
+      div.row
+        div.col-sm-4
+          div.well.stat
+            div.stat-value #{countUser}
+            div.stat-label 用户
+        div.col-sm-4
+          div.well.stat
+            div.stat-value #{countAccount}
+            div.stat-label 帐号
+        div.col-sm-4
+          div.well.stat
+            div.stat-value #{countAdmin}
+            div.stat-label 管理员
+      div.row
+        div.col-sm-4
+          div.well.stat
+            div.stat-value #{countAdminGroup}
+            div.stat-label 群组
+        div.col-sm-4
+          div.well.stat
+            div.stat-value #{countCategory}
+            div.stat-label 分类
+        div.col-sm-4
+          div.well.stat
+            div.stat-value #{countStatus}
+            div.stat-label 状态
+    div.col-sm-6.special
+      div.page-header
+        h1 超级操作盘
+      i.fa.fa-gears.super-awesome

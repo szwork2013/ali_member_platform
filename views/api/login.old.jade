@@ -1,0 +1,25 @@
+extends layout
+ 
+block content
+  section.css-table
+    section.three-column
+      section.cell
+      
+      section.cell
+        h1= title
+        form(name="login", action="/login", method="post")
+          div(class='control-group validation-container')
+            label(class='control-label',style='font-size:large',for='email') 邮箱
+            div(class='controls')
+              input(id='email',type='text',class='input-xlarge',style='font-size:large',placeholder='Email',name='email')
+          div(class='control-group validation-container')
+            label(class='control-label',style='font-size:large',for='pwd') 密码
+            div(class='controls')
+              input(id='pwd',type='password',class='input-xlarge',style='font-size:large',placeholder='Password',name='pwd')
+          div(class='control-group')
+            div(class='controls')
+              p(style='text-align:center')
+                button(type='submit',style='font-size:large;',class='btn btn-primary') 登入
+                
+      section.cell
+      

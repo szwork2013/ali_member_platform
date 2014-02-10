@@ -1,0 +1,22 @@
+extends layout
+ 
+block content
+  section.css-table
+    section.three-column
+      section.cell
+      
+      section.cell
+        h1= title
+        form(name="applyToken", action="/apply", method="post")
+          div(class='control-group validation-container')
+            label(class='control-label',style='font-size:large',for='callback_url') 回调URL
+            div(class='controls')
+              input(id='callback_url',type='text',class='input-xlarge',style='font-size:large',placeholder='Callback URL',name='callback_url')
+          div(class='control-group')
+            div(class='controls')
+              p(style='text-align:center')
+                button(type='submit',style='font-size:large;',class='btn btn-primary') 提交申请
+                
+      section.cell
+        p 注意：回调URL必须是你使用API的网络应用的网络地址，例如：http://hostname/myapp
+      

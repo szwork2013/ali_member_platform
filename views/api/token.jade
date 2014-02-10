@@ -1,0 +1,26 @@
+extends layout
+ 
+block content
+  h1 #{title}
+  if token
+    section.css-table
+      section.two-column
+        section.cell
+          h2 Client Id
+          p #{token.client_id}
+          h2 Client Secret
+          p #{token.client_secret}
+          h2 Access Token
+          p #{token.access_token}
+          h2 Refresh Token
+          p #{token.refresh_token}
+          h2 Callback URL
+          p #{token.redirect_uri}
+          h2 Token Expires
+          p #{token.expires}
+          
+        section.cell
+          h2 授权Token使用方法
+          p 在调用本站任何API时，需要附上Access Token，就像这样：POST http://hostname/api/associate/code=XXXXXX&amp;reg_uid=12345&amp;access_token=#{token.access_token}
+  else
+    p 抱歉，未能找到您的授权访问信息，请联系管理员！

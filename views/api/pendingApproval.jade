@@ -1,0 +1,17 @@
+extends layout
+ 
+block content
+  section.css-table
+    section.two-column
+      section.cell
+        h1= title
+        h2 Client Id
+        p #{clientInfo.client_id}
+        h2 Client Secret
+        p #{clientInfo.client_secret}
+        h2 Callback URL
+        p #{clientInfo.redirect_uri}
+
+      section.cell
+        p 请联系管理员以尽快通过你的请求。
+      

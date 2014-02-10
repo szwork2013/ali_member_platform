@@ -1,0 +1,63 @@
+{
+  "name": "ali_member_platform",
+  "version": "0.1.0",
+  "description": "The WebSite and API for Ali Member Database.",
+  "author": {
+    "name": "Jun Hua Wang",
+    "email": "wangjh@a-li.com.cn"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "~0.2.x",
+    "mapper": "~0.2.x",
+    "lodash": "~1.0.0-rc.3",
+    "restify": "~2.3.5",
+    "oauth2-provider": "1.x",
+    "express": "3.1.x",
+    "node-oauth2-server": "1.x",
+    "bcrypt": "~0.7.x",
+    "node-uuid": "1.x",
+    "request": "2.x",
+    
+    "connect-mongo": "~0.4.0",
+    "emailjs": "~0.3.6",
+    "mongoose": "~3.8.1",
+    "passport": "~0.2.0",
+    "passport-local": "~0.1.6",
+    "passport-oauth": "~1.0.0",
+    "passport-facebook": "~1.0.2",
+    "passport-github": "~0.1.5",
+    "passport-twitter": "~1.0.2",
+    "helmet": "~0.1.2"
+  },
+  "devDependencies": {
+    "mysql": "2.0.0-alpha5",
+    "underscore.string": ">= 2.1.1",
+    "mocha": "~1.7.4",
+    "chai": "~1.4.2",
+    "should": "~2.1.1",
+    "supertest": "~0.8.1",
+    "express": "3.1.x",
+    
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.3.1",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-less": "~0.9.0",
+    "grunt-concurrent": "~0.4.1",
+    "grunt-nodemon": "~0.2.0",
+    "grunt-newer": "~0.6.0",
+    "grunt-contrib-copy": "~0.5.0"
+  },
+  "main": "index",
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">= 0.6"
+  }
+}

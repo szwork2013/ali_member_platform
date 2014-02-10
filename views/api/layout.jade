@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    header
+      nav
+        div(class='container')
+          a(style='float:left;line-height:50px;height:50px;font-size:x-large;', href='/') 梦之城产品用户数据库
+          ul(class='nav')
+            li 
+              a(href="/") 首页
+            if userid
+              li
+                a(href="/token") 授权访问信息
+              case role
+                when 1
+                  li
+                    a(href="/approve") 审核申请
+              li
+                a(href="/logout") 退出
+            else
+              li 
+                a(href="/login") 登录
+    section#wrapper
+      block content
+      footer 
+        section.css-table
+          section.four-column
+            section.cell
+               <br /> <br /> 
+            section.cell
+               <br /> <br /> 
+            section.cell
+               <br /> <br /> 
+            section.cell
+              a(href="http://www.a-li.com.cn/zxns/") 招贤纳士 <br />
+              a(href="http://www.a-li.com.cn/portal.php?mod=view&aid=4141") 版权声明<br />
+              a(href="http://www.a-li.com.cn") Beijing Dream Castle Culture Co., Ltd

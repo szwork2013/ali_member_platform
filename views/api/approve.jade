@@ -1,0 +1,32 @@
+extends layout
+ 
+block content
+  section.css-table
+    section.one-column
+      section.cell
+        h1= title
+        if pending[0]
+          form(name="approve", action="/approve", method="post")
+            table.pending
+              tr
+                th.pending 选择
+                th.pending 用户名
+                th.pending Email
+                th.pending Client ID
+                th.pending 回调URL
+              each v in pending
+                tr
+                  td.pending
+                    div(class='controls')
+                      input(id=v.id,type='checkbox',name='pass',value=v.id)
+                  td.pending= v.name
+                  td.pending= v.email
+                  td.pending= v.client_id
+                  td.pending= v.redirect_uri
+
+            div(class='control-group')
+              div(class='controls')
+                p(style='text-align:left')
+                  button(type='submit',style='font-size:large;',class='btn btn-primary') 通过
+        else
+          h4= pending
