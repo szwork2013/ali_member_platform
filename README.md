@@ -151,23 +151,3 @@ And constructed with the following guidelines:
 - Bug fixes and misc changes **bumps only the patch**
 
 For more information on SemVer, please visit <http://semver.org/>.
-
-
-
-## Authors
-
-**Mark Otto**
-
-- <http://twitter.com/mdo>
-- <http://github.com/mdo>
-
-**Jacob Thornton**
-
-- <http://twitter.com/fat>
-- <http://github.com/fat>
-
-
-
-## Copyright and license
-
-Code and documentation copyright 2011-2014 Twitter, Inc. Code released under [the MIT license](LICENSE). Docs released under [Creative Commons](docs/LICENSE).
