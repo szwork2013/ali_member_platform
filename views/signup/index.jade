@@ -1,7 +1,7 @@
 extends ../../layouts/default
 
 block head
-  title Sign Up
+  title 注册
 
 block neck
   link(rel='stylesheet', href='/views/signup/index.min.css?#{cacheBreaker}')
@@ -13,18 +13,18 @@ block body
   div.row
     div.col-sm-6
       div.page-header
-        h1 Sign Up
+        h1 注册
       div#signup
-      if oauthTwitter || oauthGitHub || oauthFacebook
+      if oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
         hr
-        p Or sign up using...
+        p 或者使用第三方帐号注册
         if oauthMessage
           div.alerts
             div.alert.alert-info.alert-dismissable
               button.close(type='button', data-dismiss='alert') &times;
               |#{oauthMessage}&nbsp;
               b
-                a(href='/login/') Login Here
+                a(href='/login/') 登录
         div.btn-group.btn-group-justified
           if oauthTwitter
             a.btn.btn-info(href='/signup/twitter/')
@@ -38,6 +38,14 @@ block body
             a.btn.btn-info(href='/signup/facebook/')
               i.fa.fa-facebook-square.fa-lg
               |  Facebook
+          if oauthWeibo
+            a.btn.btn-info(href='/signup/weibo/')
+              i.fa.fa-weibo-square.fa-lg
+              |  新浪微博
+          if oauthQq
+            a.btn.btn-info(href='/signup/qq/')
+              i.fa.fa-qq-square.fa-lg
+              |  腾讯QQ
     div.col-sm-6.marketing
       div.page-header
         h1 Campy Benefits
@@ -53,16 +61,16 @@ block body
           |<%- err %>
         |<% }); %>
       div.form-group(class!='<%- errfor.username ? "has-error" : "" %>')
-        label.control-label Pick a Username:
+        label.control-label 输入用户名:
         input.form-control(type='text', name='username', value!='<%= username %>')
         span.help-block <%- errfor.username %>
       div.form-group(class!='<%- errfor.email ? "has-error" : "" %>')
-        label.control-label Enter Your Email:
+        label.control-label 输入Email:
         input.form-control(type='text', name='email', value!='<%= email %>')
         span.help-block <%- errfor.email %>
       div.form-group(class!='<%- errfor.password ? "has-error" : "" %>')
-        label.control-label Create a Password:
+        label.control-label 密码:
         input.form-control(type='password', name='password', value!='<%= password %>')
         span.help-block <%- errfor.password %>
       div.form-group
-        button.btn.btn-primary.btn-signup(type='button') Create My Account
+        button.btn.btn-primary.btn-signup(type='button') 创建帐号

@@ -1,7 +1,7 @@
 extends ../../../layouts/default
 
 block head
-  title Forgot Your Password?
+  title 忘记你的密码了？
 
 block feet
   script(src='/views/login/forgot/index.min.js?#{cacheBreaker}')
@@ -10,7 +10,7 @@ block body
   div.row
     div.col-sm-6
       div.page-header
-        h1 Forgot Your Password?
+        h1 忘记你的密码了？
       div#forgot
 
   script(type='text/template', id='tmpl-forgot')
@@ -24,17 +24,17 @@ block body
         |<% if (success) { %>
         div.alert.alert-info
           button.close(type='button', data-dismiss='alert') &times;
-          | If an account matched that address, an email will be sent with instructions.
+          | 如果有符合此地址的帐号，我们会向它发送一封Email告诉你如何重置你的密码。
         |<% } %>
       |<% if (!success) { %>
       div.form-group(class!='<%- errfor.email ? "has-error" : "" %>')
-        label.control-label Enter Your Email:
+        label.control-label 输入你的Email:
         input.form-control(type='text', name='email', value!='<%= email %>')
         span.help-block <%- errfor.email %>
       |<% } %>
       div.form-group
         |<% if (!success) { %>
-        button.btn.btn-primary.btn-forgot(type='button') Send Reset
+        button.btn.btn-primary.btn-forgot(type='button') 重置
         |<% } %>
         |&nbsp;
-        a.btn.btn-link(href='/login/') Back to Login
+        a.btn.btn-link(href='/login/') 返回登录

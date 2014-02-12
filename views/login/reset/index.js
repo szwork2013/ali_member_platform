@@ -22,7 +22,7 @@ exports.set = function(req, res){
     }
 
     if (req.body.password !== req.body.confirm) {
-      workflow.outcome.errors.push('Passwords do not match.');
+      workflow.outcome.errors.push('两个密码不一致。');
     }
 
     if (workflow.hasErrors()) {
@@ -43,7 +43,7 @@ exports.set = function(req, res){
       }
 
       if (!user) {
-        workflow.outcome.errors.push('Invalid request.');
+        workflow.outcome.errors.push('非法请求。');
         return workflow.emit('response');
       }
 
@@ -53,7 +53,7 @@ exports.set = function(req, res){
         }
 
         if (!isValid) {
-          workflow.outcome.errors.push('Invalid request.');
+          workflow.outcome.errors.push('非法请求。');
           return workflow.emit('response');
         }
 

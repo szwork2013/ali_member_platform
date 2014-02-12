@@ -1,7 +1,7 @@
 extends ../../../layouts/default
 
 block head
-  title Reset Your Password
+  title 重置你的密码
 
 block feet
   script(src='/views/login/reset/index.min.js?#{cacheBreaker}')
@@ -10,7 +10,7 @@ block body
   div.row
     div.col-sm-6
       div.page-header
-        h1 Reset Your Password
+        h1 重置你的密码
       div#reset
 
   script(type='text/template', id='tmpl-reset')
@@ -24,26 +24,26 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Your password has been reset. Please login to confirm.
+          | 你的密码已重置，请登录确认。
         |<% } %>
         |<% if (id == undefined) { %>
         div.alert.alert-warning.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | You do not have a valid reset request.
+          | 你的重置请求不合法。
         |<% } %>
       |<% if (!success && id != undefined) { %>
       div.form-group(class!='<%- errfor.password ? "has-error" : "" %>')
-        label.control-label New Password:
+        label.control-label 新密码:
         input.form-control(type='password', name='password', value!='<%= password %>')
         span.help-block <%- errfor.password %>
       div.form-group(class!='<%- errfor.confirm ? "has-error" : "" %>')
-        label.control-label Confirm Password:
+        label.control-label 密码确认:
         input.form-control(type='password', name='confirm', value!='<%= confirm %>')
         span.help-block <%- errfor.confirm %>
       |<% } %>
       div.form-group
         |<% if (!success && id != undefined) { %>
-        button.btn.btn-primary.btn-reset(type='button') Set Password
+        button.btn.btn-primary.btn-reset(type='button') 设定密码
         |<% } %>
         |&nbsp;
-        a.btn.btn-link(href='/login/') Back to Login
+        a.btn.btn-link(href='/login/') 返回登录
