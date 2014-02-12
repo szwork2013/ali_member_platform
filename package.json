@@ -21,7 +21,8 @@
     "bcrypt": "~0.7.x",
     "node-uuid": "1.x",
     "request": "2.x",
-    
+
+    "jade": "~1.1.5",
     "connect-mongo": "~0.4.0",
     "emailjs": "~0.3.6",
     "mongoose": "~3.8.1",
