@@ -9,7 +9,9 @@ exports.init = function(req, res){
       oauthMessage: '',
       oauthTwitter: !!req.app.get('twitter-oauth-key'),
       oauthGitHub: !!req.app.get('github-oauth-key'),
-      oauthFacebook: !!req.app.get('facebook-oauth-key')
+      oauthFacebook: !!req.app.get('facebook-oauth-key'),
+      oauthWeibo: !!req.app.get('weibo-oauth-key'),
+      oauthQq: !!req.app.get('qq-oauth-key')
     });
   }
 };
@@ -50,7 +52,7 @@ exports.signup = function(req, res){
       }
 
       if (user) {
-        workflow.outcome.errfor.username = 'username already taken';
+        workflow.outcome.errfor.username = '用户名已被占用';
         return workflow.emit('response');
       }
 
@@ -65,7 +67,7 @@ exports.signup = function(req, res){
       }
 
       if (user) {
-        workflow.outcome.errfor.email = 'email already registered';
+        workflow.outcome.errfor.email = '此email已注册';
         return workflow.emit('response');
       }
 
@@ -134,7 +136,7 @@ exports.signup = function(req, res){
     req.app.utility.sendmail(req, res, {
       from: req.app.get('smtp-from-name') +' <'+ req.app.get('smtp-from-address') +'>',
       to: req.body.email,
-      subject: 'Your '+ req.app.get('project-name') +' Account',
+      subject: '你的 '+ req.app.get('project-name') +' 帐号',
       textPath: 'signup/email-text',
       htmlPath: 'signup/email-html',
       locals: {
@@ -147,7 +149,7 @@ exports.signup = function(req, res){
         workflow.emit('logUserIn');
       },
       error: function(err) {
-        console.log('Error Sending Welcome Email: '+ err);
+        console.log('发送欢迎邮件出错: '+ err);
         workflow.emit('logUserIn');
       }
     });
@@ -160,7 +162,7 @@ exports.signup = function(req, res){
       }
 
       if (!user) {
-        workflow.outcome.errors.push('Login failed. That is strange.');
+        workflow.outcome.errors.push('登录失败，请联系管理员');
         return workflow.emit('response');
       }
       else {
@@ -196,7 +198,7 @@ exports.signupTwitter = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: 'We found a user linked to your Twitter account.',
+          oauthMessage: '我们发现一个用户关联到你的 Twitter 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key')
@@ -223,7 +225,7 @@ exports.signupGitHub = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: 'We found a user linked to your GitHub account.',
+          oauthMessage: '我们发现一个用户关联到你的 GitHub 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key')
@@ -249,7 +251,7 @@ exports.signupFacebook = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: 'We found a user linked to your Facebook account.',
+          oauthMessage: '我们发现一个用户关联到你的 Facebook 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key')
@@ -267,7 +269,7 @@ exports.signupSocial = function(req, res){
       workflow.outcome.errfor.email = 'required';
     }
     else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
-      workflow.outcome.errfor.email = 'invalid email format';
+      workflow.outcome.errfor.email = '错误的 email 格式';
     }
 
     if (workflow.hasErrors()) {
@@ -306,7 +308,7 @@ exports.signupSocial = function(req, res){
       }
 
       if (user) {
-        workflow.outcome.errfor.email = 'email already registered';
+        workflow.outcome.errfor.email = '此 email 已注册';
         return workflow.emit('response');
       }
 
@@ -374,7 +376,7 @@ exports.signupSocial = function(req, res){
     req.app.utility.sendmail(req, res, {
       from: req.app.get('smtp-from-name') +' <'+ req.app.get('smtp-from-address') +'>',
       to: req.body.email,
-      subject: 'Your '+ req.app.get('project-name') +' Account',
+      subject: '你的 '+ req.app.get('project-name') +' 帐号',
       textPath: 'signup/email-text',
       htmlPath: 'signup/email-html',
       locals: {
@@ -387,7 +389,7 @@ exports.signupSocial = function(req, res){
         workflow.emit('logUserIn');
       },
       error: function(err) {
-        console.log('Error Sending Welcome Email: '+ err);
+        console.log('发送欢迎邮件出错: '+ err);
         workflow.emit('logUserIn');
       }
     });

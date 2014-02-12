@@ -4,7 +4,9 @@ exports = module.exports = function(app, passport) {
   var LocalStrategy = require('passport-local').Strategy,
       TwitterStrategy = require('passport-twitter').Strategy,
       GitHubStrategy = require('passport-github').Strategy,
-      FacebookStrategy = require('passport-facebook').Strategy;
+      FacebookStrategy = require('passport-facebook').Strategy,
+      WeiboStrategy = require('passport-weibo').Strategy,
+      QqStrategy = require('passport-qq').Strategy;
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
@@ -75,6 +77,38 @@ exports = module.exports = function(app, passport) {
     passport.use(new FacebookStrategy({
         clientID: app.get('facebook-oauth-key'),
         clientSecret: app.get('facebook-oauth-secret')
+      },
+      function(accessToken, refreshToken, profile, done) {
+        done(null, false, {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          profile: profile
+        });
+      }
+    ));
+  }
+
+  if (app.get('weibo-oauth-key')) {
+    passport.use(new WeiboStrategy({
+        clientID: app.get('weibo-oauth-key'),
+        clientSecret: app.get('weibo-oauth-secret'),
+        callbackURL: "http://127.0.0.1:3000/auth/weibo/callback"
+      },
+      function(accessToken, refreshToken, profile, done) {
+        done(null, false, {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          profile: profile
+        });
+      }
+    ));
+  }
+
+  if (app.get('qq-oauth-key')) {
+    passport.use(new WeiboStrategy({
+        clientID: app.get('qq-oauth-key'),
+        clientSecret: app.get('qq-oauth-secret'),
+        callbackURL: "http://127.0.0.1:3000/auth/qq/callback"
       },
       function(accessToken, refreshToken, profile, done) {
         done(null, false, {

@@ -74,7 +74,15 @@ app.configure(function(){
   //facebook settings
   app.set('facebook-oauth-key', config.oauth.facebook.key);
   app.set('facebook-oauth-secret', config.oauth.facebook.secret);
-  
+
+  //weibo settings
+  app.set('weibo-oauth-key', config.oauth.weibo.key);
+  app.set('weibo-oauth-secret', config.oauth.weibo.secret);
+
+  //qq settings
+  app.set('qq-oauth-key', config.oauth.qq.key);
+  app.set('qq-oauth-secret', config.oauth.qq.secret);
+
   //oauth
   app.set('oauth', oauth);
 

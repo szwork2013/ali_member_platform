@@ -4,9 +4,9 @@ exports.port = process.env.PORT || 3000;
 exports.mongodb = {
   uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost/drywall'
 };
-exports.companyName = 'Acme, Inc.';
-exports.projectName = 'Drywall';
-exports.systemEmail = 'your@email.addy';
+exports.companyName = 'Beijing Dream Castle Culture Co., Ltd';
+exports.projectName = '梦之城堡会员平台';
+exports.systemEmail = 'webmaster@a-li.com.cn';
 exports.cryptoKey = 'k3yb0ardc4t';
 exports.loginAttempts = {
   forIp: 50,

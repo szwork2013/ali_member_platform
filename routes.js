@@ -48,6 +48,9 @@ exports = module.exports = function(app, passport) {
   app.get('/signup/facebook/', passport.authenticate('facebook', { callbackURL: '/signup/facebook/callback/', scope: ['email'] }));
   app.get('/signup/facebook/callback/', require('./views/signup/index').signupFacebook);
 
+  app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/', scope: ['user:email'] }));
+  app.get('/signup/weibo/callback/', require('./views/signup/index').signupGitHub);
+
   //login/out
   app.get('/login/', require('./views/login/index').init);
   app.post('/login/', require('./views/login/index').login);
