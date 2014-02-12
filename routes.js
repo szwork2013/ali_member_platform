@@ -49,7 +49,9 @@ exports = module.exports = function(app, passport) {
   app.get('/signup/facebook/callback/', require('./views/signup/index').signupFacebook);
 
   app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/', scope: ['user:email'] }));
-  app.get('/signup/weibo/callback/', require('./views/signup/index').signupGitHub);
+  app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
+  app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/', scope: ['user:email'] }));
+  app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
 
   //login/out
   app.get('/login/', require('./views/login/index').init);
@@ -68,6 +70,11 @@ exports = module.exports = function(app, passport) {
   app.get('/login/github/callback/', require('./views/login/index').loginGitHub);
   app.get('/login/facebook/', passport.authenticate('facebook', { callbackURL: '/login/facebook/callback/' }));
   app.get('/login/facebook/callback/', require('./views/login/index').loginFacebook);
+
+  app.get('/login/weibo/', passport.authenticate('weibo', { callbackURL: '/login/weibo/callback/' }));
+  app.get('/login/weibo/callback/', require('./views/login/index').loginWeibo);
+  app.get('/login/qq/', passport.authenticate('qq', { callbackURL: '/login/qq/callback/' }));
+  app.get('/login/qq/callback/', require('./views/login/index').loginQq);
 
   //admin
   app.all('/admin*', ensureAuthenticated);
@@ -159,6 +166,13 @@ exports = module.exports = function(app, passport) {
   app.get('/account/settings/facebook/', passport.authenticate('facebook', { callbackURL: '/account/settings/facebook/callback/' }));
   app.get('/account/settings/facebook/callback/', require('./views/account/settings/index').connectFacebook);
   app.get('/account/settings/facebook/disconnect/', require('./views/account/settings/index').disconnectFacebook);
+
+  app.get('/account/settings/weibo/', passport.authenticate('weibo', { callbackURL: '/account/settings/weibo/callback/' }));
+  app.get('/account/settings/weibo/callback/', require('./views/account/settings/index').connectWeibo);
+  app.get('/account/settings/weibo/disconnect/', require('./views/account/settings/index').disconnectWeibo);
+  app.get('/account/settings/qq/', passport.authenticate('qq', { callbackURL: '/account/settings/qq/callback/' }));
+  app.get('/account/settings/qq/callback/', require('./views/account/settings/index').connectQq);
+  app.get('/account/settings/qq/disconnect/', require('./views/account/settings/index').disconnectQq);
 
   //route not found
   app.all('*', require('./views/http/index').http404);

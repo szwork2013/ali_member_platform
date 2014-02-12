@@ -18,7 +18,9 @@ exports.init = function(req, res){
       oauthMessage: '',
       oauthTwitter: !!req.app.get('twitter-oauth-key'),
       oauthGitHub: !!req.app.get('github-oauth-key'),
-      oauthFacebook: !!req.app.get('facebook-oauth-key')
+      oauthFacebook: !!req.app.get('facebook-oauth-key'),
+      oauthWeibo: !!req.app.get('weibo-oauth-key'),
+      oauthQq: !!req.app.get('qq-oauth-key')
     });
   }
 };
@@ -130,7 +132,9 @@ exports.loginTwitter = function(req, res, next){
           oauthMessage: 'No users found linked to your Twitter account. You may need to create an account first.',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
         });
       }
       else {
@@ -162,7 +166,9 @@ exports.loginGitHub = function(req, res, next){
           oauthMessage: 'No users found linked to your GitHub account. You may need to create an account first.',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
         });
       }
       else {
@@ -194,7 +200,77 @@ exports.loginFacebook = function(req, res, next){
           oauthMessage: 'No users found linked to your Facebook account. You may need to create an account first.',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
+        });
+      }
+      else {
+        req.login(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          res.redirect(getReturnUrl(req));
+        });
+      }
+    });
+  })(req, res, next);
+};
+
+exports.loginWeibo = function(req, res, next){
+  req._passport.instance.authenticate('weibo', function(err, user, info) {
+    if (!info || !info.profile) {
+      return res.redirect('/login/');
+    }
+
+    req.app.db.models.User.findOne({ 'weibo.id': info.profile._json.id }, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        res.render('login/index', {
+          oauthMessage: '未发现有用户连接到你的新浪微博帐号，你需要先创建一个帐号。',
+          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+          oauthGitHub: !!req.app.get('github-oauth-key'),
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
+        });
+      }
+      else {
+        req.login(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          res.redirect(getReturnUrl(req));
+        });
+      }
+    });
+  })(req, res, next);
+};
+
+exports.loginQq = function(req, res, next){
+  req._passport.instance.authenticate('qq', function(err, user, info) {
+    if (!info || !info.profile) {
+      return res.redirect('/login/');
+    }
+
+    req.app.db.models.User.findOne({ 'qq.id': info.profile._json.id }, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        res.render('login/index', {
+          oauthMessage: '未发现有用户连接到你的QQ帐号，你需要先创建一个帐号。',
+          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+          oauthGitHub: !!req.app.get('github-oauth-key'),
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
         });
       }
       else {

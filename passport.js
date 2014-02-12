@@ -24,7 +24,7 @@ exports = module.exports = function(app, passport) {
         }
 
         if (!user) {
-          return done(null, false, { message: 'Unknown user' });
+          return done(null, false, { message: '未知用户' });
         }
 
         app.db.models.User.validatePassword(password, user.password, function(err, isValid) {
@@ -33,7 +33,7 @@ exports = module.exports = function(app, passport) {
           }
 
           if (!isValid) {
-            return done(null, false, { message: 'Invalid password' });
+            return done(null, false, { message: '密码错误' });
           }
 
           return done(null, user);
@@ -91,8 +91,7 @@ exports = module.exports = function(app, passport) {
   if (app.get('weibo-oauth-key')) {
     passport.use(new WeiboStrategy({
         clientID: app.get('weibo-oauth-key'),
-        clientSecret: app.get('weibo-oauth-secret'),
-        callbackURL: "http://127.0.0.1:3000/auth/weibo/callback"
+        clientSecret: app.get('weibo-oauth-secret')
       },
       function(accessToken, refreshToken, profile, done) {
         done(null, false, {
@@ -105,10 +104,9 @@ exports = module.exports = function(app, passport) {
   }
 
   if (app.get('qq-oauth-key')) {
-    passport.use(new WeiboStrategy({
+    passport.use(new QqStrategy({
         clientID: app.get('qq-oauth-key'),
-        clientSecret: app.get('qq-oauth-secret'),
-        callbackURL: "http://127.0.0.1:3000/auth/qq/callback"
+        clientSecret: app.get('qq-oauth-secret')
       },
       function(accessToken, refreshToken, profile, done) {
         done(null, false, {

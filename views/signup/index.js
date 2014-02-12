@@ -201,7 +201,9 @@ exports.signupTwitter = function(req, res, next) {
           oauthMessage: '我们发现一个用户关联到你的 Twitter 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
         });
       }
     });
@@ -228,7 +230,9 @@ exports.signupGitHub = function(req, res, next) {
           oauthMessage: '我们发现一个用户关联到你的 GitHub 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
         });
       }
     });
@@ -254,12 +258,73 @@ exports.signupFacebook = function(req, res, next) {
           oauthMessage: '我们发现一个用户关联到你的 Facebook 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
-          oauthFacebook: !!req.app.get('facebook-oauth-key')
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
         });
       }
     });
   })(req, res, next);
 };
+
+exports.signupWeibo = function(req, res, next) {
+  req._passport.instance.authenticate('weibo', function(err, user, info) {
+    if (!info || !info.profile) {
+      return res.redirect('/signup/');
+    }
+
+    req.app.db.models.User.findOne({ 'weibo.id': info.profile._json.id }, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        req.session.socialProfile = info.profile;
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
+      }
+      else {
+        res.render('signup/index', {
+          oauthMessage: '我们发现一个用户关联到你的新浪微博帐号。',
+          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+          oauthGitHub: !!req.app.get('github-oauth-key'),
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
+        });
+      }
+    });
+  })(req, res, next);
+};
+
+exports.signupQq = function(req, res, next) {
+  req._passport.instance.authenticate('qq', function(err, user, info) {
+    if (!info || !info.profile) {
+      return res.redirect('/signup/');
+    }
+
+    req.app.db.models.User.findOne({ 'qq.id': info.profile._json.id }, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        req.session.socialProfile = info.profile;
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
+      }
+      else {
+        res.render('signup/index', {
+          oauthMessage: '我们发现一个用户关联到你的QQ帐号。',
+          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+          oauthGitHub: !!req.app.get('github-oauth-key'),
+          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+          oauthQq: !!req.app.get('qq-oauth-key')
+        });
+      }
+    });
+  })(req, res, next);
+};
+
 
 exports.signupSocial = function(req, res){
   var workflow = req.app.utility.workflow(req, res);

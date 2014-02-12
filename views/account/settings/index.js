@@ -41,7 +41,12 @@ var renderSettings = function(req, res, next, oauthMessage) {
       oauthGitHub: !!req.app.get('github-oauth-key'),
       oauthGitHubActive: outcome.user.github ? !!outcome.user.github.id : false,
       oauthFacebook: !!req.app.get('facebook-oauth-key'),
-      oauthFacebookActive: outcome.user.facebook ? !!outcome.user.facebook.id : false
+      oauthFacebookActive: outcome.user.facebook ? !!outcome.user.facebook.id : false,
+
+      oauthWeibo: !!req.app.get('weibo-oauth-key'),
+      oauthWeiboActive: outcome.user.weibo ? !!outcome.user.weibo.id : false,
+      oauthQq: !!req.app.get('qq-oauth-key'),
+      oauthQqActive: outcome.user.qq ? !!outcome.user.qq.id : false
     });
   };
 
@@ -133,6 +138,60 @@ exports.connectFacebook = function(req, res, next){
   })(req, res, next);
 };
 
+exports.connectWeibo = function(req, res, next){
+  req._passport.instance.authenticate('weibo', function(err, user, info) {
+    if (!info || !info.profile) {
+      return res.redirect('/account/settings/');
+    }
+
+    req.app.db.models.User.findOne({ 'weibo.id': info.profile._json.id, _id: { $ne: req.user.id } }, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (user) {
+        renderSettings(req, res, next, '已经有另一个用户连接到此新浪微博帐号。');
+      }
+      else {
+        req.app.db.models.User.findByIdAndUpdate(req.user.id, { weibo: info.profile._json }, function(err, user) {
+          if (err) {
+            return next(err);
+          }
+
+          res.redirect('/account/settings/');
+        });
+      }
+    });
+  })(req, res, next);
+};
+
+exports.connectQq = function(req, res, next){
+  req._passport.instance.authenticate('qq', function(err, user, info) {
+    if (!info || !info.profile) {
+      return res.redirect('/account/settings/');
+    }
+
+    req.app.db.models.User.findOne({ 'qq.id': info.profile._json.id, _id: { $ne: req.user.id } }, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (user) {
+        renderSettings(req, res, next, '已经有另一个用户连接到此QQ帐号。');
+      }
+      else {
+        req.app.db.models.User.findByIdAndUpdate(req.user.id, { qq: info.profile._json }, function(err, user) {
+          if (err) {
+            return next(err);
+          }
+
+          res.redirect('/account/settings/');
+        });
+      }
+    });
+  })(req, res, next);
+};
+
 exports.disconnectTwitter = function(req, res, next){
   req.app.db.models.User.findByIdAndUpdate(req.user.id, { twitter: { id: undefined } }, function(err, user) {
     if (err) {
@@ -155,6 +214,26 @@ exports.disconnectGitHub = function(req, res, next){
 
 exports.disconnectFacebook = function(req, res, next){
   req.app.db.models.User.findByIdAndUpdate(req.user.id, { facebook: { id: undefined } }, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+
+    res.redirect('/account/settings/');
+  });
+};
+
+exports.disconnectWeibo = function(req, res, next){
+  req.app.db.models.User.findByIdAndUpdate(req.user.id, { weibo: { id: undefined } }, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+
+    res.redirect('/account/settings/');
+  });
+};
+
+exports.disconnectQq = function(req, res, next){
+  req.app.db.models.User.findByIdAndUpdate(req.user.id, { qq: { id: undefined } }, function(err, user) {
     if (err) {
       return next(err);
     }
@@ -281,7 +360,7 @@ exports.identity = function(req, res, next){
         req.body.email
       ]
     };
-    var options = { select: 'username email twitter.id github.id facebook.id' };
+    var options = { select: 'username email twitter.id github.id facebook.id weibo.id qq.id' };
 
     req.app.db.models.User.findByIdAndUpdate(req.user.id, fieldsToSet, options, function(err, user) {
       if (err) {
