@@ -6,7 +6,7 @@ exports.mongodb = {
 };
 exports.companyName = 'Beijing Dream Castle Culture Co., Ltd';
 exports.projectName = '梦之城堡会员平台';
-exports.systemEmail = 'webmaster@a-li.com.cn';
+exports.systemEmail = 'xxx@a-li.com.cn';
 exports.cryptoKey = 'k3yb0ardc4t';
 exports.loginAttempts = {
   forIp: 50,
@@ -16,7 +16,7 @@ exports.loginAttempts = {
 exports.requireAccountVerification = false;
 exports.smtp = {
   from: {
-    name: process.env.SMTP_FROM_NAME || exports.projectName +' Website',
+    name: process.env.SMTP_FROM_NAME || exports.projectName +' 网站',
     address: process.env.SMTP_FROM_ADDRESS || 'your@email.addy'
   },
   credentials: {
@@ -38,5 +38,13 @@ exports.oauth = {
   github: {
     key: process.env.GITHUB_OAUTH_KEY || '',
     secret: process.env.GITHUB_OAUTH_SECRET || ''
+  },
+  weibo: {
+    key: process.env.WEIBO_OAUTH_KEY || '',
+    secret: process.env.WEIBO_OAUTH_SECRET || ''
+  },
+  qq: {
+    key: process.env.QQ_OAUTH_KEY || '',
+    secret: process.env.QQ_OAUTH_SECRET || ''
   }
 };
