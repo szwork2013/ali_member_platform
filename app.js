@@ -148,13 +148,13 @@ app.utility.workflow = require('drywall-workflow');
 
 
 //初始化MySql数据库连接
-var config = require('./config.json');
-var db = require('mapper');
-db.connect(config.db_config, {verbose: true});
+//var config = require('./config.json');
+//var db = require('mapper');
+//db.connect(config.db_config, {verbose: true});
 
 //接收请求并进行操作
-var controller = require('./controllers/router');
-controller(app, db);
+//var controller = require('./controllers/router');
+//controller(app, db);
 
 //listen up
 app.server.listen(app.get('port'), function(){
