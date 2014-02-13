@@ -212,6 +212,7 @@ exports.signupTwitter = function(req, res, next) {
 
 exports.signupGitHub = function(req, res, next) {
   req._passport.instance.authenticate('github', function(err, user, info) {
+    console.log("Github OAuth2 info: %j", info);
     if (!info || !info.profile) {
       return res.redirect('/signup/');
     }
@@ -269,6 +270,7 @@ exports.signupFacebook = function(req, res, next) {
 
 exports.signupWeibo = function(req, res, next) {
   req._passport.instance.authenticate('weibo', function(err, user, info) {
+    console.log("Weibo OAuth2 info: %j", info);
     if (!info || !info.profile) {
       return res.redirect('/signup/');
     }
