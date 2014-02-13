@@ -219,7 +219,7 @@ exports.loginFacebook = function(req, res, next){
 };
 
 exports.loginWeibo = function(req, res, next){
-  req._passport.instance.authenticate('weibo', function(err, user, info) {
+  req._passport.instance.authenticate('weibo', { callbackURL: '/login/weibo/callback/' }, function(err, user, info) {
     if (!info || !info.profile) {
       return res.redirect('/login/');
     }
@@ -253,7 +253,7 @@ exports.loginWeibo = function(req, res, next){
 };
 
 exports.loginQq = function(req, res, next){
-  req._passport.instance.authenticate('qq', function(err, user, info) {
+  req._passport.instance.authenticate('qq', { callbackURL: '/login/qq/callback/' }, function(err, user, info) {
     if (!info || !info.profile) {
       return res.redirect('/login/');
     }
