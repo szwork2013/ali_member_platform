@@ -269,7 +269,7 @@ exports.signupFacebook = function(req, res, next) {
 };
 
 exports.signupWeibo = function(req, res, next) {
-  console.log("Weibo OAuth2 req: %s", req);
+  console.log(req);
   req._passport.instance.authenticate('weibo', function(err, user, info) {
     console.log("Weibo OAuth2 info: %j", info);
     if (!info || !info.profile) {
