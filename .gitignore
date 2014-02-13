@@ -44,3 +44,5 @@ bower_components
 
 # configuration to ignore
 config.js
+
+wb_*.txt
