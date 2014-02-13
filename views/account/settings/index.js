@@ -15,7 +15,7 @@ var renderSettings = function(req, res, next, oauthMessage) {
   };
 
   var getUserData = function(callback) {
-    req.app.db.models.User.findById(req.user.id, 'username email twitter.id github.id facebook.id').exec(function(err, user) {
+    req.app.db.models.User.findById(req.user.id, 'username email twitter.id github.id facebook.id weibo.id qq.id').exec(function(err, user) {
       if (err) {
         callback(err, null);
       }
