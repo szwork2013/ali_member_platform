@@ -52,7 +52,7 @@ exports = module.exports = function(app, passport) {
   app.get('/signup/facebook/callback/', require('./views/signup/index').signupFacebook);
 
   app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }));
-  app.get('/signup/weibo/callback/', passport.authenticate('weibo', { failureRedirect: '/signup/' }), require('./views/signup/index').signupWeibo);
+  app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
   app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/', scope: ['user:email'] }));
   app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
 
