@@ -270,7 +270,7 @@ exports.signupFacebook = function(req, res, next) {
 
 exports.signupWeibo = function(req, res, next) {
   //console.log(req);
-  req._passport.instance.authenticate('weibo', function(err, user, info) {
+  req._passport.instance.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }, function(err, user, info) {
     console.log(err);
     console.log(info);
     if (!info || !info.profile) {
