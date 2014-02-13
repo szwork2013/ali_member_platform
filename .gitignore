@@ -40,6 +40,7 @@ validation-report.json
 # Folders to ignore
 node_modules/*
 !node_modules/drywall*
+!node_modules/passport-weibo
 bower_components
 
 # configuration to ignore
