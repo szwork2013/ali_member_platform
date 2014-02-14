@@ -1,7 +1,7 @@
 extends ../../layouts/default
 
 block head
-  title Login
+  title 登录
 
 block feet
   script(src='/views/login/index.min.js?#{cacheBreaker}')
@@ -10,7 +10,7 @@ block body
   div.row
     div.col-sm-6
       div.page-header
-        h1 Sign In
+        h1 登录
       div#login
       if oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
         hr

@@ -1,7 +1,7 @@
 extends ../../../layouts/admin
 
 block head
-  title Users / Details
+  title 用户 / 详情
 
 block feet
   script(src='/views/admin/users/details.min.js?#{cacheBreaker}')
@@ -18,12 +18,12 @@ block body
   script(type='text/template', id='tmpl-header')
     div.page-header
       h1
-        a(href='/admin/users/') Users
+        a(href='/admin/users/') 用户
         |  / <%= username %>
 
   script(type='text/template', id='tmpl-identity')
     fieldset
-      legend Identity
+      legend ID
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -33,16 +33,16 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.isActive ? "has-error" : "" %>')
-        label.control-label Is Active:
+        label.control-label 活跃:
         select.form-control(name='isActive')
-          option(value='yes') yes
-          option(value='no') no
+          option(value='yes') 是
+          option(value='no') 否
         span.help-block <%- errfor.isActive %>
       div.control-group(class!='<%- errfor.username ? "has-error" : "" %>')
-        label.control-label Username:
+        label.control-label 用户名:
         input.form-control(type='text', name='username', value!='<%= username %>')
         span.help-block <%- errfor.username %>
       div.control-group(class!='<%- errfor.email ? "has-error" : "" %>')
@@ -50,11 +50,11 @@ block body
         input.form-control(type='text', name='email', value!='<%= email %>')
         span.help-block <%- errfor.email %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Update
+        button.btn.btn-primary.btn-update(type='button') 更新
 
   script(type='text/template', id='tmpl-roles')
     fieldset
-      legend Roles
+      legend 角色
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable

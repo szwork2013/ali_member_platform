@@ -22,18 +22,18 @@ html
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | System&nbsp;
+                | 系统&nbsp;
                 span.caret
               ul.dropdown-menu
-                li.dropdown-header Pivoted Settings
-                li: a(href='/admin/statuses/') Statuses
-                li: a(href='/admin/categories/') Categories
+                li.dropdown-header 设置
+                li: a(href='/admin/statuses/') 状态
+                li: a(href='/admin/categories/') 分类
                 li.divider
-                li.dropdown-header User Admin
-                li: a(href='/admin/users/') Users
-                li: a(href='/admin/accounts/') Accounts
-                li: a(href='/admin/administrators/') Administrators
-                li: a(href='/admin/admin-groups/') Admin Groups
+                li.dropdown-header 用户管理
+                li: a(href='/admin/users/') 用户
+                li: a(href='/admin/accounts/') 会员帐号
+                li: a(href='/admin/administrators/') 管理员
+                li: a(href='/admin/admin-groups/') 管理群组
           form.navbar-form.pull-right#_search
 
     div.page
@@ -46,8 +46,8 @@ html
           span.copyright.pull-right
             |&#169; #{copyrightYear} #{copyrightName}
           ul.links
-            li: a(href='/') Home
-            li: a(href='/logout/') Sign Out
+            li: a(href='/') 首页
+            li: a(href='/logout/') 退出
           div.clearfix
 
     div.ajax-spinner

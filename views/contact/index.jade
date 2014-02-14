@@ -1,7 +1,7 @@
 extends ../../layouts/default
 
 block head
-  title Contact Us
+  title 联系我们
 
 block neck
   link(rel='stylesheet', href='/views/contact/index.min.css?#{cacheBreaker}')
@@ -13,14 +13,24 @@ block body
   div.row
     div.col-sm-6
       div.page-header
-        h1 Send A Message
+        h1 发送消息给我们
       div#contact
-    div.col-sm-6.special
-      div.page-header
-        h1 Contact Us
-      p.lead Freddy can't wait to hear from you.
-      i.fa.fa-reply-all.super-awesome
-      address 1428 Elm Street &bull; San Francisco, CA 94122
+    div.col-sm-6
+      div.page-header.special
+        h1 联系我们
+      p.lead 阿狸期待着听到来自你的消息
+      ul
+        li 产品经销 QQ：1499949692
+        li 商铺加盟：xixiaofeng@a-li.com.cn
+        li 商业授权：anjianrong@a-li.com.cn
+        li 供应商：wanglei@a-li.com.cn
+        li 媒体联络：ouyangxiaoxiao@a-li.com.cn
+      p 北京梦之城文化有限公司
+      p Beijing Dream Castle Culture Co., Ltd
+      p 电话：86(10)-68947260
+      p 传真：86(10)-68947260
+        address 地址：中国北京市海淀区 &bull; 中关村南大街3号 &bull; 海淀科技大厦14楼（100081）
+      i.fa.fa-reply-all.super-awesome.special
 
   script(type='text/template', id='tmpl-contact')
     form
@@ -33,21 +43,21 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | We have received your message. Thank you.
+          | 我们已经收到了你的消息，谢谢你！
         |<% } %>
       |<% if (!success) { %>
       div.form-group(class!='<%- errfor.name ? "has-error" : "" %>')
-        label.control-label Your Name:
+        label.control-label 你的姓名:
         input.form-control(type='text', name='name', value!='<%= name %>')
         span.help-block <%- errfor.name %>
       div.form-group(class!='<%- errfor.email ? "has-error" : "" %>')
-        label.control-label Your Email:
+        label.control-label 你的Email:
         input.form-control(type='text', name='email', value!='<%= email %>')
         span.help-block <%- errfor.email %>
       div.form-group(class!='<%- errfor.message ? "has-error" : "" %>')
-        label.control-label Message:
+        label.control-label 消息:
         textarea.form-control(name='message', rows='5') <%= message %>
         span.help-block <%- errfor.message %>
       div.form-group
-        button.btn.btn-primary.btn-contact(type='button') Send Message
+        button.btn.btn-primary.btn-contact(type='button') 发送消息
       |<% } %>
