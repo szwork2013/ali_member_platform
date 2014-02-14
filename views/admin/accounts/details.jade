@@ -1,7 +1,7 @@
 extends ../../../layouts/admin
 
 block head
-  title Accounts / Details
+  title 帐号 / 详情
 
 block neck
   link(rel='stylesheet', href='/views/admin/accounts/details.min.css?#{cacheBreaker}')
@@ -29,12 +29,12 @@ block body
   script(type='text/template', id='tmpl-header')
     div.page-header
       h1
-        a(href='/admin/accounts/') Accounts
+        a(href='/admin/accounts/') 帐号
         |  / <%- name.full %>
 
   script(type='text/template', id='tmpl-details')
     fieldset
-      legend Contact Info
+      legend 联络信息
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -43,7 +43,7 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.first ? "has-error" : "" %>')
         label.control-label First Name:
