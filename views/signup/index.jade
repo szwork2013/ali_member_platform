@@ -15,7 +15,7 @@ block body
       div.page-header
         h1 注册
       div#signup
-      if oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
+      if oauthAliDiscuz ||oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
         hr
         p 或者使用第三方帐号注册
         if oauthMessage
@@ -46,6 +46,10 @@ block body
             a.btn.btn-info(href='/signup/qq/')
               i.fa.fa-qq-square.fa-lg
               |  腾讯QQ
+          if oauthAliDiscuz
+              a.btn.btn-info(href='/signup/ali_discuz/')
+                i.fa.fa-al_discuz-square.fa-lg
+                |  阿狸官网
     div.col-sm-6.marketing
       div.page-header
         h1 注册会员吧

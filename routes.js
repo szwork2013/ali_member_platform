@@ -41,8 +41,15 @@ exports = module.exports = function(app, passport) {
   //sign up
   app.get('/signup/', require('./views/signup/index').init);
   app.post('/signup/', require('./views/signup/index').signup);
+  
   //social sign up
   app.post('/signup/social/', require('./views/signup/index').signupSocial);
+  app.get('/signup/ali_discuz/', function(req ,res){ 
+	  	res.redirect(req._passport.ali_discuz.requestUrl({ callbak: '/signup/ali_discuz/callback/' }));
+  });
+  
+  app.get('/signup/ali_discuz/callback/', require('./views/signup/index').signupAli_discuz);
+  
   app.get('/signup/twitter/', passport.authenticate('twitter', { callbackURL: '/signup/twitter/callback/' }));
   app.get('/signup/twitter/callback/', require('./views/signup/index').signupTwitter);
   app.get('/signup/github/', passport.authenticate('github', { callbackURL: '/signup/github/callback/', scope: ['user:email'] }));

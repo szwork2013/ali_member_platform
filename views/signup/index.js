@@ -11,7 +11,8 @@ exports.init = function(req, res){
       oauthGitHub: !!req.app.get('github-oauth-key'),
       oauthFacebook: !!req.app.get('facebook-oauth-key'),
       oauthWeibo: !!req.app.get('weibo-oauth-key'),
-      oauthQq: !!req.app.get('qq-oauth-key')
+      oauthQq: !!req.app.get('qq-oauth-key'),
+      oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
     });
   }
 };
@@ -181,6 +182,56 @@ exports.signup = function(req, res){
   workflow.emit('validate');
 };
 
+exports.signupAli_discuz = function(req, res, next){
+	var workflow = req.app.utility.workflow(req, res);
+	 
+	 workflow.on('getaccesstoken',function(){
+		 //获取accesstoken 然后获取用户信息
+		 if(!req.query.accesstoken){
+			 res.render('/signup/index', {
+		          oauthMessage: '登录授权失败,请重新登录授权。',
+		          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+		          oauthGitHub: !!req.app.get('github-oauth-key'),
+		          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+		          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+		          oauthQq: !!req.app.get('qq-oauth-key'),
+		          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+		        });
+		 }
+		 else{
+			 workflow.emit('getuserinfo');
+		 }
+	 });
+	 
+	 workflow.on('getuserinfo',function(){
+		 req._passport.ali_discuz.authenticate(req.query.accesstoken ,function(err ,info){
+			 if (!info) {
+			      return res.redirect('/signup/');
+			  }
+			 req.app.db.models.User.findOne({ 'ali_discuz.uid': info._json.uid }, function(err, user) {
+				 if (err) {
+					 return next(err);
+				 }
+				 if (!user) {
+					 req.session.socialProfile = info;
+					 res.render('signup/social', { email: info.emails || '' ,username: info.username || ''});
+				 }else{
+					 res.render('signup/index', {
+				          oauthMessage: '我们发现一个用户关联到你的 阿狸官网 帐号,请尝试使用 阿狸官网 帐号登录。',
+				          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+				          oauthGitHub: !!req.app.get('github-oauth-key'),
+				          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+				          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+				          oauthQq: !!req.app.get('qq-oauth-key'),
+				          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+				        });
+				 }
+			 });
+		 });
+	 });
+	 workflow.emit('getaccesstoken');
+};
+
 exports.signupTwitter = function(req, res, next) {
   req._passport.instance.authenticate('twitter', function(err, user, info) {
     if (!info || !info.profile) {
@@ -198,12 +249,13 @@ exports.signupTwitter = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: '我们发现一个用户关联到你的 Twitter 帐号。',
+          oauthMessage: '我们发现一个用户关联到你的 Twitter 帐号,请尝试使用 Twitter 帐号登录。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
     });
@@ -228,12 +280,13 @@ exports.signupGitHub = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: '我们发现一个用户关联到你的 Gi tHub 帐号。',
+          oauthMessage: '我们发现一个用户关联到你的 GitHub 帐号,请尝试使用 GitHub 帐号登录。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
     });
@@ -256,12 +309,13 @@ exports.signupFacebook = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: '我们发现一个用户关联到你的 Facebook 帐号。',
+          oauthMessage: '我们发现一个用户关联到你的 Facebook 帐号,请尝试使用 Facebook 帐号登录。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
     });
@@ -285,12 +339,13 @@ exports.signupWeibo = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: '我们发现一个用户关联到你的新浪微博帐号。',
+          oauthMessage: '我们发现一个用户关联到你的新浪微博帐号,请尝试使用 新浪微博 帐号登录。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
     });
@@ -314,12 +369,13 @@ exports.signupQq = function(req, res, next) {
       }
       else {
         res.render('signup/index', {
-          oauthMessage: '我们发现一个用户关联到你的QQ帐号。',
+          oauthMessage: '我们发现一个用户关联到你的QQ帐号,请尝试使用 QQ 帐号登录。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
     });
@@ -411,7 +467,7 @@ exports.signupSocial = function(req, res){
       if (err) {
         return workflow.emit('exception', err);
       }
-
+      
       workflow.user = user;
       workflow.emit('createAccount');
     });

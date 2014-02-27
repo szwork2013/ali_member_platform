@@ -107,7 +107,6 @@ exports.login = function(req, res){
           if (err) {
             return workflow.emit('exception', err);
           }
-
           workflow.emit('response');
         });
       }
@@ -135,7 +134,8 @@ exports.loginTwitter = function(req, res, next){
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key')
         });
       }
       else {
@@ -168,7 +168,8 @@ exports.loginGitHub = function(req, res, next){
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
       else {
@@ -176,7 +177,6 @@ exports.loginGitHub = function(req, res, next){
           if (err) {
             return next(err);
           }
-
           res.redirect(getReturnUrl(req));
         });
       }
@@ -202,7 +202,8 @@ exports.loginFacebook = function(req, res, next){
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
       else {
@@ -236,7 +237,8 @@ exports.loginWeibo = function(req, res, next){
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
       else {
@@ -270,7 +272,8 @@ exports.loginQq = function(req, res, next){
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
           oauthWeibo: !!req.app.get('weibo-oauth-key'),
-          oauthQq: !!req.app.get('qq-oauth-key')
+          oauthQq: !!req.app.get('qq-oauth-key'),
+          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
         });
       }
       else {
@@ -298,7 +301,8 @@ exports.loginAli_discuz = function(req, res){
 		          oauthGitHub: !!req.app.get('github-oauth-key'),
 		          oauthFacebook: !!req.app.get('facebook-oauth-key'),
 		          oauthWeibo: !!req.app.get('weibo-oauth-key'),
-		          oauthQq: !!req.app.get('qq-oauth-key')
+		          oauthQq: !!req.app.get('qq-oauth-key'),
+		          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
 		        });
 		 }
 		 else{
@@ -307,22 +311,22 @@ exports.loginAli_discuz = function(req, res){
 	 });
 	 workflow.on('getuserinfo',function(){
 		 req._passport.ali_discuz.authenticate(req.query.accesstoken ,function(err ,info){
-			  if (!info || !info.profile) {
+			  if (!info) {
 			      return res.redirect('/login/');
 			    }
-			  req.app.db.models.User.findOne({ 'github.id': info.profile._json.id }, function(err, user) {
-			      if (err) {
+			  req.app.db.models.User.findOne({ 'ali_discuz.uid': info._json.uid }, function(err, user) {
+				  if (err) {
 			        return next(err);
 			      }
-
 			      if (!user) {
 			        res.render('login/index', {
-			          oauthMessage: 'No users found linked to your GitHub account. You may need to create an account first.',
+			          oauthMessage: 'No users found linked to your 阿狸官网 account. You may need to create an account first.',
 			          oauthTwitter: !!req.app.get('twitter-oauth-key'),
 			          oauthGitHub: !!req.app.get('github-oauth-key'),
 			          oauthFacebook: !!req.app.get('facebook-oauth-key'),
 			          oauthWeibo: !!req.app.get('weibo-oauth-key'),
-			          oauthQq: !!req.app.get('qq-oauth-key')
+			          oauthQq: !!req.app.get('qq-oauth-key'),
+			          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
 			        });
 			      }
 			      else {
