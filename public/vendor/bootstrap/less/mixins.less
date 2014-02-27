@@ -54,7 +54,8 @@
 
 // Placeholder text
 .placeholder(@color: @input-color-placeholder) {
-  &::-moz-placeholder           { color: @color;   // Firefox
+  &:-moz-placeholder            { color: @color; } // Firefox 4-18
+  &::-moz-placeholder           { color: @color;   // Firefox 19+
                                   opacity: 1; } // See https://github.com/twbs/bootstrap/pull/11526
   &:-ms-input-placeholder       { color: @color; } // Internet Explorer 10+
   &::-webkit-input-placeholder  { color: @color; } // Safari and Chrome
@@ -252,6 +253,7 @@
   -webkit-user-select: @select;
      -moz-user-select: @select;
       -ms-user-select: @select; // IE10+
+       -o-user-select: @select;
           user-select: @select;
 }
 
@@ -627,7 +629,10 @@
 }
 
 .responsive-invisibility() {
-  display: none !important;
+    &,
+  tr&,
+  th&,
+  td& { display: none !important; }
 }
 
 
@@ -791,7 +796,7 @@
   .col(1); // kickstart it
 }
 
-.float-grid-columns(@class) {
+.make-grid-columns-float(@class) {
   .col(@index) when (@index = 1) { // initial
     @item: ~".col-@{class}-@{index}";
     .col((@index + 1), @item);
@@ -808,42 +813,34 @@
   .col(1); // kickstart it
 }
 
-.calc-grid-column(@index, @class, @type) when (@type = width) and (@index > 0) {
+.calc-grid(@index, @class, @type) when (@type = width) and (@index > 0) {
   .col-@{class}-@{index} {
     width: percentage((@index / @grid-columns));
   }
 }
-.calc-grid-column(@index, @class, @type) when (@type = push) {
+.calc-grid(@index, @class, @type) when (@type = push) {
   .col-@{class}-push-@{index} {
     left: percentage((@index / @grid-columns));
   }
 }
-.calc-grid-column(@index, @class, @type) when (@type = pull) {
+.calc-grid(@index, @class, @type) when (@type = pull) {
   .col-@{class}-pull-@{index} {
     right: percentage((@index / @grid-columns));
   }
 }
-.calc-grid-column(@index, @class, @type) when (@type = offset) {
+.calc-grid(@index, @class, @type) when (@type = offset) {
   .col-@{class}-offset-@{index} {
     margin-left: percentage((@index / @grid-columns));
   }
 }
 
 // Basic looping in LESS
-.loop-grid-columns(@index, @class, @type) when (@index >= 0) {
-  .calc-grid-column(@index, @class, @type);
+.make-grid(@index, @class, @type) when (@index >= 0) {
+  .calc-grid(@index, @class, @type);
   // next iteration
-  .loop-grid-columns((@index - 1), @class, @type);
+  .make-grid((@index - 1), @class, @type);
 }
 
-// Create grid for specific class
-.make-grid(@class) {
-  .float-grid-columns(@class);
-  .loop-grid-columns(@grid-columns, @class, width);
-  .loop-grid-columns(@grid-columns, @class, pull);
-  .loop-grid-columns(@grid-columns, @class, push);
-  .loop-grid-columns(@grid-columns, @class, offset);
-}
 
 // Form validation states
 //

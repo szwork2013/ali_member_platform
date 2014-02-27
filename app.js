@@ -7,7 +7,8 @@ var config = require('./config'),
     http = require('http'),
     path = require('path'),
     passport = require('passport'),
-    mongoose = require('mongoose'),
+    passport_ali_discuz = require('passport-ali_discuz'),
+	mongoose = require('mongoose'),
     helmet = require('helmet'),
     oauthserver = require('node-oauth2-server');
 var MemStore = express.session.MemoryStore;
@@ -20,7 +21,6 @@ var oauth = oauthserver({
     accessTokenLifetime: 31536000,
     debug: true
 });
-
 var app = express();
 
 //keep reference to config
@@ -82,7 +82,11 @@ app.configure(function(){
   //qq settings
   app.set('qq-oauth-key', config.oauth.qq.key);
   app.set('qq-oauth-secret', config.oauth.qq.secret);
-
+  
+  //discuz
+  app.set('ali_discuz-oauth-key', config.oauth.ali_discuz.key);
+  app.set('ali_discuz-oauth-secret', config.oauth.ali_discuz.secret);
+  
   //oauth
   app.set('oauth', oauth);
 
@@ -103,7 +107,11 @@ app.configure(function(){
   app.use(passport.initialize());
   app.use(passport.session());
   helmet.defaults(app);
-
+  
+  //setting ali_discuz_passport
+  app.use(passport_ali_discuz.init(config.oauth.ali_discuz.host));
+  
+  
   //response locals
   app.use(function(req, res, next) {
     res.locals.user = {};
@@ -133,7 +141,6 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
-
 //setup passport
 require('./passport')(app, passport);
 

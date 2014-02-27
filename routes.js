@@ -41,7 +41,6 @@ exports = module.exports = function(app, passport) {
   //sign up
   app.get('/signup/', require('./views/signup/index').init);
   app.post('/signup/', require('./views/signup/index').signup);
-
   //social sign up
   app.post('/signup/social/', require('./views/signup/index').signupSocial);
   app.get('/signup/twitter/', passport.authenticate('twitter', { callbackURL: '/signup/twitter/callback/' }));
@@ -65,7 +64,13 @@ exports = module.exports = function(app, passport) {
   app.get('/login/reset/:email/:token/', require('./views/login/reset/index').init);
   app.put('/login/reset/:email/:token/', require('./views/login/reset/index').set);
   app.get('/logout/', require('./views/logout/index').init);
-
+  
+  //ali_discuz login
+  app.get('/login/ali_discuz/' , function(req ,res){ 
+	  	res.redirect(req._passport.ali_discuz.requestUrl({ callbak: '/login/ali_discuz/callback/' }));
+	  });
+  app.get('/login/ali_discuz/callback/' , require('./views/login/index').loginAli_discuz);
+  
   //social login
   app.get('/login/twitter/', passport.authenticate('twitter', { callbackURL: '/login/twitter/callback/' }));
   app.get('/login/twitter/callback/', require('./views/login/index').loginTwitter);

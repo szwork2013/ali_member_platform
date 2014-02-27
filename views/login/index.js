@@ -20,7 +20,8 @@ exports.init = function(req, res){
       oauthGitHub: !!req.app.get('github-oauth-key'),
       oauthFacebook: !!req.app.get('facebook-oauth-key'),
       oauthWeibo: !!req.app.get('weibo-oauth-key'),
-      oauthQq: !!req.app.get('qq-oauth-key')
+      oauthQq: !!req.app.get('qq-oauth-key'),
+      oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
     });
   }
 };
@@ -155,7 +156,6 @@ exports.loginGitHub = function(req, res, next){
     if (!info || !info.profile) {
       return res.redirect('/login/');
     }
-
     req.app.db.models.User.findOne({ 'github.id': info.profile._json.id }, function(err, user) {
       if (err) {
         return next(err);
@@ -285,3 +285,58 @@ exports.loginQq = function(req, res, next){
     });
   })(req, res, next);
 };
+
+exports.loginAli_discuz = function(req, res){
+	 var workflow = req.app.utility.workflow(req, res);
+	 
+	 workflow.on('getaccesstoken',function(){
+		 //获取accesstoken 然后获取用户信息 如果用户不存在,则自动注册进入mongodb
+		 if(!req.query.accesstoken){
+			 res.render('login/index', {
+		          oauthMessage: '登录失败,请重新登录。',
+		          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+		          oauthGitHub: !!req.app.get('github-oauth-key'),
+		          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+		          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+		          oauthQq: !!req.app.get('qq-oauth-key')
+		        });
+		 }
+		 else{
+			 workflow.emit('getuserinfo');
+		 }
+	 });
+	 workflow.on('getuserinfo',function(){
+		 req._passport.ali_discuz.authenticate(req.query.accesstoken ,function(err ,info){
+			  if (!info || !info.profile) {
+			      return res.redirect('/login/');
+			    }
+			  req.app.db.models.User.findOne({ 'github.id': info.profile._json.id }, function(err, user) {
+			      if (err) {
+			        return next(err);
+			      }
+
+			      if (!user) {
+			        res.render('login/index', {
+			          oauthMessage: 'No users found linked to your GitHub account. You may need to create an account first.',
+			          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+			          oauthGitHub: !!req.app.get('github-oauth-key'),
+			          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+			          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+			          oauthQq: !!req.app.get('qq-oauth-key')
+			        });
+			      }
+			      else {
+			        req.login(user, function(err) {
+			          if (err) {
+			            return next(err);
+			          }
+			          res.redirect(getReturnUrl(req));
+			        });
+			      }
+			    }); 
+		 	});
+	 });		 
+	 workflow.emit('getaccesstoken');
+};
+
+

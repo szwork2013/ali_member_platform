@@ -70,7 +70,7 @@ exports.signup = function(req, res){
         workflow.outcome.errfor.email = '此email已注册';
         return workflow.emit('response');
       }
-
+ 
       workflow.emit('createUser');
     });
   });
@@ -194,7 +194,7 @@ exports.signupTwitter = function(req, res, next) {
 
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: '' });
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
       }
       else {
         res.render('signup/index', {
@@ -221,14 +221,14 @@ exports.signupGitHub = function(req, res, next) {
       if (err) {
         return next(err);
       }
-
+     
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
       }
       else {
         res.render('signup/index', {
-          oauthMessage: '我们发现一个用户关联到你的 GitHub 帐号。',
+          oauthMessage: '我们发现一个用户关联到你的 Gi tHub 帐号。',
           oauthTwitter: !!req.app.get('twitter-oauth-key'),
           oauthGitHub: !!req.app.get('github-oauth-key'),
           oauthFacebook: !!req.app.get('facebook-oauth-key'),
@@ -252,7 +252,7 @@ exports.signupFacebook = function(req, res, next) {
       }
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
       }
       else {
         res.render('signup/index', {
@@ -281,7 +281,7 @@ exports.signupWeibo = function(req, res, next) {
 
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
       }
       else {
         res.render('signup/index', {
@@ -307,10 +307,10 @@ exports.signupQq = function(req, res, next) {
       if (err) {
         return next(err);
       }
-
+      
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' });
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
       }
       else {
         res.render('signup/index', {
@@ -337,7 +337,14 @@ exports.signupSocial = function(req, res){
     else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
       workflow.outcome.errfor.email = '错误的 email 格式';
     }
-
+    
+    if (!req.body.username) {
+        workflow.outcome.errfor.username = 'required';
+    }
+    else if (!/^[^_][a-zA-Z0-9\_]+$/.test(req.body.username)) {
+        workflow.outcome.errfor.username = '用户名只能存在_和数字字母并且不能以_开头';
+    }
+    
     if (workflow.hasErrors()) {
       return workflow.emit('response');
     }
@@ -346,7 +353,12 @@ exports.signupSocial = function(req, res){
   });
 
   workflow.on('duplicateUsernameCheck', function() {
-    workflow.username = req.session.socialProfile.username;
+	  
+//    workflow.username = req.session.socialProfile.username;
+	  
+    workflow.username = req.body.username;
+    
+    
     if (!/^[a-zA-Z0-9\-\_]+$/.test(workflow.username)) {
       workflow.username = workflow.username.replace(/[^a-zA-Z0-9\-\_]/g, '');
     }
@@ -357,12 +369,10 @@ exports.signupSocial = function(req, res){
       }
 
       if (user) {
-        workflow.username = workflow.username + req.session.socialProfile.id;
+    	  //自定义用户名
+    	  workflow.outcome.errfor.username = '此用户名已被使用';
       }
-      else {
-        workflow.username = workflow.username;
-      }
-
+      
       workflow.emit('duplicateEmailCheck');
     });
   });
@@ -375,9 +385,12 @@ exports.signupSocial = function(req, res){
 
       if (user) {
         workflow.outcome.errfor.email = '此 email 已注册';
-        return workflow.emit('response');
       }
-
+      
+      if (workflow.hasErrors()) {
+          return workflow.emit('response');
+      }
+      
       workflow.emit('createUser');
     });
   });

@@ -19,12 +19,8 @@
   .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
   .user-select(none);
 
-  &,
-  &:active,
-  &.active {
-    &:focus {
-      .tab-focus();
-    }
+  &:focus {
+    .tab-focus();
   }
 
   &:hover,

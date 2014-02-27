@@ -12,7 +12,7 @@ block body
       div.page-header
         h1 登录
       div#login
-      if oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
+      if oauthAliDiscuz || oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
         hr
         p 或者使用第三方帐号登录
         if oauthMessage
@@ -44,6 +44,10 @@ block body
               a.btn.btn-info(href='/login/qq/')
                 i.fa.fa-qq-square.fa-lg
                 |  腾讯QQ
+            if oauthAliDiscuz
+              a.btn.btn-info(href='/login/ali_discuz/')
+                i.fa.fa-al_discuz-square.fa-lg
+                |  阿狸官网
 
   script(type='text/template', id='tmpl-login')
     form

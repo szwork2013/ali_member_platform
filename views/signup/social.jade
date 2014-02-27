@@ -4,7 +4,7 @@ block head
   title 注册
 
 block feet
-  script(src='/views/signup/social.min.js?#{cacheBreaker}')
+  script(src='/views/signup/social.js?#{cacheBreaker}')
 
 block body
   div.row
@@ -21,6 +21,10 @@ block body
           button.close(type='button', data-dismiss='alert') &times;
           |<%- err %>
         |<% }); %>
+      div.form-group(class!='<%- errfor.username ? "has-error" : "" %>')
+        label.control-label 输入你的帐号:
+        input.form-control(type='text', name='username', value!='<%= username %>')
+        span.help-block <%- errfor.username %>
       div.form-group(class!='<%- errfor.email ? "has-error" : "" %>')
         label.control-label 输入你的Email:
         input.form-control(type='text', name='email', value!='<%= email %>')
@@ -29,3 +33,4 @@ block body
         button.btn.btn-primary.btn-signup(type='button') 创建帐号
 
   script(type='text/template', id='data-email') !{email}
+  script(type='text/template', id='data-username') !{username}

@@ -1,5 +1,4 @@
 /* global app:true */
-
 (function() {
   'use strict';
 
@@ -10,7 +9,8 @@
     defaults: {
       errors: [],
       errfor: {},
-      email: ''
+      email: '',
+      username:''
     }
   });
 
@@ -25,12 +25,13 @@
     initialize: function() {
       this.model = new app.Signup();
       this.model.set('email', $('#data-email').text());
+      this.model.set('username', $('#data-username').text());
       this.listenTo(this.model, 'sync', this.render);
       this.render();
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
-      this.$el.find('[name="email"]').focus();
+      this.$el.find('[name="username"]').focus();
     },
     preventSubmit: function(event) {
       event.preventDefault();
@@ -42,9 +43,9 @@
     },
     signup: function() {
       this.$el.find('.btn-signup').attr('disabled', true);
-
       this.model.save({
-        email: this.$el.find('[name="email"]').val()
+        email: this.$el.find('[name="email"]').val(),
+      username: this.$el.find('[name="username"]').val()
       },{
         success: function(model, response) {
           if (response.success) {
