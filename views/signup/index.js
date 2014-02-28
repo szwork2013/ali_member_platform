@@ -188,7 +188,7 @@ exports.signupAli_discuz = function(req, res, next){
 	 workflow.on('getaccesstoken',function(){
 		 //获取accesstoken 然后获取用户信息
 		 if(!req.query.accesstoken){
-			 res.render('/signup/index', {
+			 res.render('signup/index', {
 		          oauthMessage: '登录授权失败,请重新登录授权。',
 		          oauthTwitter: !!req.app.get('twitter-oauth-key'),
 		          oauthGitHub: !!req.app.get('github-oauth-key'),

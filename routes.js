@@ -29,6 +29,11 @@ function ensureAccount(req, res, next) {
 }
 
 exports = module.exports = function(app, passport) {
+	//test
+  app.get('/sig/' ,function(req ,res){
+	  var url = req._passport.ali_discuz.loginUrl({ callbak: '/signup/ali_discuz/callback/' });
+	  res.end(url);
+  });
   //front end
   app.get('/', require('./views/index').init);
   app.get('/wb_dda7e748009602ec.txt', function(req, res){
@@ -45,7 +50,7 @@ exports = module.exports = function(app, passport) {
   //social sign up
   app.post('/signup/social/', require('./views/signup/index').signupSocial);
   app.get('/signup/ali_discuz/', function(req ,res){ 
-	  	res.redirect(req._passport.ali_discuz.requestUrl({ callbak: '/signup/ali_discuz/callback/' }));
+	  	res.redirect(req._passport.ali_discuz.loginUrl({ callbak: '/signup/ali_discuz/callback/' }));
   });
   
   app.get('/signup/ali_discuz/callback/', require('./views/signup/index').signupAli_discuz);
@@ -74,7 +79,7 @@ exports = module.exports = function(app, passport) {
   
   //ali_discuz login
   app.get('/login/ali_discuz/' , function(req ,res){ 
-	  	res.redirect(req._passport.ali_discuz.requestUrl({ callbak: '/login/ali_discuz/callback/' }));
+	  	res.redirect(req._passport.ali_discuz.loginUrl({ callbak: '/login/ali_discuz/callback/' }));
 	  });
   app.get('/login/ali_discuz/callback/' , require('./views/login/index').loginAli_discuz);
   

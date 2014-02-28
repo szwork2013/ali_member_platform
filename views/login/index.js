@@ -289,14 +289,14 @@ exports.loginQq = function(req, res, next){
   })(req, res, next);
 };
 
-exports.loginAli_discuz = function(req, res){
+exports.loginAli_discuz = function(req, res , next){
 	 var workflow = req.app.utility.workflow(req, res);
 	 
 	 workflow.on('getaccesstoken',function(){
 		 //获取accesstoken 然后获取用户信息 如果用户不存在,则自动注册进入mongodb
-		 if(!req.query.accesstoken){
-			 res.render('login/index', {
-		          oauthMessage: '登录失败,请重新登录。',
+		 if(!req.query.accesstoken || req.query.error){
+			 return res.render('login/index', {
+		          oauthMessage: '登录失败,请重新登录。error:'+req.query.error,
 		          oauthTwitter: !!req.app.get('twitter-oauth-key'),
 		          oauthGitHub: !!req.app.get('github-oauth-key'),
 		          oauthFacebook: !!req.app.get('facebook-oauth-key'),
@@ -304,22 +304,32 @@ exports.loginAli_discuz = function(req, res){
 		          oauthQq: !!req.app.get('qq-oauth-key'),
 		          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
 		        });
-		 }
-		 else{
+		 }else{
 			 workflow.emit('getuserinfo');
 		 }
 	 });
 	 workflow.on('getuserinfo',function(){
 		 req._passport.ali_discuz.authenticate(req.query.accesstoken ,function(err ,info){
-			  if (!info) {
+			 if(err){
+				return res.render('login/index', {
+			          oauthMessage: '登录失败,请重新登录。error:'+err,
+			          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+			          oauthGitHub: !!req.app.get('github-oauth-key'),
+			          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+			          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+			          oauthQq: !!req.app.get('qq-oauth-key'),
+			          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+			        });
+			 }
+			 if (!info) {
 			      return res.redirect('/login/');
-			    }
-			  req.app.db.models.User.findOne({ 'ali_discuz.uid': info._json.uid }, function(err, user) {
+			 }
+			 req.app.db.models.User.findOne({ 'ali_discuz.uid': info._json.uid }, function(err, user) {
 				  if (err) {
 			        return next(err);
 			      }
 			      if (!user) {
-			        res.render('login/index', {
+			       return res.render('login/index', {
 			          oauthMessage: 'No users found linked to your 阿狸官网 account. You may need to create an account first.',
 			          oauthTwitter: !!req.app.get('twitter-oauth-key'),
 			          oauthGitHub: !!req.app.get('github-oauth-key'),
