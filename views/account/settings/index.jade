@@ -1,7 +1,7 @@
 extends ../../../layouts/account
 
 block head
-  title Account Settings
+  title 帐号设置
 
 block feet
   script(src='/views/account/settings/index.min.js?#{cacheBreaker}')
@@ -10,7 +10,7 @@ block body
   div.row
     div.col-xs-12
       div.page-header
-        h1 Account Settings
+        h1 帐号设置
   div.row
     div.col-sm-9
       div#details
@@ -18,7 +18,7 @@ block body
       div#password
     div.col-sm-3
       if oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
-        legend Social Connections
+        legend 社交网络关联
         if oauthMessage
           div.alerts
             div.alert.alert-info.alert-dismissable
@@ -28,29 +28,29 @@ block body
           if oauthTwitterActive
             a.btn.btn-block.btn-danger(href='/account/settings/twitter/disconnect/')
               i.fa.fa-twitter.fa-lg
-              |  Disconnect Twitter
+              |  断开 Twitter
           else
             a.btn.btn-block.btn-default(href='/account/settings/twitter/')
               i.fa.fa-twitter.fa-lg
-              |  Connect Twitter
+              |  关联 Twitter
         if oauthGitHub
           if oauthGitHubActive
             a.btn.btn-block.btn-danger(href='/account/settings/github/disconnect/')
               i.fa.fa-github.fa-lg
-              |  Disconnect GitHub
+              |  断开 GitHub
           else
             a.btn.btn-block.btn-default(href='/account/settings/github/')
               i.fa.fa-github.fa-lg
-              |  Connect GitHub
+              |  关联 GitHub
         if oauthFacebook
           if oauthFacebookActive
             a.btn.btn-block.btn-danger(href='/account/settings/facebook/disconnect/')
               i.fa.fa-facebook-square.fa-lg
-              |  Disconnect Facebook
+              |  断开 Facebook
           else
             a.btn.btn-block.btn-default(href='/account/settings/facebook/')
               i.fa.fa-facebook-square.fa-lg
-              |  Connect Facebook
+              |  关联 Facebook
         if oauthWeibo
           if oauthWeiboActive
             a.btn.btn-block.btn-danger(href='/account/settings/weibo/disconnect/')
@@ -72,7 +72,7 @@ block body
 
   script(type='text/template', id='tmpl-details')
     fieldset
-      legend Contact Info
+      legend 联系信息
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -81,38 +81,34 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已成功保存。
         |<% } %>
       div.control-group(class!='<%- errfor.first ? "has-error" : "" %>')
-        label.control-label First Name:
+        label.control-label 姓:
         input.form-control(type='text', name='first', value!='<%- first %>')
         span.help-block <%- errfor.first %>
-      div.control-group(class!='<%- errfor.middle ? "has-error" : "" %>')
-        label.control-label Middle Name:
-        input.form-control(type='text', name='middle', value!='<%- middle %>')
-        span.help-block <%- errfor.middle %>
       div.control-group(class!='<%- errfor.last ? "has-error" : "" %>')
-        label.control-label Last Name:
+        label.control-label 名:
         input.form-control(type='text', name='last', value!='<%- last %>')
         span.help-block <%- errfor['last'] %>
       div.control-group(class!='<%- errfor.company ? "has-error" : "" %>')
-        label.control-label Company Name:
+        label.control-label 工作单位:
         input.form-control(type='text', name='company', value!='<%- company %>')
         span.help-block <%- errfor.company %>
       div.control-group(class!='<%- errfor.phone ? "has-error" : "" %>')
-        label.control-label Phone:
+        label.control-label 电话:
         input.form-control(type='text', name='phone', value!='<%- phone %>')
         span.help-block <%- errfor.phone %>
       div.control-group(class!='<%- errfor.zip ? "has-error" : "" %>')
-        label.control-label Zip:
+        label.control-label 邮政编码:
         input.form-control(type='text', name='zip', value!='<%- zip %>')
         span.help-block <%- errfor.zip %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Update
+        button.btn.btn-primary.btn-update(type='button') 更新
 
   script(type='text/template', id='tmpl-identity')
     fieldset
-      legend Identity
+      legend 身份
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -122,10 +118,10 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已成功保存。
         |<% } %>
       div.control-group(class!='<%- errfor.username ? "has-error" : "" %>')
-        label.control-label Username:
+        label.control-label 用户名:
         input.form-control(type='text', name='username', value!='<%= username %>')
         span.help-block <%- errfor.username %>
       div.control-group(class!='<%- errfor.email ? "has-error" : "" %>')
@@ -133,11 +129,11 @@ block body
         input.form-control(type='text', name='email', value!='<%= email %>')
         span.help-block <%- errfor.email %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Update
+        button.btn.btn-primary.btn-update(type='button') 更新
 
   script(type='text/template', id='tmpl-password')
     fieldset
-      legend Set Password
+      legend 设置密码
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -147,18 +143,18 @@ block body
       |<% if (success) { %>
       div.alert.alert-info.alert-dismissable
         button.close(type='button', data-dismiss='alert') &times;
-        | A new password has been set.
+        | 新密码已保存。
       |<% } %>
       div.control-group(class!='<%- errfor.newPassword ? "has-error" : "" %>')
-        label.control-label New Password:
+        label.control-label 新密码:
         input.form-control(type='password', name='newPassword', value!='<%= newPassword %>')
         span.help-block <%- errfor.newPassword %>
       div.control-group(class!='<%- errfor.confirm ? "has-error" : "" %>')
-        label.control-label Confirm Password:
+        label.control-label 确认密码:
         input.form-control(type='password', name='confirm', value!='<%= confirm %>')
         span.help-block <%- errfor.confirm %>
       div.control-group
-        button.btn.btn-primary.btn-password(type='button') Set Password
+        button.btn.btn-primary.btn-password(type='button') 设定密码
 
   script(type='text/template', id='data-account') !{data.account}
   script(type='text/template', id='data-user') !{data.user}

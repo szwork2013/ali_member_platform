@@ -1,7 +1,7 @@
 extends ../../layouts/account
 
 block head
-  title Account Area
+  title 我的帐号
 
 block neck
   link(rel='stylesheet', href='/views/account/index.min.css?#{cacheBreaker}')
@@ -17,29 +17,16 @@ block body
       div.row
         div.col-sm-4
           div.well.stat
-            div.stat-value.day-of-year --
-            div.stat-label Day of Year
+            div.stat-label 我的
+            div.stat-value: a(href='/account/products/') 正品
         div.col-sm-4
           div.well.stat
-            div.stat-value.day-of-month --
-            div.stat-label Day of Month
+            div.stat-label 我的
+            div.stat-value: a(href='/account/points/') 积分
         div.col-sm-4
           div.well.stat
-            div.stat-value.week-of-year --
-            div.stat-label Week of Year
-      div.row
-        div.col-sm-4
-          div.well.stat
-            div.stat-value.day-of-week --
-            div.stat-label Day of Week
-        div.col-sm-4
-          div.well.stat
-            div.stat-value.week-year --
-            div.stat-label Week Year
-        div.col-sm-4
-          div.well.stat
-            div.stat-value.hour-of-day --
-            div.stat-label Hour of Day
+            div.stat-label 我的
+            div.stat-value: a(href='/account/coupons/') 优惠
     div.col-sm-6.special
       div.page-header
         h1 天天向上
