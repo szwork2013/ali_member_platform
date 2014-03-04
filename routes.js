@@ -194,6 +194,16 @@ exports = module.exports = function(app, passport) {
   app.get('/account/settings/qq/callback/', require('./views/account/settings/index').connectQq);
   app.get('/account/settings/qq/disconnect/', require('./views/account/settings/index').disconnectQq);
 
+  //account > products
+  app.get('/account/products/', require('./views/account/products/index').init);
+//  app.put('/account/products/', require('./views/account/products/index').update);
+
+  //account > points
+  app.get('/account/points/', require('./views/account/points/index').init);
+
+  //account > coupons
+  app.get('/account/coupons/', require('./views/account/coupons/index').init);
+
   //route not found
   app.all('*', require('./views/http/index').http404);
 };
