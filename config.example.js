@@ -46,5 +46,13 @@ exports.oauth = {
   qq: {
     key: process.env.QQ_OAUTH_KEY || '',
     secret: process.env.QQ_OAUTH_SECRET || ''
-  }
+  },
+  ali_discuz: {
+		key: process.env.ALI_DISCUZ_OAUTH_KEY || true,
+		secret: process.env.ALI_DISCUZ_OAUTH_SECRET || true,
+		host:function(){
+			var host = "http://localhost/ali_site/";
+			return host;
+		}(),
+	  }
 };
