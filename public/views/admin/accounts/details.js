@@ -172,7 +172,7 @@
     update: function() {
       this.model.save({
         first: this.$el.find('[name="first"]').val(),
-        middle: this.$el.find('[name="middle"]').val(),
+//        middle: this.$el.find('[name="middle"]').val(),
         last: this.$el.find('[name="last"]').val(),
         company: this.$el.find('[name="company"]').val(),
         phone: this.$el.find('[name="phone"]').val(),

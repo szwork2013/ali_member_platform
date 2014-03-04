@@ -8,7 +8,7 @@ var config = require('./config'),
     path = require('path'),
     passport = require('passport'),
     passport_ali_discuz = require('passport-ali_discuz'),
-	mongoose = require('mongoose'),
+    mongoose = require('mongoose'),
     helmet = require('helmet'),
     oauthserver = require('node-oauth2-server');
 var MemStore = express.session.MemoryStore;
@@ -153,15 +153,6 @@ app.utility.sendmail = require('drywall-sendmail');
 app.utility.slugify = require('drywall-slugify');
 app.utility.workflow = require('drywall-workflow');
 
-
-//初始化MySql数据库连接
-//var config = require('./config.json');
-//var db = require('mapper');
-//db.connect(config.db_config, {verbose: true});
-
-//接收请求并进行操作
-//var controller = require('./controllers/router');
-//controller(app, db);
 
 //listen up
 app.server.listen(app.get('port'), function(){

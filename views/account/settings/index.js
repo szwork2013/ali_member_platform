@@ -265,7 +265,7 @@ exports.update = function(req, res, next){
     var fieldsToSet = {
       name: {
         first: req.body.first,
-        middle: req.body.middle,
+//        middle: req.body.middle,
         last: req.body.last,
         full: req.body.first +' '+ req.body.last
       },
@@ -274,7 +274,7 @@ exports.update = function(req, res, next){
       zip: req.body.zip,
       search: [
         req.body.first,
-        req.body.middle,
+//        req.body.middle,
         req.body.last,
         req.body.company,
         req.body.phone,

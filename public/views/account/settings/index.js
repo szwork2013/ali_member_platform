@@ -96,7 +96,7 @@
       this.model.set({
         _id: app.mainView.account.id,
         first: app.mainView.account.get('name').first,
-        middle: app.mainView.account.get('name').middle,
+//        middle: app.mainView.account.get('name').middle,
         last: app.mainView.account.get('name').last,
         company: app.mainView.account.get('company'),
         phone: app.mainView.account.get('phone'),

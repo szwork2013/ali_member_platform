@@ -48,11 +48,13 @@ exports.oauth = {
     secret: process.env.QQ_OAUTH_SECRET || ''
   },
   ali_discuz: {
-		key: process.env.ALI_DISCUZ_OAUTH_KEY || true,
-		secret: process.env.ALI_DISCUZ_OAUTH_SECRET || true,
-		host:function(){
-			var host = "http://localhost/ali_site/";
-			return host;
-		}(),
-	  }
+    key: process.env.ALI_DISCUZ_OAUTH_KEY || true,
+    secret: process.env.ALI_DISCUZ_OAUTH_SECRET || true,
+    host: "http://localhost/ali_site/"
+  }
+};
+
+exports.product_db = {
+  url: 'http://localhost',
+  token: ''
 };
