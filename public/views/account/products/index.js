@@ -5,52 +5,38 @@
 
   app = app || {};
 
-  app.Products = Backbone.Model.extend({
+  app.Serial = Backbone.Model.extend({
     url: '/account/products/',
     defaults: {
       success: false,
       errors: [],
       errfor: {},
-      keepFormOpen: false,
-      email: ''
+      serial: ''
     }
   });
 
-  app.ProductsView = Backbone.View.extend({
-    el: '#products',
-    template: _.template( $('#tmpl-products').html() ),
+  app.SerialView = Backbone.View.extend({
+    el: '#serial',
+    template: _.template( $('#tmpl-serial').html() ),
     events: {
-      'submit form': 'preventSubmit',
-      'click .btn-resend': 'resend',
-      'click .btn-verify': 'verify'
+      'click .btn-send': 'send'
     },
     initialize: function() {
-      this.model = new app.Verify( JSON.parse($('#data-user').html()) );
+      this.model = new app.Serial();
       this.listenTo(this.model, 'sync', this.render);
       this.render();
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
     },
-    preventSubmit: function(event) {
-      event.preventDefault();
-    },
-    resend: function() {
-      this.model.set({
-        keepFormOpen: true
-      });
-      this.render();
-    },
-    verify: function() {
-      this.$el.find('.btn-verify').attr('disabled', true);
-
+    send: function() {
       this.model.save({
-        email: this.$el.find('[name="email"]').val()
+        serial: this.$el.find('[name="serial"]').val()
       });
     }
   });
 
   $(document).ready(function() {
-    app.verifyView = new app.VerifyView();
+    app.serialView = new app.SerialView();
   });
 }());

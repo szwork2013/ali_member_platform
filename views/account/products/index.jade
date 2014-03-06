@@ -1,20 +1,21 @@
 extends ../../../layouts/account
 block head
   title 我的正品
+
 block neck
   link(rel='stylesheet', href='/views/account/index.min.css?#{cacheBreaker}')
+
 block feet
-  script(src='/views/account/index.min.js?#{cacheBreaker}')
+  script(src='/views/account/products/index.min.js?#{cacheBreaker}')
+
 block body
   div.row
     div.col-sm-6
       div.page-header
         h1 我的正品
       div.row
-        div.col-sm-4
-          div.well.stat
-            div.stat-label 我的
-            div.stat-value: a(href='/account/products/') 正品
+        div#serial
+
       div.row
         div.col-sm-4
           div.well.stat
@@ -24,3 +25,24 @@ block body
       div.page-header
         h1 天天向上
       i.fa.fa-dashboard.super-awesome
+
+  script(type='text/template', id='tmpl-serial')
+    fieldset
+      legend 验证产品防伪码 并 记录产品
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-danger.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          |<%- err %>
+        |<% }); %>
+        |<% if (success) { %>
+        div.alert.alert-info.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          | 防伪码已成功验证。
+        |<% } %>
+      div.control-group(class!='<%- errfor.serial ? "has-error" : "" %>')
+        label.control-label 产品防伪码:
+        input.form-control(type='text', name='serial')
+        span.help-block <%- errfor.serial %>
+      div.control-group
+        button.btn.btn-primary.btn-send(type='button') 提交

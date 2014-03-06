@@ -301,17 +301,17 @@ exports.identity = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.username) {
-      workflow.outcome.errfor.username = 'required';
+      workflow.outcome.errfor.username = '必填项';
     }
     else if (!/^[a-zA-Z0-9\-\_]+$/.test(req.body.username)) {
-      workflow.outcome.errfor.username = 'only use letters, numbers, \'-\', \'_\'';
+      workflow.outcome.errfor.username = '用户名只能使用字母、数字以及 \'-\'、\'_\' 连接符';
     }
 
     if (!req.body.email) {
-      workflow.outcome.errfor.email = 'required';
+      workflow.outcome.errfor.email = '必填项';
     }
     else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
-      workflow.outcome.errfor.email = 'invalid email format';
+      workflow.outcome.errfor.email = 'Email 格式错误';
     }
 
     if (workflow.hasErrors()) {
@@ -328,7 +328,7 @@ exports.identity = function(req, res, next){
       }
 
       if (user) {
-        workflow.outcome.errfor.username = 'username already taken';
+        workflow.outcome.errfor.username = '此用户名已被使用';
         return workflow.emit('response');
       }
 
@@ -343,7 +343,7 @@ exports.identity = function(req, res, next){
       }
 
       if (user) {
-        workflow.outcome.errfor.email = 'email already taken';
+        workflow.outcome.errfor.email = '此 email 已被使用';
         return workflow.emit('response');
       }
 
@@ -432,15 +432,15 @@ exports.password = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.newPassword) {
-      workflow.outcome.errfor.newPassword = 'required';
+      workflow.outcome.errfor.newPassword = '必填项';
     }
 
     if (!req.body.confirm) {
-      workflow.outcome.errfor.confirm = 'required';
+      workflow.outcome.errfor.confirm = '必填项';
     }
 
     if (req.body.newPassword !== req.body.confirm) {
-      workflow.outcome.errors.push('Passwords do not match.');
+      workflow.outcome.errors.push('两个密码输入不一致。');
     }
 
     if (workflow.hasErrors()) {

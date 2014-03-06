@@ -1,10 +1,10 @@
 var model = module.exports;
 
 //初始化数据库连接
-var config = require('../config.json');
-var mysql = require('mysql');
-var bcrypt = require('bcrypt');
-var crypto = require('crypto');
+//var config = require('../config.json');
+//var mysql = require('mysql');
+//var bcrypt = require('bcrypt');
+//var crypto = require('crypto');
 
 /*
  * Required
