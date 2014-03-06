@@ -54,7 +54,16 @@ exports.oauth = {
   }
 };
 
-exports.product_db = {
-  url: 'http://localhost',
-  token: ''
+exports.product = {
+  url: 'http://localhost:3333/api/',
+  key: 'b657e3c23602ab4ff99aaceea827739a5b959688'
+};
+
+exports.mysql_cfg = {
+  user: 'root',
+  pass: 'password',
+  db: 'ali_member_platform_logs',
+  host: 'localhost',
+  port: 3306,
+  charset: 'utf8'
 };

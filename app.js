@@ -30,6 +30,60 @@ app.config = config;
 //setup the web server
 app.server = http.createServer(app);
 
+// Create a MySQL connection pool with
+// a max of 10 connections, a min of 2, and a 30 second max idle time
+var poolModule = require('generic-pool');
+app.mysql_pool = poolModule.Pool({
+  name: 'mysql',
+  create: function(callback) {
+
+    var Client = require('mariasql');
+    var c;
+
+    function handleError (err) {
+      if (err) {
+        // 如果是连接断开，自动重新连接
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+          connect();
+        } else {
+          console.error(err.stack || err);
+        }
+      }
+    }
+
+    // 连接数据库
+    function connect () {
+      c = new Client();
+      c.connect({
+        host: config.mysql_cfg.host,
+        user: config.mysql_cfg.user,
+        password: config.mysql_cfg.pass,
+        db: config.mysql_cfg.db
+      });
+      c.on('connect', handleError);
+      c.on('error', handleError);
+
+      // parameter order: err, resource
+      // new in 1.0.6
+      callback(null, c);
+    }
+
+    // 执行连接
+    connect();
+  },
+  destroy : function(client) { client.end(); },
+  max: 10,
+  // optional. if you set this, make sure to drain() (see step 3)
+  min: 2,
+  // specifies how long a resource can stay idle in pool before being removed
+  idleTimeoutMillis: 30000,
+  // if true, logs via console.log - can also be a function
+  log: false
+});
+
+//setup logger to log information to mysql
+app.logger = require('./logger');
+app.reqip = require('request-ip');
 
 //setup mongoose
 app.db = mongoose.createConnection(config.mongodb.uri);

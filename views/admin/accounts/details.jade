@@ -49,10 +49,6 @@ block body
         label.control-label First Name:
         input.form-control(type='text', name='first', value!='<%- first %>')
         span.help-block <%- errfor.first %>
-      div.control-group(class!='<%- errfor.middle ? "has-error" : "" %>')
-        label.control-label Middle Name:
-        input.form-control(type='text', name='middle', value!='<%- middle %>')
-        span.help-block <%- errfor.middle %>
       div.control-group(class!='<%- errfor.last ? "has-error" : "" %>')
         label.control-label Last Name:
         input.form-control(type='text', name='last', value!='<%- last %>')

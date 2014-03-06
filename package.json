@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "async": "~0.2.x",
-    "mapper": "~0.2.x",
+    "generic-pool": "latest",
+    "mariasql": "latest",
     "lodash": "~1.0.0-rc.3",
     "restify": "~2.3.5",
     "oauth2-provider": "1.x",
@@ -34,7 +35,8 @@
     "passport-twitter": "~1.0.2",
     "passport-weibo": ">= 0.0.0",
     "passport-qq": ">= 0.0.0",
-    "helmet": "~0.1.2"
+    "helmet": "~0.1.2",
+    "request-ip": "latest"
   },
   "devDependencies": {
     "mysql": "2.0.0-alpha5",

@@ -102,7 +102,7 @@ exports.resendVerification = function(req, res, next){
       workflow.outcome.errfor.email = 'required';
     }
     else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
-      workflow.outcome.errfor.email = 'invalid email format';
+      workflow.outcome.errfor.email = 'Email 格式错误';
     }
 
     if (workflow.hasErrors()) {
@@ -119,7 +119,7 @@ exports.resendVerification = function(req, res, next){
       }
 
       if (user) {
-        workflow.outcome.errfor.email = 'email already taken';
+        workflow.outcome.errfor.email = 'Email 已被使用';
         return workflow.emit('response');
       }
 

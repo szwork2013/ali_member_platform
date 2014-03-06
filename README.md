@@ -151,3 +151,8 @@ And constructed with the following guidelines:
 - Bug fixes and misc changes **bumps only the patch**
 
 For more information on SemVer, please visit <http://semver.org/>.
+
+
+
+## SQL to update discuzX ucenter
+ALTER TABLE `uc_members` ADD `accessToken` VARCHAR( 255 ) NOT NULL , ADD `tokenTime` INT NOT NULL

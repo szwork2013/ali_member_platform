@@ -107,6 +107,7 @@ exports.login = function(req, res){
           if (err) {
             return workflow.emit('exception', err);
           }
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '本地登录成功');
           workflow.emit('response');
         });
       }
@@ -143,7 +144,7 @@ exports.loginTwitter = function(req, res, next){
           if (err) {
             return next(err);
           }
-
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用Twitter帐号登录成功');
           res.redirect(getReturnUrl(req));
         });
       }
@@ -177,6 +178,7 @@ exports.loginGitHub = function(req, res, next){
           if (err) {
             return next(err);
           }
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用Github帐号登录成功');
           res.redirect(getReturnUrl(req));
         });
       }
@@ -211,7 +213,7 @@ exports.loginFacebook = function(req, res, next){
           if (err) {
             return next(err);
           }
-
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用Facebook登录成功');
           res.redirect(getReturnUrl(req));
         });
       }
@@ -246,7 +248,7 @@ exports.loginWeibo = function(req, res, next){
           if (err) {
             return next(err);
           }
-
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用新浪微博帐号"' + user.weibo.name + '"登录成功');
           res.redirect(getReturnUrl(req));
         });
       }
@@ -281,7 +283,7 @@ exports.loginQq = function(req, res, next){
           if (err) {
             return next(err);
           }
-
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用QQ帐号登录成功');
           res.redirect(getReturnUrl(req));
         });
       }
@@ -344,6 +346,7 @@ exports.loginAli_discuz = function(req, res , next){
 			          if (err) {
 			            return next(err);
 			          }
+                req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用阿狸官网帐号"' + user.ali_discuz.username + '"登录成功');
 			          res.redirect(getReturnUrl(req));
 			        });
 			      }
