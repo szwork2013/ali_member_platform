@@ -346,7 +346,7 @@ exports.loginAli_discuz = function(req, res , next){
 			          if (err) {
 			            return next(err);
 			          }
-                req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用阿狸官网帐号"' + user.ali_discuz.username + '"登录成功');
+                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用阿狸官网帐号"' + user.ali_discuz.username + '"登录成功');
 			          res.redirect(getReturnUrl(req));
 			        });
 			      }

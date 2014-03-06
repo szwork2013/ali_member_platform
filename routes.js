@@ -34,7 +34,7 @@ exports = module.exports = function(app, passport) {
 //	  req.app.db.models.Account ,req.user.roles.account.integral;
 	  
 	  var Integral = new (require('member_integral')(req))();
-	  Integral.add(2 ,function(err ,obj){
+	  Integral.add(400 ,function(err ,obj){
 		  if(err){
 			  console.log(err);
 		  }
