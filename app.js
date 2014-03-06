@@ -196,7 +196,6 @@ app.configure('development', function(){
 });
 //setup passport
 require('./passport')(app, passport);
-require('./controllers/member_integral');
 
 //route requests
 require('./routes')(app, passport);
