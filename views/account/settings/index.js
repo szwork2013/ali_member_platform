@@ -157,7 +157,7 @@ exports.connectWeibo = function(req, res, next){
           if (err) {
             return next(err);
           }
-
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'account', '用户' + user.username + '关联到新浪微博帐号"' + user.weibo.name + '"');
           res.redirect('/account/settings/');
         });
       }
@@ -184,7 +184,7 @@ exports.connectQq = function(req, res, next){
           if (err) {
             return next(err);
           }
-
+          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'account', '用户' + user.username + '关联到QQ帐号');
           res.redirect('/account/settings/');
         });
       }
@@ -227,7 +227,7 @@ exports.disconnectWeibo = function(req, res, next){
     if (err) {
       return next(err);
     }
-
+    req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'account', '用户' + user.username + '取消了到新浪微博帐号"' + user.weibo.name + '"的关联');
     res.redirect('/account/settings/');
   });
 };
@@ -237,7 +237,7 @@ exports.disconnectQq = function(req, res, next){
     if (err) {
       return next(err);
     }
-
+    req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'account', '用户' + user.username + '取消了到QQ帐号的关联');
     res.redirect('/account/settings/');
   });
 };
@@ -287,7 +287,7 @@ exports.update = function(req, res, next){
       if (err) {
         return workflow.emit('exception', err);
       }
-
+      req.app.logger.log(req.app, req.user.username, req.app.reqip.getClientIp(req), 'INFO', 'account', '会员' + account.name.full + '更新了帐号信息');
       workflow.outcome.account = account;
       return workflow.emit('response');
     });

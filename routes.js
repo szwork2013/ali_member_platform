@@ -196,7 +196,7 @@ exports = module.exports = function(app, passport) {
 
   //account > products
   app.get('/account/products/', require('./views/account/products/index').init);
-//  app.put('/account/products/', require('./views/account/products/index').update);
+  app.post('/account/products/', require('./views/account/products/index').update);
 
   //account > points
   app.get('/account/points/', require('./views/account/points/index').init);

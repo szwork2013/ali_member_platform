@@ -156,3 +156,31 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 ## SQL to update discuzX ucenter
 ALTER TABLE `uc_members` ADD `accessToken` VARCHAR( 255 ) NOT NULL , ADD `tokenTime` INT NOT NULL
+
+
+## Setup log database
+```
+$ mysq -u root -p
+> source ali_member_platform_logs.sql
+```
+
+We just create 1 table:
+
+```
+CREATE TABLE IF NOT EXISTS `log` (
+  `time` datetime NOT NULL,
+  `user` varchar(100) NOT NULL,
+  `ip` varchar(32) NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `object` varchar(32) NOT NULL,
+  `info` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+add line like following to where you want to log:
+
+```
+req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用新浪微博帐号"' + user.weibo.name + '"登录成功');
+```
+
+app.logger.log(app, user, ip, type, object, info)

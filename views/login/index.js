@@ -74,7 +74,7 @@ exports.login = function(req, res){
       }
 
       if (results.ip >= req.app.config.loginAttempts.forIp || results.ipUser >= req.app.config.loginAttempts.forIpAndUser) {
-        workflow.outcome.errors.push('You\'ve reached the maximum number of login attempts. Please try again later.');
+        workflow.outcome.errors.push('你已经达到了登录尝试次数的上限，请稍后再试。');
         return workflow.emit('response');
       }
       else {
