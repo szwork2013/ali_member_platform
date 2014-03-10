@@ -8,35 +8,48 @@ exports.update = function(req, res, next){
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
-    if (!req.body.serial) {
-      workflow.outcome.errfor.serial = 'required';
-    }
+//    console.log("User: ", req.session.passport.user);
 
-    if (workflow.hasErrors()) {
-      return workflow.emit('response');
-    }
+//    req.app.db.models.User.findById(req.user.id, function(err, user) {
+//      if(err) {
+//        return workflow.emit('exception', err);
+//      }
 
-    workflow.emit('associate');
+      if (!req.body.serial) {
+        workflow.outcome.errfor.serial = 'required';
+      }
+
+      if (workflow.hasErrors()) {
+        return workflow.emit('response');
+      }
+
+      if (req.session.passport.user) {
+        workflow.emit('associate');
+      } else {
+        return workflow.emit('exception', '你的当前会话已结束，请重新登录');
+      }
+//    });
   });
 
   workflow.on('associate', function() {
     var request = require('request');
-    console.log('Associate - token: '+req.app.config.product.key);
+//    console.log('Associate - token: '+req.app.config.product.key);
 
     request.post(req.app.config.product.url+'associate',
       {form:{reg_uid: req.user.id, code: req.body.serial, access_token: req.app.config.product.key}},
       function(error, response, body){
 
-      console.log('Associate - result: ', JSON.parse(body));
+      var result = JSON.parse(body);
+
       if (error) {
         return workflow.emit('exception', error);
       }
       // 判断返回串是否是错误信息
-      if (body && JSON.parse(body).hasOwnProperty('error')) {
-        return workflow.emit('exception', JSON.parse(body).error);
+      if (body && result.hasOwnProperty('error')) {
+        return workflow.emit('exception', result.error);
       }
 
-      workflow.emit('patchAccount', body);
+      workflow.emit('patchAccount', result);
     });
   });
 
@@ -65,24 +78,26 @@ exports.update = function(req, res, next){
    uuid: '8024-0F97-9DAB-8FDF',
    name: 'TestProduct1',
    status: 0,
-   thumb: 'undefined://undefined/uploads/product/image/1/thumb_选区_002.png',
-   small_thumb: 'undefined://undefined/uploads/product/image/1/small_thumb_选区_002.png',
-   image: 'undefined://undefined/uploads/product/image/1/选区_002.png' } }
+   thumb: 'http://localhost:3000/uploads/product/image/1/thumb_选区_002.png',
+   small_thumb: 'http://localhost:3000/uploads/product/image/1/small_thumb_选区_002.png',
+   image: 'http://localhost:3000/uploads/product/image/1/选区_002.png' } }
    */
 
   workflow.on('patchAccount', function(result) {
     req.app.db.models.Account.findById(req.user.roles.account.id, function(err, account){
-      console.log('patchAccount: '+result);
+
       if(err) {
         return workflow.emit('exception', err);
       }
       // 设定当前关联的产品id，比上一个已关联产品id大1
       var p_id = 1;
-      if(account && account.hasOwnProperty('products')) {
+      if(account.products) {
+//        console.log('patchAccount: products = ', account.products);
         if(account.products.length > 0) {
           p_id = account.products[account.products.length - 1].product.id + 1;
         }
       }
+//      console.log('patchAccount: p = ', account.products[account.products.length - 1]);
 
       var product = {
         product: {
@@ -90,12 +105,24 @@ exports.update = function(req, res, next){
           info: result
         }
       };
-      req.app.db.models.Account.findOneAndUpdate(req.user.roles.account.id, {$push: {products: product}}, function(err, account) {
+
+      /*account.update({$push: {products: product}}, function(err, result) {
         if (err) {
           return workflow.emit('exception', err);
         }
         req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full + '关联了产品' + result);
-        workflow.outcome.account = account;
+        return workflow.emit('response');
+      });*/
+      req.app.db.models.Account.findOneAndUpdate(req.user.roles.account.id, {$push: {products: product}}, function(err, account) {
+        if (err) {
+          return workflow.emit('exception', err);
+        }
+
+//        console.log('patchAccount: account = ', account);
+
+        req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full +
+          '使用防伪码' + result.sc_info.code +
+          '关联了产品' + result.p_info.name);
         return workflow.emit('response');
       });
     });
