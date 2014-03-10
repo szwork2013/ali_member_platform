@@ -43,7 +43,7 @@ node_modules/*
 !node_modules/passport-weibo
 bower_components
 !node_modules/passport-ali_discuz
-
+!node_modules/member_integral
 # configuration to ignore
 config.js
 

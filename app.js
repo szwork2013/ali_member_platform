@@ -165,7 +165,6 @@ app.configure(function(){
   //setting ali_discuz_passport
   app.use(passport_ali_discuz.init(config.oauth.ali_discuz.host));
   
-  
   //response locals
   app.use(function(req, res, next) {
     res.locals.user = {};
