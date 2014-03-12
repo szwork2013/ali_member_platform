@@ -29,24 +29,6 @@ function ensureAccount(req, res, next) {
 }
 
 exports = module.exports = function(app, passport) {
-	//test
-  app.get('/t/' ,function(req ,res){
-//	  req.app.db.models.Account ,req.user.roles.account.integral;
-	  
-	  var Integral = new (require('member_integral')(req))();
-	  Integral.convertCode(200 ,function(err ,obj){
-		  if(err){
-			  console.log(err);
-		  }
-		  if(obj){
-			  console.log('success add!!!!');
-		  }
-	  });
-	  
-//	  req.app.db.models.Integral.create({isUse:'yes'});
-	  
-	  res.end();
-  });
   
   //front end
   app.get('/', require('./views/index').init);
@@ -214,7 +196,7 @@ exports = module.exports = function(app, passport) {
 
   //account > points
   app.get('/account/points/', require('./views/account/points/index').init);
-//  app.get('/account/points/show/', require('./views/account/points/index').show);
+  app.get('/account/points/test/', require('./views/account/points/index').test);
   
 
   //account > coupons
