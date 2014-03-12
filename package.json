@@ -36,7 +36,8 @@
     "passport-weibo": ">= 0.0.0",
     "passport-qq": ">= 0.0.0",
     "helmet": "~0.1.2",
-    "request-ip": "latest"
+    "request-ip": "latest",
+    "group-by": "latest"
   },
   "devDependencies": {
     "mysql": "2.0.0-alpha5",

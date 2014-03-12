@@ -5,6 +5,16 @@
 
   app = app || {};
 
+  app.Products = Backbone.Model.extend({
+    idAttribute: '_id',
+    url: '/account/products/'
+  });
+
+  app.NewProduct = Backbone.Model.extend({
+    idAttribute: '_id',
+    url: '/account/products/'
+  });
+
   app.Serial = Backbone.Model.extend({
     url: '/account/products/',
     defaults: {
@@ -12,6 +22,16 @@
       errors: [],
       errfor: {},
       serial: ''
+    }
+  });
+
+  app.Badges = Backbone.Model.extend({
+    url: '/account/products/',
+    defaults: {
+      success: false,
+      errors: [],
+      errfor: {},
+      badges: ''
     }
   });
 
@@ -36,7 +56,46 @@
     }
   });
 
+  app.BadgesView = Backbone.View.extend({
+    el: '#badges',
+    template: _.template( $('#tmpl-badges').html() ),
+    initialize: function() {
+      this.model = new app.Badges();
+      //alert(JSON.stringify(app.mainView.products.attributes));
+      this.model.set({
+        badges: app.mainView.products.attributes
+      });
+//      this.listenTo(app.mainView.products, 'change', this.syncUp);
+      this.listenTo(this.model, 'sync', this.render);
+      this.render();
+    },
+//    syncUp: function() {
+//      this.model.set({
+//        badges: app.mainView.products
+//      });
+//    },
+    render: function() {
+//      for(var key in app.mainView.products.attributes) {
+//        alert(key);
+//      }
+
+      this.$el.html(this.template( this.model.attributes ));
+    }
+  });
+
+
+  app.MainView = Backbone.View.extend({
+    el: '.page .container',
+    initialize: function() {
+      app.mainView = this;
+      this.products = new app.Products( JSON.parse( unescape($('#data-products').html()) ) );
+
+      app.serialView = new app.SerialView();
+      app.badgesView = new app.BadgesView();
+    }
+  });
+
   $(document).ready(function() {
-    app.serialView = new app.SerialView();
+    app.mainView = new app.MainView();
   });
 }());

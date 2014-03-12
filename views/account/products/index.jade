@@ -16,15 +16,12 @@ block body
       div.row
         div#serial
 
-      div.row
-        div.col-sm-4
-          div.well.stat
-            div.stat-label 我的
-            div.stat-value: a(href='/account/products/') 正品
     div.col-sm-6.special
       div.page-header
-        h1 天天向上
-      i.fa.fa-dashboard.super-awesome
+        h1 产品徽章
+
+      div.row
+        div#badges
 
   script(type='text/template', id='tmpl-serial')
     fieldset
@@ -46,3 +43,12 @@ block body
         span.help-block <%- errfor.serial %>
       div.control-group
         button.btn.btn-primary.btn-send(type='button') 提交
+
+  script(type='text/template', id='tmpl-badges')
+    | <% _.each(badges, function(p) { %>
+    div.col-sm-4
+      div.stat-label: |<img class='img-circle' src=<%= p.p_info.thumb %> title=<%= p.p_info.name %> alt=<%= p.p_info.name %> />
+      div.stat-value: | x <%= p.total %>
+    | <% }); %>
+
+  script(type='text/template', id='data-products') !{data.products}
