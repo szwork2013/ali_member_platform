@@ -9,22 +9,22 @@ exports = module.exports = function(app, mongoose) {
 		 lv1:{
 			consumeMoney :{type: Number, default: 0 },
 			percent : { type: Number, default: 1 },
-			leveName :{ type: String ,default:'普通会员'}
+			levelName :{ type: String ,default:'普通会员'}
 		 },//普通		100%
 		 lv2:{
 			 consumeMoney :{type: Number, default: 199 },
 			 percent : { type: Number, default: 1.2 },
-			 leveName :{ type: String ,default:'高级会员'}
+			 levelName :{ type: String ,default:'高级会员'}
 		 },//高级		120%
 		 lv3:{
 			 consumeMoney :{type: Number, default: 499 },
 			 percent : { type: Number, default: 1.5 },
-			 leveName :{ type: String ,default:'VIP会员'}
+			 levelName :{ type: String ,default:'VIP会员'}
 		 },//VIP		150%
 		 lv4:{
 			 consumeMoney :{type: Number, default: 999 },
 			 percent : { type: Number, default: 2 },
-			 leveName :{ type: String ,default:'至尊VIP会员'}
+			 levelName :{ type: String ,default:'至尊VIP会员'}
 		 },//至尊VIP	200%
 	  },
   });
