@@ -1,5 +1,24 @@
 'use strict';
 
+var compose_products_info = function(products) {
+  //对相同产品，合并产品信息，但是防伪码信息不合并
+  var groupBy = require('group-by');  //使用group-by模块
+  var grp_products = groupBy(products, 'product.info.p_info.uuid'); //按照uuid分组
+  var result = [];
+  for(var key in grp_products) {  //key即uuid
+    var ps = grp_products[key]; //一组产品信息
+    //console.log("PS: ", ps);
+    var scs_info = [];
+    for(var i in ps) {  //将防伪码信息放到数组里
+      //console.log("P in PS: ", ps[i]);
+      scs_info.push({sc_info: ps[i].product.info.sc_info});
+    }
+    //将产品信息、防伪码数组、产品登记个数放到结果数组里
+    result.push({uuid: key, total: ps.length, p_info: ps[ps.length - 1].product.info.p_info, scs_info: scs_info});
+  }
+  return result;
+}
+
 var renderSettings = function(req, res, next) {
   var outcome = {};
 
@@ -9,24 +28,8 @@ var renderSettings = function(req, res, next) {
         return callback(err, null);
       }
 
-      //对相同产品，合并产品信息，但是防伪码信息不合并
-      var groupBy = require('group-by');  //使用group-by模块
-      var grp_products = groupBy(account.products, 'product.info.p_info.uuid'); //按照uuid分组
-      var result = [];
-      for(var key in grp_products) {  //key即uuid
-        var ps = grp_products[key]; //一组产品信息
-        //console.log("PS: ", ps);
-        var scs_info = [];
-        for(var i in ps) {  //将防伪码信息放到数组里
-          //console.log("P in PS: ", ps[i]);
-          scs_info.push({sc_info: ps[i].product.info.sc_info});
-        }
-        //将产品信息、防伪码数组、产品登记个数放到结果数组里
-        result.push({uuid: key, total: ps.length, p_info: ps[ps.length - 1].product.info.p_info, scs_info: scs_info});
-      }
-
       //输出给backbone客户端的结果数组products
-      outcome.products = result; //account.products;
+      outcome.products = compose_products_info(account.products);  //account.products;
       callback(null, 'done');
     });
   };
@@ -36,6 +39,7 @@ var renderSettings = function(req, res, next) {
       return next(err);
     }
 
+    // 渲染页面，index.jade 页末的!{data.products}即为此数据
     res.render('account/products/index', {
       data: {
         products: escape(JSON.stringify(outcome.products))
@@ -50,17 +54,63 @@ exports.init = function(req, res, next){
   renderSettings(req, res, next);
 };
 
+//exports.read = function(req, res, next){
+//  var outcome = {};
+//  req.app.db.models.Account.findById(req.user.roles.account.id, 'products').exec(function(err, account) {
+//    if (err) {
+//      return next(err, null);
+//    }
+//
+//    //输出给backbone客户端的结果数组products
+//    outcome.products = compose_products_info(account.products);  //account.products;
+//    res.json({
+//      data: {
+//        products: escape(JSON.stringify(outcome.products))
+//      }
+//    });
+//  });
+//};
+
+exports.read = function(req, res, next){
+  var outcome = {};
+
+  var getRecord = function(callback) {
+    req.app.db.models.Account.findById(req.user.roles.account.id, 'products').exec(function(err, account) {
+      if (err) {
+        return next(err, null);
+      }
+
+      //输出给backbone客户端的结果数组products
+      outcome.products = compose_products_info(account.products);  //account.products;
+      return callback(null, 'done');
+    });
+  };
+
+  var asyncFinally = function(err, results) {
+    if (err) {
+      return next(err);
+    }
+
+    if (req.xhr) {
+      res.send({data: {products: outcome.products}});
+    }
+//    else {
+//      res.render('admin/accounts/details', {
+//        data: {
+//          record: escape(JSON.stringify(outcome.record)),
+//          statuses: outcome.statuses
+//        }
+//      });
+//    }
+  };
+
+  require('async').parallel([getRecord], asyncFinally);
+};
+
 exports.update = function(req, res, next){
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
-//    console.log("User: ", req.session.passport.user);
-
-//    req.app.db.models.User.findById(req.user.id, function(err, user) {
-//      if(err) {
-//        return workflow.emit('exception', err);
-//      }
-
       if (!req.body.serial) {
         workflow.outcome.errfor.serial = 'required';
       }
@@ -74,13 +124,12 @@ exports.update = function(req, res, next){
       } else {
         return workflow.emit('exception', '你的当前会话已结束，请重新登录');
       }
-//    });
   });
 
   workflow.on('associate', function() {
     var request = require('request');
-//    console.log('Associate - token: '+req.app.config.product.key);
 
+    //使用POST方式提交关联请求
     request.post(req.app.config.product.url+'associate',
       {form:{reg_uid: req.user.id, code: req.body.serial, access_token: req.app.config.product.key}},
       function(error, response, body){
@@ -140,12 +189,10 @@ exports.update = function(req, res, next){
       // 设定当前关联的产品id，比上一个已关联产品id大1
       var p_id = 1;
       if(account.products) {
-//        console.log('patchAccount: products = ', account.products);
         if(account.products.length > 0) {
           p_id = account.products[account.products.length - 1].product.id + 1;
         }
       }
-//      console.log('patchAccount: p = ', account.products[account.products.length - 1]);
 
       var product = {
         product: {
@@ -154,19 +201,10 @@ exports.update = function(req, res, next){
         }
       };
 
-      /*account.update({$push: {products: product}}, function(err, result) {
-        if (err) {
-          return workflow.emit('exception', err);
-        }
-        req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full + '关联了产品' + result);
-        return workflow.emit('response');
-      });*/
       req.app.db.models.Account.findOneAndUpdate(req.user.roles.account.id, {$push: {products: product}}, function(err, account) {
         if (err) {
           return workflow.emit('exception', err);
         }
-
-//        console.log('patchAccount: product = ', product);
 
         req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full +
           '使用防伪码' + result.sc_info.code +

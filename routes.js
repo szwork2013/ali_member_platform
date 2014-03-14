@@ -192,6 +192,7 @@ exports = module.exports = function(app, passport) {
 
   //account > products
   app.get('/account/products/', require('./views/account/products/index').init);
+  app.get('/account/products/fetch/', require('./views/account/products/index').read);
   app.post('/account/products/', require('./views/account/products/index').update);
 
   //account > points
