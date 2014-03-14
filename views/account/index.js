@@ -20,7 +20,7 @@ exports.init = function(req, res, next){
     }
 
     res.render('account/index', {
-      fullname: outcome.fullname
+      fullname: outcome.fullname == '' ? req.user.username : outcome.fullname
     });
   };
 
