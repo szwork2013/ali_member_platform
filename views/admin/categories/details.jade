@@ -1,7 +1,7 @@
 extends ../../../layouts/admin
 
 block head
-  title Categories / Details
+  title 分类详细信息
 
 block feet
   script(src='/views/admin/categories/details.min.js?#{cacheBreaker}')
@@ -16,12 +16,12 @@ block body
   script(type='text/template', id='tmpl-header')
     div.page-header
       h1
-        a(href='/admin/categories/') Categories
+        a(href='/admin/categories/') 分类
         |  / <%- name %>
 
   script(type='text/template', id='tmpl-details')
     fieldset
-      legend Details
+      legend 详细
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -31,7 +31,7 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 更改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.pivot ? "has-error" : "" %>')
         label.control-label Pivot:
@@ -42,11 +42,11 @@ block body
         input.form-control(type='text', name='name', value!='<%- name %>')
         span.help-block <%- errfor.name %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Update
+        button.btn.btn-primary.btn-update(type='button') 更改
 
   script(type='text/template', id='tmpl-delete')
     fieldset
-      legend Danger Zone
+      legend 危险区域
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -55,10 +55,10 @@ block body
         |<% }); %>
       div.control-group
         span.help-block
-          span.label.label-danger If you do this, it cannot be undone.
+          span.label.label-danger 请保证你确认要进行此操作，此操作不能还原。
           |&nbsp;
-          span.text-muted You may also create orphaned document relationships too.
+          span.text-muted 你也可能导致孤立文档关系出现（即资源与其他资源没有任何关联）
       div.control-group
-        button.btn.btn-danger.btn-delete(type='button') Delete
+        button.btn.btn-danger.btn-delete(type='button') 删除
 
   script(type='text/template', id='data-record') !{data.record}
