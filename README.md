@@ -184,3 +184,23 @@ req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO
 ```
 
 app.logger.log(app, user, ip, type, object, info)
+
+
+
+## Reset products fields
+
+```
+db.accounts.update({'products':{'$exists': true}}, {'$unset':{'products': true}}, {'multi': true});
+```
+
+```
+UPDATE `security_codes` SET `reg_uid` = NULL , `reg_date` = NULL , `reg_times` = NULL, `status` = NULL WHERE `reg_uid` IS NOT NULL;
+```
+
+## Setup Integral collection:
+
+```
+$ mongo
+> use drywall;
+> db.models.Integral.create({isUse:'yes'});
+```

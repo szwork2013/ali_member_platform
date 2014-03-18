@@ -134,7 +134,7 @@ exports.update = function(req, res, next){
       {form:{reg_uid: req.user.id, code: req.body.serial, access_token: req.app.config.product.key}},
       function(error, response, body){
 
-      var result = JSON.parse(body);
+      var result = JSON.parse(body.trim());
 
       if (error) {
         return workflow.emit('exception', error);
@@ -194,6 +194,14 @@ exports.update = function(req, res, next){
         }
       }
 
+      console.log("account integral!", account.integral);
+      if(account.integral.isNullOrUndefined) {
+        console.log("No integral!");
+        account.push({integral: {}});
+        account.save();
+        console.log("Add integral!", account.integral);
+      }
+
       var product = {
         product: {
           id: p_id,
@@ -209,6 +217,26 @@ exports.update = function(req, res, next){
         req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full +
           '使用防伪码' + result.sc_info.code +
           '关联了产品' + result.p_info.name);
+
+        var integral = new (require('member_integral')(req))();
+        //console.log("Price? ", product.product.info.p_info.price);
+        integral.convertCode(product.product.info.p_info.price, function(err, result2){
+          if(err){
+            req.app.logger.log(req.app, req.user.username, req.ip, 'ERROR', 'account.integral', '会员' + account.name.full +
+              '使用防伪码' + result.sc_info.code +
+              '关联了产品' + result.p_info.name +
+              ', 但增加积分失败，错误：' + err
+            );
+            //console.log("err: ", err);
+          }
+          req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full +
+            '使用防伪码' + result.sc_info.code +
+            '关联了产品' + result.p_info.name +
+            '，获得' + result2.addPoints + '点积分' +
+            '，等级为' + req.user.roles.account.integral.levelName + '，' + req.user.roles.account.integral.level + '级'
+          );
+          //console.log("result: ", result2);
+        });
 
         workflow.outcome.newproduct = product;  //将productdb返回的关联产品信息附加到response
         return workflow.emit('response');

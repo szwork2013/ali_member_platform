@@ -67,6 +67,7 @@
         badges: app.mainView.products.attributes
       });
       this.listenTo(app.serialView.model, 'change', this.syncUp);
+      this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'sync', this.render);
       this.render();
     },
@@ -77,18 +78,18 @@
         //alert('SerialView changed 2: '+app.serialView.model.attributes.newproduct.product.info.p_info.name);
         var products = new app.Products();
         products.fetch({url: '/account/products/fetch/',
-          success:function(model,response){
-            alert('success');
+          success:function(newproduct,response){
+            //alert('success');
             //model为获取到的数据
-            //alert(JSON.stringify(model));
+            alert(JSON.stringify(newproduct));
             this.model.set({
-              badges: model
+              badges: newproduct
             });
-            alert("render 2: "+JSON.stringify(this.model.attributes));
-            this.render();
+            //alert("render 2: ", JSON.stringify(this.model.attributes));
+            //this.render();
           },error:function(){
             //当返回格式不正确或者是非json数据时，会执行此方法
-            //alert('error');
+            alert('error');
         }});
         //this.data.html(products.fetch());
       }
@@ -97,7 +98,7 @@
 //      for(var key in app.mainView.products.attributes) {
 //        alert(key);
 //      }
-      alert("render 1: "+JSON.stringify(this.model.attributes));
+      //alert("render 1: "+JSON.stringify(this.model.attributes));
       this.$el.html(this.template( this.model.attributes ));
     }
   });
