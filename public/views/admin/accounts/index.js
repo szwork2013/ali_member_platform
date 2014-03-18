@@ -18,7 +18,9 @@
         name: '',
         userCreated: {}
       },
-      userCreated: {}
+      userCreated: {},
+      integral: {},
+      user:{}
     },
     url: function() {
       return '/admin/accounts/'+ (this.isNew() ? '' : this.id +'/');
