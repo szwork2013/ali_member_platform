@@ -32,7 +32,7 @@ exports.find = function(req, res, next){
 
     req.app.db.models.Account.pagedFind({
       filters: filters,
-      keys: 'name company phone zip userCreated status',
+      keys: 'name company phone zip userCreated status integral user',
       limit: req.query.limit,
       page: req.query.page,
       sort: req.query.sort
@@ -40,7 +40,6 @@ exports.find = function(req, res, next){
       if (err) {
         return callback(err, null);
       }
-
       outcome.results = results;
       return callback(null, 'done');
     });
@@ -50,7 +49,7 @@ exports.find = function(req, res, next){
     if (err) {
       return next(err);
     }
-
+    
     if (req.xhr) {
       res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
       outcome.results.filters = req.query;
