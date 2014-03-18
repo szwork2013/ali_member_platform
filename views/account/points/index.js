@@ -15,7 +15,7 @@ exports.test = function(req ,res){
 	  
 	  var Integral = new (require('member_integral')(req))();
 	  //下列函数 第一个参数 200 代表输入的金额 会根据个人会员等级转换积分,提升等级等等
-	  Integral.convertCode('23' ,function(err ,result){
+	  Integral.convertCode('23.45' ,function(err ,result){
 		  if(err){
 			  console.log(err);
 		  }
