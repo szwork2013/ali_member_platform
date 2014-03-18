@@ -204,3 +204,9 @@ $ mongo
 > use drywall;
 > db.models.Integral.create({isUse:'yes'});
 ```
+
+### reset Integral
+
+```
+db.accounts.update({'integral':{'$exists': true}}, {'$unset':{'integral': true}}, {'multi': true});
+```

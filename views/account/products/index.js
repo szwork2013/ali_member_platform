@@ -22,17 +22,17 @@ var compose_products_info = function(products) {
 var renderSettings = function(req, res, next) {
   var outcome = {};
 
-  var getProductsData = function(callback) {
-    req.app.db.models.Account.findById(req.user.roles.account.id, 'products').exec(function(err, account) {
-      if (err) {
-        return callback(err, null);
-      }
-
-      //输出给backbone客户端的结果数组products
-      outcome.products = compose_products_info(account.products);  //account.products;
-      callback(null, 'done');
-    });
-  };
+//  var getProductsData = function(callback) {
+//    req.app.db.models.Account.findById(req.user.roles.account.id, 'products').exec(function(err, account) {
+//      if (err) {
+//        return callback(err, null);
+//      }
+//
+//      //输出给backbone客户端的结果数组products
+//      outcome.products = compose_products_info(account.products);  //account.products;
+//      callback(null, 'done');
+//    });
+//  };
 
   var asyncFinally = function(err, results) {
     if (err) {
@@ -40,14 +40,16 @@ var renderSettings = function(req, res, next) {
     }
 
     // 渲染页面，index.jade 页末的!{data.products}即为此数据
-    res.render('account/products/index', {
-      data: {
-        products: escape(JSON.stringify(outcome.products))
-      }
-    });
+    res.render('account/products/index');
+//    res.render('account/products/index', {
+//      data: {
+//        products: escape(JSON.stringify(outcome.products))
+//      }
+//    });
   };
 
-  require('async').parallel([getProductsData], asyncFinally);
+//  require('async').parallel([getProductsData], asyncFinally);
+  require('async').parallel([], asyncFinally);
 };
 
 exports.init = function(req, res, next){
@@ -94,14 +96,6 @@ exports.read = function(req, res, next){
     if (req.xhr) {
       res.send({data: {products: outcome.products}});
     }
-//    else {
-//      res.render('admin/accounts/details', {
-//        data: {
-//          record: escape(JSON.stringify(outcome.record)),
-//          statuses: outcome.statuses
-//        }
-//      });
-//    }
   };
 
   require('async').parallel([getRecord], asyncFinally);
@@ -173,6 +167,7 @@ exports.update = function(req, res, next){
        { sku: '10001',
        uuid: '8024-0F97-9DAB-8FDF',
        name: 'TestProduct1',
+       price: 100.00,
        status: 0,
        thumb: 'http://localhost:3000/uploads/product/image/1/thumb_选区_002.png',
        small_thumb: 'http://localhost:3000/uploads/product/image/1/small_thumb_选区_002.png',
@@ -194,12 +189,12 @@ exports.update = function(req, res, next){
         }
       }
 
-      console.log("account integral!", account.integral);
+      // 会员积分属性
       if(account.integral.isNullOrUndefined) {
-        console.log("No integral!");
+        //console.log("No integral!");
         account.push({integral: {}});
         account.save();
-        console.log("Add integral!", account.integral);
+        //console.log("Add integral：", account.integral);
       }
 
       var product = {
@@ -222,18 +217,23 @@ exports.update = function(req, res, next){
         //console.log("Price? ", product.product.info.p_info.price);
         integral.convertCode(product.product.info.p_info.price, function(err, result2){
           if(err){
-            req.app.logger.log(req.app, req.user.username, req.ip, 'ERROR', 'account.integral', '会员' + account.name.full +
-              '使用防伪码' + result.sc_info.code +
-              '关联了产品' + result.p_info.name +
-              ', 但增加积分失败，错误：' + err
+            req.app.logger.log(req.app, req.user.username, req.ip, 'ERROR', 'account.integral',
+              '会员' + account.name.full +
+              '增加积分失败，错误：' + err
             );
             //console.log("err: ", err);
           }
-          req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.product', '会员' + account.name.full +
-            '使用防伪码' + result.sc_info.code +
-            '关联了产品' + result.p_info.name +
-            '，获得' + result2.addPoints + '点积分' +
-            '，等级为' + req.user.roles.account.integral.levelName + '，' + req.user.roles.account.integral.level + '级'
+          req.app.logger.log(req.app, req.user.username, req.ip, 'INFO', 'account.integral',
+            '会员' + account.name.full +
+            '兑换积分成功。（原总消费:' + result2.oldConsumeMoney +
+            '，新增消费:' + result2.addMoney +
+            '，现总消费:' + req.user.roles.account.integral.consumeMoney +
+            '；原总积分:' + result2.oldPoints +
+            '，新增积分:' + result2.addPoints +
+            '，现总积分:' + req.user.roles.account.integral.points +
+            '；原等级:' + result2.oldLevelName +
+            '，新增等级:' + result.addLevel +
+            '，现等级:' + req.user.roles.account.integral.levelName + '）'
           );
           //console.log("result: ", result2);
         });
