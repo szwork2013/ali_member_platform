@@ -31,7 +31,7 @@
       errors: [],
       errfor: {},
       first: '',
-      middle: '',
+//      middle: '',
       last: '',
       company: '',
       phone: '',
@@ -153,7 +153,7 @@
       this.model.set({
         _id: app.mainView.model.id,
         first: app.mainView.model.get('name').first,
-        middle: app.mainView.model.get('name').middle,
+//        middle: app.mainView.model.get('name').middle,
         last: app.mainView.model.get('name').last,
         company: app.mainView.model.get('company'),
         phone: app.mainView.model.get('phone'),
@@ -196,7 +196,7 @@
       this.$el.html(this.template( this.model.attributes ));
     },
     delete: function() {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         this.model.destroy({
           success: function(model, response) {
             if (response.success) {
@@ -251,7 +251,7 @@
       });
     },
     userUnlink: function() {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         this.model.destroy({
           success: function(model, response) {
             if (response.account) {
@@ -283,7 +283,7 @@
     validates: function() {
       var errors = [];
       if (this.$el.find('[name="data"]').val() === '') {
-        errors.push('Please enter some notes.');
+        errors.push('请输入一些备注内容。');
       }
 
       if (errors.length > 0) {
@@ -381,11 +381,11 @@
     validates: function() {
       var errors = [];
       if (this.$el.find('[name="status"]').val() === '') {
-        errors.push('Please choose a status.');
+        errors.push('请选择一个状态。');
       }
 
       if (this.$el.find('[name="status"]').val() === app.mainView.model.get('status').id) {
-        errors.push('That is the current status.');
+        errors.push('这就是当前状态。');
       }
 
       if (errors.length > 0) {

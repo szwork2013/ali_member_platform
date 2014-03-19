@@ -22,12 +22,12 @@ block body
   script(type='text/template', id='tmpl-header')
     div.page-header
       h1
-        a(href='/admin/administrators/') Administrators
+        a(href='/admin/administrators/') 管理员
         |  / <%- name.full %>
 
   script(type='text/template', id='tmpl-details')
     fieldset
-      legend Contact Info
+      legend 联系信息
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -37,26 +37,22 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.first ? "has-error" : "" %>')
-        label.control-label First Name:
+        label.control-label 姓:
         input.form-control(type='text', name='first', value!='<%= first %>')
         span.help-block <%- errfor.first %>
-      div.control-group(class!='<%- errfor.middle ? "has-error" : "" %>')
-        label.control-label Middle Name:
-        input.form-control(type='text', name='middle', value!='<%= middle %>')
-        span.help-block <%- errfor['middle'] %>
       div.control-group(class!='<%- errfor.last ? "has-error" : "" %>')
-        label.control-label Last Name:
+        label.control-label 名:
         input.form-control(type='text', name='last', value!='<%= last %>')
         span.help-block <%- errfor.last %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Update
+        button.btn.btn-primary.btn-update(type='button') 更新
 
   script(type='text/template', id='tmpl-login')
     fieldset
-      legend Login
+      legend 登录
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -64,23 +60,23 @@ block body
           |<%- err %>
         |<% }); %>
       div.control-group(class!='<%- errfor.newUsername ? "has-error" : "" %>')
-        label.control-label Username:
+        label.control-label 用户名:
         div.input-group
           |<% if (name) { %>
           input.form-control(disabled=true, value!='<%= name %>')
           div.input-group-btn
-            button.btn.btn-warning.btn-user-unlink(type='button') Unlink
-            button.btn.btn-default.btn-user-open(type='button') Open
+            button.btn.btn-warning.btn-user-unlink(type='button') 取消关联
+            button.btn.btn-default.btn-user-open(type='button') 打开
           |<% } else { %>
           input.form-control(name='newUsername', type='text', placeholder='enter a username')
           div.input-group-btn
-            button.btn.btn-success.btn-user-link(type='button') Link
+            button.btn.btn-success.btn-user-link(type='button') 关联
           |<% } %>
         span.help-block <%- errfor.newUsername %>
 
   script(type='text/template', id='tmpl-groups')
     fieldset
-      legend Groups
+      legend 分组
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -93,16 +89,16 @@ block body
           | Changes have been saved.
         |<% } %>
       div.control-group(class!='<%- errfor.newMembership ? "has-error" : "" %>')
-        label.control-label Add Membership:
+        label.control-label 添加为组员:
         div.input-group
           select.form-control(name='newMembership')
             for group in data.adminGroups
               option(value='#{group._id}') #{group.name}
           div.input-group-btn
-            button.btn.btn-success.btn-add(type='button') Add
+            button.btn.btn-success.btn-add(type='button') 添加
         span.help-block <%- errfor.newUsername %>
       div.control-group(class!='<%- errfor.memberships ? "has-error" : "" %>')
-        label.control-label Memberships:
+        label.control-label 所在分组:
         div.groups
           |<% _.each(groups, function(group) { %>
           div.input-group
@@ -112,15 +108,15 @@ block body
                 i.fa.fa-trash-o.fa-inverse
           |<% }); %>
           |<% if (groups.length == 0) { %>
-          span.badge no memberships defined
+          span.badge 不在任何分组
           |<% } %>
           span.help-block <%- errfor.memberships %>
       div.control-group
-        button.btn.btn-primary.btn-save(type='button') Save Groups
+        button.btn.btn-primary.btn-save(type='button') 保存分组
 
   script(type='text/template', id='tmpl-permissions')
     fieldset
-      legend Permissions
+      legend 权限
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -130,38 +126,38 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.newPermission ? "has-error" : "" %>')
-        label.control-label New Setting:
+        label.control-label 新建设置:
         div.input-group
-          input.form-control(name='newPermission', type='text', placeholder='enter a name')
+          input.form-control(name='newPermission', type='text', placeholder='输入名称')
           div.input-group-btn
-            button.btn.btn-success.btn-add(type='button') Add
+            button.btn.btn-success.btn-add(type='button') 添加
         span.help-block <%- errfor.newUsername %>
       div.control-group(class!='<%- errfor.settings ? "has-error" : "" %>')
-        label.control-label Settings:
+        label.control-label 设置:
         div.permissions
           |<% _.each(permissions, function(permission) { %>
           div.input-group
             input.form-control(disabled=true, value!='<%= permission.name %>')
             div.input-group-btn
               |<% if (permission.permit) { %>
-              button.btn.btn-default.btn-allow(type='button', disabled) Allow
-              button.btn.btn-default.btn-deny(type='button') Deny
+              button.btn.btn-default.btn-allow(type='button', disabled) 允许
+              button.btn.btn-default.btn-deny(type='button') 禁止
               |<% } else { %>
-              button.btn.btn-default.btn-allow(type='button') Allow
-              button.btn.btn-default.btn-deny(type='button', disabled) Deny
+              button.btn.btn-default.btn-allow(type='button') 允许
+              button.btn.btn-default.btn-deny(type='button', disabled) 禁止
               |<% } %>
               button.btn.btn-danger.btn-delete(type='button')
                 i.fa.fa-trash-o.fa-inverse
           |<% }); %>
           |<% if (permissions.length == 0) { %>
-          span.badge no permissions defined
+          span.badge 未定义任何权限
           |<% } %>
           span.help-block <%- errfor.settings %>
       div.control-group
-        button.btn.btn-primary.btn-set(type='button') Save Settings
+        button.btn.btn-primary.btn-set(type='button') 保存设置
 
   script(type='text/template', id='tmpl-delete')
     fieldset

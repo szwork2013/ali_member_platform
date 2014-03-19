@@ -111,7 +111,7 @@
       this.$el.html(this.template( this.model.attributes ));
     },
     delete: function() {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         this.model.destroy({
           success: function(model, response) {
             if (response.success) {

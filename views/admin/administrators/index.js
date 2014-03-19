@@ -97,14 +97,14 @@ exports.create = function(req, res, next){
     var fieldsToSet = {
       name: {
         first: nameParts.shift(),
-        middle: (nameParts.length > 1 ? nameParts.shift() : ''),
+//        middle: (nameParts.length > 1 ? nameParts.shift() : ''),
         last: (nameParts.length === 0 ? '' : nameParts.join(' ')),
       }
     };
     fieldsToSet.name.full = fieldsToSet.name.first + (fieldsToSet.name.last ? ' '+ fieldsToSet.name.last : '');
     fieldsToSet.search = [
       fieldsToSet.name.first,
-      fieldsToSet.name.middle,
+//      fieldsToSet.name.middle,
       fieldsToSet.name.last
     ];
 
@@ -144,13 +144,13 @@ exports.update = function(req, res, next){
     var fieldsToSet = {
       name: {
         first: req.body.first,
-        middle: req.body.middle,
+//        middle: req.body.middle,
         last: req.body.last,
         full: req.body.first +' '+ req.body.last
       },
       search: [
         req.body.first,
-        req.body.middle,
+//        req.body.middle,
         req.body.last
       ]
     };

@@ -120,7 +120,7 @@ exports.create = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body['name.full']) {
-      workflow.outcome.errors.push('Please enter a name.');
+      workflow.outcome.errors.push('请输入名称。');
       return workflow.emit('response');
     }
 
@@ -219,7 +219,7 @@ exports.linkUser = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not link accounts to users.');
+      workflow.outcome.errors.push('你没有关联帐号到用户的权限。');
       return workflow.emit('response');
     }
 
@@ -238,11 +238,11 @@ exports.linkUser = function(req, res, next){
       }
 
       if (!user) {
-        workflow.outcome.errors.push('User not found.');
+        workflow.outcome.errors.push('没有找到用户。');
         return workflow.emit('response');
       }
       else if (user.roles && user.roles.account && user.roles.account !== req.params.id) {
-        workflow.outcome.errors.push('User is already linked to a different account.');
+        workflow.outcome.errors.push('用户已经关联到另一个会员帐号上了。');
         return workflow.emit('response');
       }
 
@@ -258,7 +258,7 @@ exports.linkUser = function(req, res, next){
       }
 
       if (account) {
-        workflow.outcome.errors.push('Another account is already linked to that user.');
+        workflow.outcome.errors.push('已经有一个会员帐号关联到该用户了。');
         return workflow.emit('response');
       }
 
@@ -295,7 +295,7 @@ exports.unlinkUser = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not unlink users from accounts.');
+      workflow.outcome.errors.push('你没有从帐号取消用户关联的权限。');
       return workflow.emit('response');
     }
 
@@ -309,7 +309,7 @@ exports.unlinkUser = function(req, res, next){
       }
 
       if (!account) {
-        workflow.outcome.errors.push('Account was not found.');
+        workflow.outcome.errors.push('没有找到会员帐号。');
         return workflow.emit('response');
       }
 
@@ -333,7 +333,7 @@ exports.unlinkUser = function(req, res, next){
       }
 
       if (!user) {
-        workflow.outcome.errors.push('User was not found.');
+        workflow.outcome.errors.push('没有找到用户。');
         return workflow.emit('response');
       }
 
@@ -356,7 +356,7 @@ exports.newNote = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.data) {
-      workflow.outcome.errors.push('Data is required.');
+      workflow.outcome.errors.push('备注内容是必须有的。');
       return workflow.emit('response');
     }
 
@@ -391,7 +391,7 @@ exports.newStatus = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.id) {
-      workflow.outcome.errors.push('Please choose a status.');
+      workflow.outcome.errors.push('请选择一个状态。');
     }
 
     if (workflow.hasErrors()) {
@@ -430,7 +430,7 @@ exports.delete = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not delete accounts.');
+      workflow.outcome.errors.push('你没有删除帐号的权限。');
       return workflow.emit('response');
     }
 

@@ -31,7 +31,7 @@
       errors: [],
       errfor: {},
       first: '',
-      middle: '',
+//      middle: '',
       last: ''
     },
     url: function() {
@@ -144,7 +144,7 @@
       this.model.set({
         _id: app.mainView.model.id,
         first: app.mainView.model.get('name').first,
-        middle: app.mainView.model.get('name').middle,
+//        middle: app.mainView.model.get('name').middle,
         last: app.mainView.model.get('name').last
       });
     },
@@ -160,7 +160,7 @@
     update: function() {
       this.model.save({
         first: this.$el.find('[name="first"]').val(),
-        middle: this.$el.find('[name="middle"]').val(),
+//        middle: this.$el.find('[name="middle"]').val(),
         last: this.$el.find('[name="last"]').val()
       });
     }
@@ -181,7 +181,7 @@
       this.$el.html(this.template( this.model.attributes ));
     },
     delete: function() {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         this.model.destroy({
           success: function(model, response) {
             if (response.success) {
@@ -236,7 +236,7 @@
       });
     },
     userUnlink: function() {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         this.model.destroy({
           success: function(model, response) {
             if (response.admin) {
@@ -312,7 +312,7 @@
       this.render();
     },
     delete: function(event) {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         var idx = this.$el.find('.btn-delete').index(event.currentTarget);
         this.model.get('groups').splice(idx, 1);
         this.render();
@@ -395,7 +395,7 @@
       this.render();
     },
     delete: function(event) {
-      if (confirm('Are you sure?')) {
+      if (confirm('你确定吗？')) {
         var idx = this.$el.find('.btn-delete').index(event.currentTarget);
         this.model.get('permissions').splice(idx, 1);
         this.render();

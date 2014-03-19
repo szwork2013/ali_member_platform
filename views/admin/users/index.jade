@@ -76,12 +76,12 @@ block body
       input.btn.btn-default.btn-sm.btn-details(type='button', value='编辑')
     td <%= username %>
     td <%= email %>
-    td <%= isActive %>
+    td <%= isActive == 'yes' ? '是' : '否' %>
     td <%= _id %>
 
   script(type='text/template', id='tmpl-results-empty-row')
     tr
-      td(colspan='5') no documents matched
+      td(colspan='5') 无相关文档
 
   script(type='text/template', id='tmpl-results-paging')
     div.well
