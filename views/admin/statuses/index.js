@@ -126,7 +126,7 @@ exports.update = function(req, res, next){
     }
 
     if (!req.body.name) {
-      workflow.outcome.errfor.name = 'required';
+      workflow.outcome.errfor.name = '必须的';
       return workflow.emit('response');
     }
 

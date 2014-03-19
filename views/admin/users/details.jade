@@ -62,38 +62,38 @@ block body
           |<%- err %>
         |<% }); %>
       div.control-group(class!='<%- errfor.newAdminId ? "has-error" : "" %>')
-        label.control-label Admin:
+        label.control-label 管理员:
         div.controls
           div.input-group
             |<% if (roles && roles.admin) { %>
             input.form-control(disabled=true, value!='<%= roles.admin.name.full %>')
             div.input-group-btn
-              button.btn.btn-warning.btn-admin-unlink(type='button') Unlink
-              button.btn.btn-default.btn-admin-open(type='button') Open
+              button.btn.btn-warning.btn-admin-unlink(type='button') 取消关联
+              button.btn.btn-default.btn-admin-open(type='button') 打开
             |<% } else { %>
-            input.form-control(name='newAdminId', type='text', placeholder='enter admin id')
+            input.form-control(name='newAdminId', type='text', placeholder='输入管理员id')
             div.input-group-btn
-              button.btn.btn-success.btn-admin-link(type='button') Link
+              button.btn.btn-success.btn-admin-link(type='button') 关联
             |<% } %>
           span.help-block <%- errfor.newAdminId %>
       div.control-group(class!='<%- errfor.newAccountId ? "has-error" : "" %>')
-        label.control-label Account:
+        label.control-label 会员帐号:
         div.input-group
           |<% if (roles && roles.account) { %>
           input.form-control(disabled=true, value!='<%= roles.account.name.full %>')
           div.input-group-btn
-            button.btn.btn-warning.btn-account-unlink(type='button') Unlink
-            button.btn.btn-default.btn-account-open(type='button') Open
+            button.btn.btn-warning.btn-account-unlink(type='button') 关联
+            button.btn.btn-default.btn-account-open(type='button') 打开
           |<% } else { %>
-          input.form-control(name='newAccountId', type='text', placeholder='enter account id')
+          input.form-control(name='newAccountId', type='text', placeholder='输入会员帐号id')
           div.input-group-btn
-            button.btn.btn-success.btn-account-link(type='button') Link
+            button.btn.btn-success.btn-account-link(type='button') 关联
           |<% } %>
         span.help-block <%- errfor.newAccountId %>
 
   script(type='text/template', id='tmpl-password')
     fieldset
-      legend Set Password
+      legend 设置密码
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -103,22 +103,22 @@ block body
       |<% if (success) { %>
       div.alert.alert-info.alert-dismissable
         button.close(type='button', data-dismiss='alert') &times;
-        | A new password has been set.
+        | 新密码已成功设置。
       |<% } %>
       div.control-group(class!='<%- errfor.newPassword ? "has-error" : "" %>')
-        label.control-label New Password:
+        label.control-label 新密码:
         input.form-control(type='password', name='newPassword', value!='<%= newPassword %>')
         span.help-block <%- errfor.newPassword %>
       div.control-group(class!='<%- errfor.confirm ? "has-error" : "" %>')
-        label.control-label Confirm Password:
+        label.control-label 确认密码:
         input.form-control(type='password', name='confirm', value!='<%= confirm %>')
         span.help-block <%- errfor.confirm %>
       div.control-group
-        button.btn.btn-primary.btn-password(type='button') Set Password
+        button.btn.btn-primary.btn-password(type='button') 设置密码
 
   script(type='text/template', id='tmpl-delete')
     fieldset
-      legend Danger Zone
+      legend 危险区域
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -127,10 +127,10 @@ block body
         |<% }); %>
       div.control-group
         span.help-block
-          span.label.label-danger If you do this, it cannot be undone.
+          span.label.label-danger 请确保你要进行此操作，此操作不能还原。
           |&nbsp;
-          span.text-muted You may also create orphaned document relationships too.
+          span.text-muted 你也可能导致孤立文档关系出现（即资源与其他资源没有任何关联）
       div.control-group
-        button.btn.btn-danger.btn-delete(type='button') Delete
+        button.btn.btn-danger.btn-delete(type='button') 删除
 
   script(type='text/template', id='data-record') !{data.record}

@@ -1,7 +1,7 @@
 extends ../../../layouts/admin
 
 block head
-  title Manage Accounts
+  title 管理会员帐号
 
 block neck
   link(rel='stylesheet', href='/views/admin/accounts/index.min.css?#{cacheBreaker}')
@@ -21,24 +21,24 @@ block body
     div.page-header
       form.form-inline.pull-right
         div.input-group
-          input.form-control(name='name', type='text', placeholder='enter a name', value!='<%- name.full %>')
-          button.btn.btn-primary.btn-add(type='button') Add New
-      h1 Accounts
+          input.form-control(name='name', type='text', placeholder='输入会员姓名', value!='<%- name.full %>')
+          button.btn.btn-primary.btn-add(type='button') 添加新会员
+      h1 会员帐号
 
   script(type='text/template', id='tmpl-filters')
     form.filters
       div.row
         div.col-sm-3
-          label Search
+          label 搜索
           input.form-control(name='search', type='text')
         div.col-sm-3
-          label Status
+          label 状态
           select.form-control(name='status')
-            option(value='') -- any --
+            option(value='') -- 任意 --
             for status in data.statuses
               option(value='#{status._id}') #{status.name}
         div.col-sm-3
-          label Sort By
+          label 排序
           select.form-control(name='sort')
             option(value='_id') id &#9650;
             option(value='-_id') id &#9660;
@@ -47,12 +47,12 @@ block body
             option(value='company') company &#9650;
             option(value='-company') company &#9660;
         div.col-sm-3
-          label Limit
+          label 数量
           select.form-control(name='limit')
-            option(value='10') 10 items
-            option(value='20', selected='selected') 20 items
-            option(value='50') 50 items
-            option(value='100') 100 items
+            option(value='10') 10 条
+            option(value='20', selected='selected') 20 条
+            option(value='50') 50 条
+            option(value='100') 100 条
 
   script(type='text/template', id='tmpl-results-table')
     table.table.table-striped
@@ -71,7 +71,7 @@ block body
 
   script(type='text/template', id='tmpl-results-row')
     td
-      input.btn.btn-default.btn-sm.btn-details(type='button', value='Edit')
+      input.btn.btn-default.btn-sm.btn-details(type='button', value='编辑')
     td.stretch
       span.badge.badge-clear.timeago.pull-right(data-age='y') <%= userCreated.time %>
       |<%- name.full ? name.full : '*'+user.name %>
@@ -93,8 +93,8 @@ block body
         button.btn.btn-default(disabled=true) Page <%= pages.current %> of <%= pages.total %>
         button.btn.btn-default(disabled=true) Rows <%= items.begin %> - <%= items.end %> of <%= items.total %>
       div.btn-group.pull-right
-        button.btn.btn-default.btn-page.btn-prev(data-page!='<%= pages.prev %>') Prev
-        button.btn.btn-default.btn-page.btn-next(data-page!='<%= pages.next %>')  Next
+        button.btn.btn-default.btn-page.btn-prev(data-page!='<%= pages.prev %>') 上一页
+        button.btn.btn-default.btn-page.btn-next(data-page!='<%= pages.next %>') 下一页
       div.clearfix
 
   script(type='text/template', id='data-results') !{data.results}

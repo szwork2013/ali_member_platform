@@ -122,14 +122,14 @@ exports.update = function(req, res, next){
     }
 
     if (!req.body.username) {
-      workflow.outcome.errfor.username = 'required';
+      workflow.outcome.errfor.username = '必须的';
     }
     else if (!/^[a-zA-Z0-9\-\_]+$/.test(req.body.username)) {
       workflow.outcome.errfor.username = 'only use letters, numbers, \'-\', \'_\'';
     }
 
     if (!req.body.email) {
-      workflow.outcome.errfor.email = 'required';
+      workflow.outcome.errfor.email = '必须的';
     }
     else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
       workflow.outcome.errfor.email = 'invalid email format';
@@ -253,11 +253,11 @@ exports.password = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.newPassword) {
-      workflow.outcome.errfor.newPassword = 'required';
+      workflow.outcome.errfor.newPassword = '必须的';
     }
 
     if (!req.body.confirm) {
-      workflow.outcome.errfor.confirm = 'required';
+      workflow.outcome.errfor.confirm = '必须的';
     }
 
     if (req.body.newPassword !== req.body.confirm) {
@@ -310,7 +310,7 @@ exports.linkAdmin = function(req, res, next){
     }
 
     if (!req.body.newAdminId) {
-      workflow.outcome.errfor.newAdminId = 'required';
+      workflow.outcome.errfor.newAdminId = '必须的';
       return workflow.emit('response');
     }
 
@@ -473,7 +473,7 @@ exports.linkAccount = function(req, res, next){
     }
 
     if (!req.body.newAccountId) {
-      workflow.outcome.errfor.newAccountId = 'required';
+      workflow.outcome.errfor.newAccountId = '必须的';
       return workflow.emit('response');
     }
 

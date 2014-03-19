@@ -46,23 +46,23 @@ block body
           | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.first ? "has-error" : "" %>')
-        label.control-label First Name:
+        label.control-label 姓:
         input.form-control(type='text', name='first', value!='<%- first %>')
         span.help-block <%- errfor.first %>
       div.control-group(class!='<%- errfor.last ? "has-error" : "" %>')
-        label.control-label Last Name:
+        label.control-label 名:
         input.form-control(type='text', name='last', value!='<%- last %>')
         span.help-block <%- errfor['last'] %>
       div.control-group(class!='<%- errfor.company ? "has-error" : "" %>')
-        label.control-label Company Name:
+        label.control-label 工作单位:
         input.form-control(type='text', name='company', value!='<%- company %>')
         span.help-block <%- errfor.company %>
       div.control-group(class!='<%- errfor.phone ? "has-error" : "" %>')
-        label.control-label Phone:
+        label.control-label 电话号码:
         input.form-control(type='text', name='phone', value!='<%- phone %>')
         span.help-block <%- errfor.phone %>
       div.control-group(class!='<%- errfor.zip ? "has-error" : "" %>')
-        label.control-label Zip:
+        label.control-label 邮政编码:
         input.form-control(type='text', name='zip', value!='<%- zip %>')
         span.help-block <%- errfor.zip %>
       div.control-group
@@ -70,7 +70,7 @@ block body
 
   script(type='text/template', id='tmpl-login')
     fieldset
-      legend Login
+      legend 登录
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -78,22 +78,22 @@ block body
           |<%- err %>
         |<% }); %>
       div.control-group(class!='<%- errfor.newUsername ? "has-error" : "" %>')
-        label.control-label Username:
+        label.control-label 用户名:
         div.input-group
           |<% if (name) { %>
           input.form-control(disabled=true, value!='<%= name %>')
           div.input-group-btn
-            button.btn.btn-warning.btn-user-unlink(type='button') Unlink
-            button.btn.btn-default.btn-user-open(type='button') Open
+            button.btn.btn-warning.btn-user-unlink(type='button') 取消关联
+            button.btn.btn-default.btn-user-open(type='button') 打开
           |<% } else { %>
-          input.form-control(name='newUsername', type='text', placeholder='enter a username')
+          input.form-control(name='newUsername', type='text', placeholder='输入用户名')
           div.input-group-btn
-            button.btn.btn-success.btn-user-link(type='button') Link
+            button.btn.btn-success.btn-user-link(type='button') 关联
           |<% } %>
         span.help-block <%- errfor.newUsername %>
 
   script(type='text/template', id='tmpl-status-new')
-    legend Status
+    legend 状态
     div.alerts
       |<% _.each(errors, function(err) { %>
       div.alert.alert-danger.alert-dismissable
@@ -102,11 +102,11 @@ block body
       |<% }); %>
     div.input-group
       select.form-control(name='status')
-        option(value='') -- choose --
+        option(value='') -- 选择 --
         for status in data.statuses
           option(value='#{status._id}') #{status.name}
       div.input-group-btn
-        button.btn.btn-default.btn-add Change
+        button.btn.btn-default.btn-add 修改
 
   script(type='text/template', id='tmpl-status-collection')
     div#status-items.status-items
@@ -120,15 +120,15 @@ block body
     div.clearfix
 
   script(type='text/template', id='tmpl-notes-new')
-    legend Notes
+    legend 备注
     div.alerts
       |<% _.each(errors, function(err) { %>
       div.alert.alert-danger.alert-dismissable
         button.close(type='button', data-dismiss='alert') &times;
         |<%- err %>
       |<% }); %>
-    textarea.form-control(rows='3', name='data', placeholder='enter notes')
-    button.btn.btn-default.btn-block.btn-add Add New Note
+    textarea.form-control(rows='3', name='data', placeholder='输入备注')
+    button.btn.btn-default.btn-block.btn-add 添加新备注
 
   script(type='text/template', id='tmpl-notes-collection')
     div#notes-items.notes-items
@@ -142,11 +142,11 @@ block body
     div.clearfix
 
   script(type='text/template', id='tmpl-notes-none')
-    div.note.text-muted no notes found
+    div.note.text-muted 当前没有备注
 
   script(type='text/template', id='tmpl-delete')
     fieldset
-      legend Danger Zone
+      legend 危险区域
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -155,10 +155,10 @@ block body
         |<% }); %>
       div.control-group
         span.help-block
-          span.label.label-danger If you do this, it cannot be undone.
+          span.label.label-danger 请确保你要进行此操作，此操作不能还原。
           |&nbsp;
-          span.text-muted You may also create orphaned document relationships too.
+          span.text-muted 你也可能导致孤立文档关系出现（即资源与其他资源没有任何关联）
       div.control-group
-        button.btn.btn-danger.btn-delete(type='button') Delete
+        button.btn.btn-danger.btn-delete(type='button') 删除
 
   script(type='text/template', id='data-record') !{data.record}

@@ -1,7 +1,7 @@
 extends ../../../layouts/admin
 
 block head
-  title Admin Groups / Details
+  title 管理员分组 / 详细
   link(rel='stylesheet', href='/views/admin/admin-groups/details.min.css?#{cacheBreaker}')
 
 block feet
@@ -18,12 +18,12 @@ block body
   script(type='text/template', id='tmpl-header')
     div.page-header
       h1
-        a(href='/admin/admin-groups/') Admin Groups
+        a(href='/admin/admin-groups/') 管理员分组
         |  / <%- name %>
 
   script(type='text/template', id='tmpl-details')
     fieldset
-      legend Details
+      legend 详细
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -33,18 +33,18 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.name ? "has-error" : "" %>')
-        label.control-label Name:
+        label.control-label 名称:
         input.form-control(type='text', name='name', value!='<%= name %>')
         span.help-block <%- errfor.name %>
       div.control-group
-        button.btn.btn-primary.btn-update(type='button') Update
+        button.btn.btn-primary.btn-update(type='button') 更新
 
   script(type='text/template', id='tmpl-permissions')
     fieldset
-      legend Permissions
+      legend 权限
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -54,43 +54,43 @@ block body
         |<% if (success) { %>
         div.alert.alert-info.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;
-          | Changes have been saved.
+          | 修改已保存。
         |<% } %>
       div.control-group(class!='<%- errfor.newPermission ? "has-error" : "" %>')
-        label.control-label New Setting:
+        label.control-label 新设置:
         div.input-group
-          input.form-control(name='newPermission', type='text', placeholder='enter a name')
+          input.form-control(name='newPermission', type='text', placeholder='输入名称')
           div.input-group-btn
-            button.btn.btn-success.btn-add(type='button') Add
+            button.btn.btn-success.btn-add(type='button') 添加
         span.help-block <%- errfor.newUsername %>
       div.control-group(class!='<%- errfor.newPermission ? "has-error" : "" %>')
-        label.control-label Settings:
+        label.control-label 设置:
         div.permissions
           |<% _.each(permissions, function(permission) { %>
           div.input-group
             input.form-control(disabled=true, value!='<%= permission.name %>')
             div.input-group-btn
               |<% if (permission.permit) { %>
-              button.btn.btn-default.btn-allow(type='button', disabled) Allow
-              button.btn.btn-default.btn-deny(type='button') Deny
+              button.btn.btn-default.btn-allow(type='button', disabled) 允许
+              button.btn.btn-default.btn-deny(type='button') 禁止
               |<% } else { %>
-              button.btn.btn-default.btn-allow(type='button') Allow
-              button.btn.btn-default.btn-deny(type='button', disabled) Deny
+              button.btn.btn-default.btn-allow(type='button') 允许
+              button.btn.btn-default.btn-deny(type='button', disabled) 禁止
               |<% } %>
               button.btn.btn-danger.btn-delete(type='button')
                 i.fa.fa-trash-o.fa-inverse
           |<% }); %>
           |<% if (permissions.length == 0) { %>
           span.badge
-            | no permissions defined
+            | 没找到权限定义
           |<% } %>
           span.help-block <%- errfor.settings %>
       div.control-group
-        button.btn.btn-primary.btn-set(type='button') Save Settings
+        button.btn.btn-primary.btn-set(type='button') 保存设置
 
   script(type='text/template', id='tmpl-delete')
     fieldset
-      legend Danger Zone
+      legend 危险区域
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -99,10 +99,10 @@ block body
         |<% }); %>
       div.control-group
         span.help-block
-          span.label.label-danger If you do this, it cannot be undone.
+          span.label.label-danger 请确保你要进行此操作，此操作不能还原。
           |&nbsp;
-          span.text-muted You may also create orphaned document relationships too.
+          span.text-muted 你也可能导致孤立文档关系出现（即资源与其他资源没有任何关联）
       div.control-group
-        button.btn.btn-danger.btn-delete(type='button') Delete
+        button.btn.btn-danger.btn-delete(type='button') 删除
 
   script(type='text/template', id='data-record') !{data.record}

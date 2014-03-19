@@ -126,11 +126,11 @@ exports.update = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.first) {
-      workflow.outcome.errfor.first = 'required';
+      workflow.outcome.errfor.first = '必须的';
     }
 
     if (!req.body.last) {
-      workflow.outcome.errfor.last = 'required';
+      workflow.outcome.errfor.last = '必须的';
     }
 
     if (workflow.hasErrors()) {
@@ -184,7 +184,7 @@ exports.groups = function(req, res, next){
     }
 
     if (!req.body.groups) {
-      workflow.outcome.errfor.groups = 'required';
+      workflow.outcome.errfor.groups = '必须的';
       return workflow.emit('response');
     }
 
@@ -225,7 +225,7 @@ exports.permissions = function(req, res, next){
     }
 
     if (!req.body.permissions) {
-      workflow.outcome.errfor.permissions = 'required';
+      workflow.outcome.errfor.permissions = '必须的';
       return workflow.emit('response');
     }
 
@@ -266,7 +266,7 @@ exports.linkUser = function(req, res, next){
     }
 
     if (!req.body.newUsername) {
-      workflow.outcome.errfor.newUsername = 'required';
+      workflow.outcome.errfor.newUsername = '必须的';
       return workflow.emit('response');
     }
 

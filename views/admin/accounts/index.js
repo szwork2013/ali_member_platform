@@ -166,11 +166,11 @@ exports.update = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body.first) {
-      workflow.outcome.errfor.first = 'required';
+      workflow.outcome.errfor.first = '必须的';
     }
 
     if (!req.body.last) {
-      workflow.outcome.errfor.last = 'required';
+      workflow.outcome.errfor.last = '必须的';
     }
 
     if (workflow.hasErrors()) {
@@ -224,7 +224,7 @@ exports.linkUser = function(req, res, next){
     }
 
     if (!req.body.newUsername) {
-      workflow.outcome.errfor.newUsername = 'required';
+      workflow.outcome.errfor.newUsername = '必须的';
       return workflow.emit('response');
     }
 
