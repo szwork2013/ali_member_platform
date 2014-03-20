@@ -68,7 +68,7 @@ exports.create = function(req, res, next){
     }
 
     if (!/^[a-zA-Z0-9\_]+$/.test(req.body.pivot)) {
-      workflow.outcome.errors.push('只允许使用英文字母、数字和_');
+      workflow.outcome.errors.push('前缀只允许使用英文字母、数字和_');
       return workflow.emit('response');
     }
 
@@ -86,6 +86,7 @@ exports.create = function(req, res, next){
         return workflow.emit('exception', err);
       }
 
+      console.log('Cat search: ' + req.app.utility.slugify(req.body.pivot +' '+ req.body.name));
       if (category) {
         workflow.outcome.errors.push('此前缀+分类已存在。');
         return workflow.emit('response');

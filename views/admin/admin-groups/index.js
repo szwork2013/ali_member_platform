@@ -63,6 +63,11 @@ exports.create = function(req, res, next){
       return workflow.emit('response');
     }
 
+    if (!/^[a-zA-Z0-9\_]+$/.test(req.body.name)) {
+      workflow.outcome.errors.push('只允许使用英文字母、数字和_');
+      return workflow.emit('response');
+    }
+
     workflow.emit('duplicateAdminGroupCheck');
   });
 
