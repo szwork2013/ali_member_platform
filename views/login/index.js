@@ -98,7 +98,7 @@ exports.login = function(req, res){
             return workflow.emit('exception', err);
           }
 
-          workflow.outcome.errors.push('Username and password combination not found or your account is inactive.');
+          workflow.outcome.errors.push('用户名或密码不对，或者你的帐号已被禁用。');
           return workflow.emit('response');
         });
       }

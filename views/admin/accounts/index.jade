@@ -64,6 +64,7 @@ block body
             span.pull-right.timeago.muted 
           th 电话号码
           th 创建时间
+          th 关联产品
           th 累计金额
           th 会员等级
           th 阿狸币
@@ -72,13 +73,15 @@ block body
   script(type='text/template', id='tmpl-results-row')
     td
       input.btn.btn-default.btn-sm.btn-details(type='button', value='编辑')
-    td.stretch
-      span.badge.badge-clear.timeago.pull-right(data-age='y') <%= userCreated.time %>
+    //td.stretch
+    td.nowrap
+      //span.badge.badge-clear.timeago.pull-right(data-age='y') <%= userCreated.time %>
       |<%- name.full ? name.full : '*'+user.name %>
     td.nowrap <%- phone %>
     td.nowrap
       div <%- status.name %>
       div.timeago.muted <%= status.userCreated.time %>
+    td.nowrap <%= products.length %>
     td.nowrap <%= integral.consumeMoney %>
     td.nowrap <%= integral.points ? integral.levelName+'(lv'+ integral.level +')': '' %>
     td.nowrap <%= integral.coin %>

@@ -54,12 +54,12 @@ exports.create = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not create admin groups.');
+      workflow.outcome.errors.push('你没有创建管理员分组的权限。');
       return workflow.emit('response');
     }
 
     if (!req.body.name) {
-      workflow.outcome.errors.push('Please enter a name.');
+      workflow.outcome.errors.push('请输入一个名称。');
       return workflow.emit('response');
     }
 
@@ -73,7 +73,7 @@ exports.create = function(req, res, next){
       }
 
       if (adminGroup) {
-        workflow.outcome.errors.push('That group already exists.');
+        workflow.outcome.errors.push('该分组已存在。');
         return workflow.emit('response');
       }
 
@@ -105,7 +105,7 @@ exports.update = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not update admin groups.');
+      workflow.outcome.errors.push('你没有修改管理员分组的权限。');
       return workflow.emit('response');
     }
 
@@ -140,7 +140,7 @@ exports.permissions = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not change the permissions of admin groups.');
+      workflow.outcome.errors.push('你没有权限修改管理员分组的权限。');
       return workflow.emit('response');
     }
 
@@ -175,7 +175,7 @@ exports.delete = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not delete admin groups.');
+      workflow.outcome.errors.push('你没有删除管理员分组的权限。');
       return workflow.emit('response');
     }
 

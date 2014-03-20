@@ -85,7 +85,7 @@ exports.create = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.body['name.full']) {
-      workflow.outcome.errors.push('Please enter a name.');
+      workflow.outcome.errors.push('请输入姓名。');
       return workflow.emit('response');
     }
 
@@ -179,7 +179,7 @@ exports.groups = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not change the group memberships of admins.');
+      workflow.outcome.errors.push('你没有修改管理员所属分组的权限。');
       return workflow.emit('response');
     }
 
@@ -220,7 +220,7 @@ exports.permissions = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not change the permissions of admins.');
+      workflow.outcome.errors.push('你没有权限来修改管理员的权限。');
       return workflow.emit('response');
     }
 
@@ -261,7 +261,7 @@ exports.linkUser = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not link admins to users.');
+      workflow.outcome.errors.push('你没有关联管理员到用户的权限。');
       return workflow.emit('response');
     }
 
@@ -280,11 +280,11 @@ exports.linkUser = function(req, res, next){
       }
 
       if (!user) {
-        workflow.outcome.errors.push('User not found.');
+        workflow.outcome.errors.push('未找到用户。');
         return workflow.emit('response');
       }
       else if (user.roles && user.roles.admin && user.roles.admin !== req.params.id) {
-        workflow.outcome.errors.push('User is already linked to a different admin.');
+        workflow.outcome.errors.push('用户已经关联到另一个管理员。');
         return workflow.emit('response');
       }
 
@@ -300,7 +300,7 @@ exports.linkUser = function(req, res, next){
       }
 
       if (admin) {
-        workflow.outcome.errors.push('Another admin is already linked to that user.');
+        workflow.outcome.errors.push('另一个管理员已经关联到此用户。');
         return workflow.emit('response');
       }
 
@@ -342,12 +342,12 @@ exports.unlinkUser = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not unlink users from admins.');
+      workflow.outcome.errors.push('你没有取消用户与管理员关联的权限。');
       return workflow.emit('response');
     }
 
     if (req.user.roles.admin._id === req.params.id) {
-      workflow.outcome.errors.push('You may not unlink yourself from admin.');
+      workflow.outcome.errors.push('你不能将你自己与管理员取消关联。');
       return workflow.emit('response');
     }
 
@@ -361,7 +361,7 @@ exports.unlinkUser = function(req, res, next){
       }
 
       if (!admin) {
-        workflow.outcome.errors.push('Administrator was not found.');
+        workflow.outcome.errors.push('未找到管理员。');
         return workflow.emit('response');
       }
 
@@ -391,7 +391,7 @@ exports.unlinkUser = function(req, res, next){
       }
 
       if (!user) {
-        workflow.outcome.errors.push('User was not found.');
+        workflow.outcome.errors.push('用户未找到。');
         return workflow.emit('response');
       }
 
@@ -414,12 +414,12 @@ exports.delete = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not delete admins.');
+      workflow.outcome.errors.push('你没有权限删除管理员。');
       return workflow.emit('response');
     }
 
     if (req.user.roles.admin._id === req.params.id) {
-      workflow.outcome.errors.push('You may not delete your own admin record.');
+      workflow.outcome.errors.push('你不能将你自己的管理员帐号删除。');
       return workflow.emit('response');
     }
 

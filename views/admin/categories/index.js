@@ -58,17 +58,22 @@ exports.create = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not create categories.');
+      workflow.outcome.errors.push('你没有创建分类的权限。');
       return workflow.emit('response');
     }
 
     if (!req.body.pivot) {
-      workflow.outcome.errors.push('A name is required.');
+      workflow.outcome.errors.push('前缀是必须的。');
+      return workflow.emit('response');
+    }
+
+    if (!/^[a-zA-Z0-9\_]+$/.test(req.body.pivot)) {
+      workflow.outcome.errors.push('只允许使用英文字母、数字和_');
       return workflow.emit('response');
     }
 
     if (!req.body.name) {
-      workflow.outcome.errors.push('A name is required.');
+      workflow.outcome.errors.push('名称是必须的。');
       return workflow.emit('response');
     }
 
@@ -82,7 +87,7 @@ exports.create = function(req, res, next){
       }
 
       if (category) {
-        workflow.outcome.errors.push('That category+pivot is already taken.');
+        workflow.outcome.errors.push('此前缀+分类已存在。');
         return workflow.emit('response');
       }
 
@@ -115,7 +120,7 @@ exports.update = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not update categories.');
+      workflow.outcome.errors.push('你没有修改分类的权限。');
       return workflow.emit('response');
     }
 
@@ -156,7 +161,7 @@ exports.delete = function(req, res, next){
 
   workflow.on('validate', function() {
     if (!req.user.roles.admin.isMemberOf('root')) {
-      workflow.outcome.errors.push('You may not delete categories.');
+      workflow.outcome.errors.push('你没有删除分类的权限。');
       return workflow.emit('response');
     }
 

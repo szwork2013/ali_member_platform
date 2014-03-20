@@ -19,6 +19,7 @@
         userCreated: {}
       },
       userCreated: {},
+      products: [],
       integral: {},
       user:{}
     },

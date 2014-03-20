@@ -171,7 +171,7 @@ exports.resendVerification = function(req, res, next){
           workflow.emit('response');
         },
         onError: function(err) {
-          workflow.outcome.errors.push('Error Sending: '+ err);
+          workflow.outcome.errors.push('发送出错: '+ err);
           workflow.emit('response');
         }
       });

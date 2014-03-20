@@ -32,7 +32,7 @@ exports.find = function(req, res, next){
 
     req.app.db.models.Account.pagedFind({
       filters: filters,
-      keys: 'name company phone zip userCreated status integral user',
+      keys: 'name company phone zip userCreated status products integral user',
       limit: req.query.limit,
       page: req.query.page,
       sort: req.query.sort
