@@ -21,7 +21,7 @@ block body
     div.page-header
       form.form-inline.pull-right
         div.input-group
-          input.form-control(name='name', type='text', placeholder='输入名称（英文名）', value!='<%= name %>')
+          input.form-control(name='name', type='text', placeholder='输入名称', value!='<%= name %>')
           button.btn.btn-primary.btn-add(type='button') 添加分组
       h1 管理员分组
 
@@ -51,7 +51,7 @@ block body
       thead
         tr
           th
-          th.stretch 名称
+          th.noWrap 名称
           th id
       tbody#results-rows
 
