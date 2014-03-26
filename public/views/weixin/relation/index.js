@@ -26,11 +26,12 @@
       'click .btn-login': 'login'
     },
     initialize: function() {
-      this.model = new app.Login();
+      this.model = new app.Login({localOpenid:$('#tmpl-login-localOpenid').html(),otherOpenid:$('#tmpl-login-otherOpenid').html()});
       this.listenTo(this.model, 'sync', this.render);
       this.render();
     },
     render: function() {
+    	alert(JSON.stringify( this.model.attributes ));
       this.$el.html(this.template( this.model.attributes ));
       this.$el.find('[name="username"]').focus();
     },
@@ -48,9 +49,9 @@
 
       this.model.save({
         username: this.$el.find('[name="username"]').val(),
-        password: this.$el.find('[name="password"]').val()
-        otherOpenid: this.$el.find('[name="otherOpenid"]').val()
-        localOpenid: this.$el.find('[name="localOpenid"]').val()
+        password: this.$el.find('[name="password"]').val(),
+        otherOpenid: this.$el.find('[name="otherOpenid"]').val(),
+        localOpenid: this.$el.find('[name="localOpenid"]').val(),
       },{
         success: function(model, response) {
           if (response.success) {

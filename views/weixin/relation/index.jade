@@ -48,7 +48,8 @@ block body
               a.btn.btn-info(href='/login/ali_discuz/')
                 i.fa.fa-al_discuz-square.fa-lg
                 |  阿狸官网
-
+  script(type='text/template', id='tmpl-login-localOpenid') !{localOpenid}
+  script(type='text/template', id='tmpl-login-otherOpenid') !{otherOpenid}
   script(type='text/template', id='tmpl-login')
     form
       div.alerts
@@ -63,10 +64,6 @@ block body
         label.control-label 用户名或Email:
         input.form-control(type='text', name='username', value!='<%= username %>')
         span.help-block <%- errfor.username %>
-      div.form-group(class!='<%- errfor.username ? "has-error" : "" %>')
-        label.control-label 用户名或Email:
-        input.form-control(type='text', name='username', value!='<%= username %>')
-        span.help-block <%- errfor.username %>
       div.form-group(class!='<%- errfor.password ? "has-error" : "" %>')
         label.control-label 密码:
         input.form-control(type='password', name='password', value!='<%= password %>')
@@ -75,3 +72,4 @@ block body
         button.btn.btn-primary.btn-login(type='button') 登录
         |&nbsp;
         a.btn.btn-link(href='/login/forgot/') 忘记密码？
+        
