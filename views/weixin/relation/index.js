@@ -21,8 +21,8 @@ exports.relation_init = function(req, res ,next){
 	//用户点击url进来,首先获取本地openid
 	  workflow.on('getLocalOpenid', function() {
 		  var data={};
-		  data.openid = 'o9HG9uCCZN0RM7tjeDM47lbllj9U';
-		  return workflow.emit('checkLocalOpenid',data);
+//		  data.openid = 'o9HG9uCCZN0RM7tjeDM47lbllj9U';
+//		  return workflow.emit('checkLocalOpenid',data);
 		  // 此处将会有一个get方式传回来的code
 		  if(req.query.code && req.query.code!=''){
 			  weixin.webGrant(req.query.code ,function(err ,data){
@@ -217,8 +217,7 @@ exports.relation_local = function(req , res ,next){
 	          workflow.outcome.errors.push('用户名或密码不对，或者你的帐号已被禁用。');
 	          return workflow.emit('response');
 	        });
-	      }
-	      else {
+	      }else {
 	    	  //登录正确
 	    	//接受两个openid 同时添加记录
 	    	 if(!user.weixin || !('openid' in user.weixin)){
@@ -242,8 +241,7 @@ exports.relation_local = function(req , res ,next){
 			var fieldsToSet = {
 					'weixin.openid':user.weixin.openid,
 			};
-			console.log(fieldsToSet);
-	    	req.app.db.models.Account.findByIdAndUpdate( user._id,fieldsToSet ,function(err ,queryObj){
+	    	req.app.db.models.User.findByIdAndUpdate( user._id ,fieldsToSet ,function(err ,queryObj){
 				if(err){
 					return next(err);
 				}
@@ -255,9 +253,10 @@ exports.relation_local = function(req , res ,next){
 				            return next(err);
 				          }
 			              req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '关联微信openid:"' + otherOpenid + '"登录成功');
-//				          res.redirect(getReturnUrl(req));
-				          workflow.emit('response');
+				         return res.redirect(getReturnUrl(req));
 				        });
+				}else{
+					res.end('end');
 				}
 			});
 			
