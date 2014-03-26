@@ -139,7 +139,7 @@ exports.relation_init = function(req, res ,next){
 
 exports.relation_local = function(req , res ,next){
 	var workflow = req.app.utility.workflow(req, res);
-	
+	  console.log(req.body);
 	  workflow.on('validate', function() {
 	    if (!req.body.username) {
 	      workflow.outcome.errfor.username = 'required';
