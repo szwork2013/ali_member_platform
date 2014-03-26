@@ -97,8 +97,7 @@ exports = module.exports = function(app, passport) {
   app.get('/weixin/',require('./views/weixin/index').init);
   
   app.get('/weixin/relation/',require('./views/weixin/relation/index').relation_init);
-//  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_init);
-//  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_local);
+  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_local);
   
 //  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
 //  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
