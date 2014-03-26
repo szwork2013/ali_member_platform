@@ -20,7 +20,7 @@ var getReturnUrl = function(req) {
  */
 exports.init = function(req, res ,next){
 	 if (req.isAuthenticated()) {
-		 res.redirect(getReturnUrl(req));
+		 return res.redirect(getReturnUrl(req));
 	 }
 	//判断是否有外来openid
 	if(req.query.openid && req.query.openid!=''){
@@ -47,7 +47,7 @@ exports.init = function(req, res ,next){
 		//没有第三方 则是页面登录 如果存在当前openid 直接登录了
 		
 	}
-	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+	
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
 	 res.render('weixin/index',{
