@@ -21,8 +21,8 @@ exports.relation_init = function(req, res ,next){
 	//用户点击url进来,首先获取本地openid
 	  workflow.on('getLocalOpenid', function() {
 		  var data={};
-//		  data.openid = 'o9HG9uCCZN0RM7tjeDM47lbllj9U';
-//		  return workflow.emit('checkLocalOpenid',data);
+		  data.openid = 'o9HG9uCCZN0RM7tjeDM47lbllj9U';
+		  return workflow.emit('checkLocalOpenid',data);
 		  // 此处将会有一个get方式传回来的code
 		  if(req.query.code && req.query.code!=''){
 			  weixin.webGrant(req.query.code ,function(err ,data){
@@ -145,7 +145,7 @@ exports.relation_init = function(req, res ,next){
 
 exports.relation_local = function(req , res ,next){
 	var workflow = req.app.utility.workflow(req, res);
-	  console.log(req.body);
+	 
 	  workflow.on('validate', function() {
 	    if (!req.body.username) {
 	      workflow.outcome.errfor.username = 'required';
@@ -255,8 +255,6 @@ exports.relation_local = function(req , res ,next){
 			              req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '关联微信openid:"' + otherOpenid + '"登录成功');
 				         return res.redirect(getReturnUrl(req));
 				        });
-				}else{
-					res.end('end');
 				}
 			});
 			
