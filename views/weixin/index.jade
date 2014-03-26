@@ -10,7 +10,7 @@ block body
  div#weixin
   div(id='tmpl-router')
     p #{error}
-    a(href="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxcheckurl?uin=78860225&sid=biNDXcAQPkqf9F%2FS&skey=%40crypt_dbe9ffd3_1de2199d824e42b90cac6abb63963a6a&deviceid=e425684203370064&opcode=2&requrl=https%3A%2F%2Fopen.weixin.qq.com%2Fconnect%2Foauth2%2Fauthorize%3Fappid%3Dwxc0201826fb70f56a%26redirect_uri%3Dhttp%253A%252F%252Fbeta.alithefox.cn%252Fweixin%252Frelation%252F%26response_type%3Dcode%26scope%3Dsnsapi_userinfo%26state%3Ddreamcastle%23wechat_redirect") 我已有帐号,我要关联 <br />
+    a(href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc0201826fb70f56a&redirect_uri=http%3A%2F%2Fbeta.alithefox.cn%2Fweixin%2Frelation%2F&response_type=code&scope=snsapi_base&state=dreamcastle#wechat_redirect") 我已有帐号,我要关联 <br />
     a(href='<%=  signupUrl %>') 我没有有帐号,我要注册
  
  script(type='text/template', id='data-relationUrl') !{relationUrl}
