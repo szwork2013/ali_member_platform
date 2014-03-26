@@ -44,6 +44,7 @@ node_modules/*
 bower_components
 !node_modules/passport-ali_discuz
 !node_modules/member_integral
+!node_modules/weixin
 # configuration to ignore
 config.js
 
