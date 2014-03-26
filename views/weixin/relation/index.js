@@ -130,7 +130,10 @@ exports.relation_init = function(req, res ,next){
 	  });
 	  workflow.on('relationBothOpenid', function(user,localOpenid,otherOpenid) {
 		  console.log('跳转到登录页面');
-		  res.render('weixin/relation/index');
+		  res.render('weixin/relation/index',{
+			  otherOpenid:otherOpenid,
+			  localOpenid:localOpenid,
+		  });
 	  });
 	  
 	  workflow.emit('getLocalOpenid');
@@ -230,16 +233,19 @@ exports.relation_local = function(req , res ,next){
 	    		user.weixin.openid.push(req.body.otherOpenid);
 	    	}
 	    	//添加本地openid
-	    	user.weixin.openid.push(req.body.localOpenid);
-	    	
+	    	if(req.body.localOpenid){
+	    		user.weixin.openid.push(req.body.localOpenid);
+	    	}
 	    	//更新openid
 			var fieldsToSet = {
 					'weixin.openid':user.weixin.openid,
 			};
+			console.log(fieldsToSet);
 	    	req.app.db.models.Account.findByIdAndUpdate( user._id,fieldsToSet ,function(err ,queryObj){
 				if(err){
 					return next(err);
 				}
+				console.log(queryObj);
 				//添加成功,直接登录
 				if(queryObj){
 					req.login(user, function(err) {

@@ -11,7 +11,9 @@
       errors: [],
       errfor: {},
       username: '',
-      password: ''
+      password: '',
+      otherOpenid:'',
+      localOpenid:'',
     }
   });
 
@@ -47,6 +49,8 @@
       this.model.save({
         username: this.$el.find('[name="username"]').val(),
         password: this.$el.find('[name="password"]').val()
+        otherOpenid: this.$el.find('[name="otherOpenid"]').val()
+        localOpenid: this.$el.find('[name="localOpenid"]').val()
       },{
         success: function(model, response) {
           if (response.success) {
