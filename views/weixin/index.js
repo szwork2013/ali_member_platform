@@ -42,9 +42,9 @@ exports.init = function(req, res ,next){
 		//没有第三方 则是页面登录 如果存在当前openid 直接登录了
 		
 	}
-	
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
+	console.log(weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/relation/',state:'dreamcastle'}));
 	 res.render('weixin/index',{
 		 error : req.query.error,
 		 	//	生成可以获得code的url
