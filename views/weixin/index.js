@@ -1,7 +1,7 @@
 'use strict'
 exports.wx = function(req ,res){
 	console.log(req.query);
-	res.end('check end');
+	res.end(req.query.echostr);
 };
 
 var getReturnUrl = function(req) {
