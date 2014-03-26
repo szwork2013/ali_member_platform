@@ -19,6 +19,7 @@ var getReturnUrl = function(req) {
  * 如果用户还没有帐号,则让用户注册,注册后同时关联
  */
 exports.init = function(req, res ,next){
+	res.end('aa');
 	 if (req.isAuthenticated()) {
 		 res.redirect(getReturnUrl(req));
 	 }
