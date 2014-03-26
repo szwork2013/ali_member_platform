@@ -23,9 +23,11 @@ exports.relation_init = function(req, res ,next){
 		  // 此处将会有一个get方式传回来的code
 		  if(req.query.code && req.query.code!=''){
 			  weixin.webGrant(req.query.code ,function(err ,data){
+				  console.log('err:'+err);
 				  if(err){
 					return next(err);
 				  }
+				  console.log('data:'+data);
 				  if(data && data.openid){
 					  //判断是否有外来openid,有就直接关联否则直接登录
 					  workflow.emit('checkLocalOpenid',data);
