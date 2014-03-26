@@ -27,7 +27,7 @@ exports.relation_init = function(req, res ,next){
 				  if(err){
 					return next(err);
 				  }
-				  console.log('data:'+data);
+				  console.log('data:'+data.openid);
 				  if(data && data.openid){
 					  //判断是否有外来openid,有就直接关联否则直接登录
 					  workflow.emit('checkLocalOpenid',data);
