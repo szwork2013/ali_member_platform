@@ -128,7 +128,10 @@ exports.relation_init = function(req, res ,next){
 				}
 			});
 	  });
-	  
+	  workflow.on('relationBothOpenid', function(user,localOpenid,otherOpenid) {
+		  console.log('跳转到登录页面');
+		  res.end('end');
+	  });
 	  
 	  workflow.emit('getLocalOpenid');
 };
