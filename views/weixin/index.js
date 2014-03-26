@@ -49,7 +49,7 @@ exports.init = function(req, res ,next){
 	}
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
-	console.log(weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/relation/',state:'dreamcastle'}));
+	console.log(weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/relation/?openid='+req.query.openid,state:'dreamcastle'}));
 	 res.render('weixin/index',{
 		 error : req.query.error,
 		 	//	生成可以获得code的url
