@@ -1,7 +1,7 @@
 'use strict'
 exports.wx = function(req ,res){
 	console.log(req.query);
-	res.end(req.query.echostr);
+	res.end();
 };
 
 var getReturnUrl = function(req) {
@@ -49,12 +49,10 @@ exports.init = function(req, res ,next){
 	}
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
-	var url = weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/relation/',state:'dreamcastle'});
-	console.log(url);
 	 res.render('weixin/index',{
 		 error : req.query.error,
 		 	//	生成可以获得code的url
-		 relationUrl: url,
+		 relationUrl: weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/relation/?openid='+req.query.openid,state:'dreamcastle'}),
 		 signupUrl: weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/signup/?openid='+req.query.openid,state:'dreamcastle'}),
 	 });
 	
