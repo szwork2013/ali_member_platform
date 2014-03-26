@@ -216,7 +216,12 @@ exports.relation_local = function(req , res ,next){
 	      else {
 	    	  //登录正确
 	    	//接受两个openid 同时添加记录
-	    	 var openidLength = user.weixin.openid.length;
+	    	 if(!user.weixin || !('openid' in user.weixin)){
+	    		 user.weixin = {};
+	    		 user.weixin.openid = new Array();
+	    	 }
+    		 var openidLength = user.weixin.openid.length;
+	    	 
 	    	 if(openidLength < 1){
 	    		 user.weixin.openid = new Array();
 	    	 }
