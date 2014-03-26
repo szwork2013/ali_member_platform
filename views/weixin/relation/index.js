@@ -17,7 +17,7 @@ var getReturnUrl = function(req) {
 exports.relation_init = function(req, res ,next){
 	 var workflow = req.app.utility.workflow(req, res);
 	 var weixin = require('weixin');
-	 
+	 console.log(req.query);
 	//用户点击url进来,首先获取本地openid
 	  workflow.on('getLocalOpenid', function() {
 		  // 此处将会有一个get方式传回来的code
