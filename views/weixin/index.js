@@ -19,7 +19,6 @@ var getReturnUrl = function(req) {
  * 如果用户还没有帐号,则让用户注册,注册后同时关联
  */
 exports.init = function(req, res ,next){
-	res.end('aa');
 	 if (req.isAuthenticated()) {
 		 res.redirect(getReturnUrl(req));
 	 }
@@ -48,6 +47,7 @@ exports.init = function(req, res ,next){
 		//没有第三方 则是页面登录 如果存在当前openid 直接登录了
 		
 	}
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
 	 res.render('weixin/index',{
