@@ -59,7 +59,7 @@ block body
         |<% }); %>
       div.form-group(class!='<%- errfor.username ? "has-error" : "" %>')
         label.control-label 用户名或Email:
-        input.form-control(type='text', n ame='username', value!='<%= username %>')
+        input.form-control(type='text', name='username', value!='<%= username %>')
         span.help-block <%- errfor.username %>
       div.form-group(class!='<%- errfor.password ? "has-error" : "" %>')
         label.control-label 密码:
