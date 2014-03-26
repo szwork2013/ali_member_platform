@@ -17,7 +17,7 @@ var getReturnUrl = function(req) {
 exports.relation_init = function(req, res ,next){
 	 var workflow = req.app.utility.workflow(req, res);
 	 var weixin = require('weixin');
-	 console.log(req.query);
+
 	//用户点击url进来,首先获取本地openid
 	  workflow.on('getLocalOpenid', function() {
 		  // 此处将会有一个get方式传回来的code
@@ -56,6 +56,7 @@ exports.relation_init = function(req, res ,next){
 	  
 	  //检测openid的情况
 	  workflow.on('checkLocalOpenid', function(data) {
+		  console.log(data.openid);
 		  var localOpenid = data.openid;//dreamcastle 的openid
 		  var otherOpenid = req.query.openid;//第三方来源的openid 不一定有
 		  //查询本地openid是否已经关联的 , 没有的话 需要输入用户帐号密码同时关联两个 否则只关联一个
