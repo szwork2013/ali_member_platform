@@ -1,4 +1,9 @@
 'use strict'
+exports.wx = function(req ,res){
+	console.log(req.query);
+	res.end('check end');
+};
+
 var getReturnUrl = function(req) {
   var returnUrl = req.user.defaultReturnUrl();
   if (req.session.returnUrl) {

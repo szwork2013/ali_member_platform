@@ -93,7 +93,7 @@ exports = module.exports = function(app, passport) {
   app.get('/login/qq/callback/', require('./views/login/index').loginQq);
   
   //weixin
-  app.get('/wx/',require('./views/weixin/index').wx_check);
+  app.get('/wx/',require('./views/weixin/index').wx);
   app.get('/weixin/',require('./views/weixin/index').init);
   
   app.get('/weixin/relation/',require('./views/weixin/relation/index').relation_init);
