@@ -97,10 +97,11 @@ exports = module.exports = function(app, passport) {
   app.get('/weixin/',require('./views/weixin/index').init);
   
   app.get('/weixin/relation/',require('./views/weixin/relation/index').relation_init);
-  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_local)
+//  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_init);
+//  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_local);
   
-  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
-  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
+//  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
+//  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
   //微信 oauth login
 //  app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }));
 //  app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
