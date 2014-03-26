@@ -91,7 +91,22 @@ exports = module.exports = function(app, passport) {
   app.get('/login/weibo/callback/', require('./views/login/index').loginWeibo);
   app.get('/login/qq/', passport.authenticate('qq', { callbackURL: '/login/qq/callback/' }));
   app.get('/login/qq/callback/', require('./views/login/index').loginQq);
-
+  
+  //weixin
+  app.get('/weixin/',require('./views/weixin/index').init);
+  
+  app.get('/weixin/relation/',require('./views/weixin/relation/index').relation_init);
+  app.post('/weixin/relation/',require('./views/weixin/relation/index').relation_local)
+  
+  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
+  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
+  //微信 oauth login
+//  app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }));
+//  app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
+//  app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/', scope: ['user:email'] }));
+//  app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
+  
+  
   //admin
   app.all('/admin*', ensureAuthenticated);
   app.all('/admin*', ensureAdmin);

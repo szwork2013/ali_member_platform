@@ -1,0 +1,18 @@
+extends ../../layouts/default
+
+block head
+  title 欢迎
+
+
+block feet
+  script(src='/views/weixin/index.js?#{cacheBreaker}')
+block body
+ div#weixin
+  div(id='tmpl-router')
+    p #{error}
+    a(href='<%=  relationUrl %>') 我已有帐号,我要关联 <br />
+    a(href='<%=  signupUrl %>') 我没有有帐号,我要注册
+ 
+ script(type='text/template', id='data-relationUrl') !{relationUrl}
+ script(type='text/template', id='data-signupUrl') !{signupUrl}
+ script(type='text/template', id='data-error') !{error}

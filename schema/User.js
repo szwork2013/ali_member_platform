@@ -13,10 +13,11 @@ exports = module.exports = function(app, mongoose) {
     timeCreated: { type: Date, default: Date.now },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
+    weixin:{},
     twitter: {},
     github: {},
     facebook: {},
-    weibo: {},
+    weibo: [String],
     qq: {},
     ali_discuz:{},
     search: [String]
