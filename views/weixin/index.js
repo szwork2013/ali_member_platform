@@ -31,25 +31,21 @@ exports._init = function(req ,res ,next){
 	
 	console.log(req.query.render != '1' || req.query.render != 1);
 	
-	if(req.query.render != '1' || req.query.render != 1){
-		if(user_agent.indexOf('micromessenger') != '-1'){
-			console.log('微信浏览器')
-			
-			//跳转到微信页面然后返回当前页面 获取code
-			var weixin = require('weixin');
-			var url ="http://"+req.headers.host+req.url;
-			
-			if(url.indexOf('?') != '-1'){
-				url+='&render=1';
-			}else{
-				url+='?render=1';
-			}
-			console.log(weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}));
-			
-			return res.render('weixin/render',{
-				url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
-			});
+	if((req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){
+		console.log('微信浏览器')
+		
+		//跳转到微信页面然后返回当前页面 获取code
+		var weixin = require('weixin');
+		var url ='http://'+req.headers.host+req.url;
+		
+		if(url.indexOf('?') != '-1'){
+			url+='&render=1';
+		}else{
+			url+='?render=1';
 		}
+		return res.render('weixin/render',{
+			url:weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
+		});
 	}
 	else{
 		next();

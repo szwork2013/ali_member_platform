@@ -20,9 +20,9 @@
 	  },
 	  
 	  render:function(){
-		  alert(JSON.stringify(this.model.url));
-//		  this.$el.html(this.template( this.model.attributes ));
-		  window.location.href=this.model.url;
+		  this.$el.html(this.template( this.model.attributes ));
+		 var urlss = $('#data-render').html();
+		  window.location.href=urlss;
 	  },
   });
   $(document).ready(function() {
