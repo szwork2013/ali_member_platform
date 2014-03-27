@@ -30,8 +30,8 @@ exports._init = function(req ,res ,next){
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
 	console.log(req.query.render != '1' || req.query.render != 1);
-	
-	if((req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){
+//	&& user_agent.indexOf('micromessenger') != '-1'
+	if((req.query.render != '1' || req.query.render != 1) ){
 		console.log('微信浏览器')
 		
 		//跳转到微信页面然后返回当前页面 获取code
