@@ -32,27 +32,29 @@ exports._init = function(req ,res ,next){
 	
 	console.log(user_agent.indexOf('micromessenger') != '-1');
 	console.log(req.query.render == '1');
-	
-	if(user_agent.indexOf('micromessenger') != '-1' && req.query.render != 1){
-		console.log('微信浏览器')
-		//跳转到微信页面然后返回当前页面 获取code
-		
-		var url =req.headers.host+req.url;
-		
-		if(url.indexOf('?') != '-1'){
-			url+='&render=1';
-		}else{
-			url+='?render=1';
+	if(req.query.render != '1' || req.query.render != 1){
+		if(user_agent.indexOf('micromessenger') != '-1'){
+			console.log('微信浏览器')
+			//跳转到微信页面然后返回当前页面 获取code
+			
+			var url =req.headers.host+req.url;
+			
+			if(url.indexOf('?') != '-1'){
+				url+='&render=1';
+			}else{
+				url+='?render=1';
+			}
+			console.log(url);
+			if(req.query.render=='1'){
+				return next();
+			}
+			
+			return res.render('weixin/render',{
+				url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
+			});
 		}
-		console.log(url);
-		if(req.query.render=='1'){
-			return next();
-		}
-		
-		return res.render('weixin/render',{
-			url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
-		});
-	}else{
+	}
+	else{
 		next();
 	}
 	
@@ -60,6 +62,7 @@ exports._init = function(req ,res ,next){
 
 
 exports.a = function(req ,res){
+	console.log('aaaa page');
 	res.end('aaaa page');
 };
 
