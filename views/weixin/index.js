@@ -52,6 +52,8 @@ exports._init = function(req ,res ,next){
 		return res.render('weixin/render',{
 			url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
 		});
+	}else{
+		next();
 	}
 	
 };
