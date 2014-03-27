@@ -35,7 +35,9 @@ exports._init = function(req ,res ,next){
 		//跳转到微信页面然后返回当前页面 获取code
 		console.log(weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'}));
 		var url = weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'});
-		return res.redirect(url);
+		return res.render('weixin/render',{
+			url:url,
+		});
 	}
 	next();
 };

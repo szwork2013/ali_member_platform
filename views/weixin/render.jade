@@ -1,0 +1,14 @@
+extends ../../layouts/default
+
+block head
+  title render
+
+
+block feet
+  script(src='/views/weixin/render.js?#{cacheBreaker}')
+block body
+ div#render
+  div(id='tmpl-render')
+   p this is render
+ 
+ script(type='text/template', id='data-render') !{url}
