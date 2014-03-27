@@ -27,15 +27,18 @@ exports._init = function(req ,res ,next){
 	
 	//req.headers.host	主域名
 	//req.url	//后缀
+	var weixin = require('weixin');
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
 	if(user_agent.indexOf('micromessenger') != '-1'){
-		res.write('is wechat');
-	}else{
-		res.write('is\'t wechat');
+		console.log('微信浏览器')
+		//跳转到微信页面然后返回当前页面 获取code
+		console.log(weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'}));
+		var url = weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'});
+		res.redirect(url);
 	}
 //	var user_agent = req.headers.user-agent;
-	console.log(user_agent);
+	console.log(req.query);
 	res.end('end');
 };
 
