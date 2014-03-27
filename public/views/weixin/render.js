@@ -21,12 +21,12 @@
 	  
 	  render:function(){
 		  this.$el.html(this.template( this.model.attributes ));
+		  var wx_url = $('#data-render').html();
+		  alert(wx_url)
+		  location.href = wx_url;
 	  },
   });
   $(document).ready(function() {
 	  app.render = new app.RenderView();
-	  var wx_url = $('#data-render').html();
-	  alert(wx_url)
-	  location.href = wx_url;
   });
 }());
