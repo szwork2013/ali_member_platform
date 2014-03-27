@@ -37,7 +37,7 @@ exports._init = function(req ,res ,next){
 			
 			//跳转到微信页面然后返回当前页面 获取code
 			var weixin = require('weixin');
-			var url =req.headers.host+req.url;
+			var url ="http://"+req.headers.host+req.url;
 			
 			if(url.indexOf('?') != '-1'){
 				url+='&render=1';
