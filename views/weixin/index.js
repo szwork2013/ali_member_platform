@@ -1,17 +1,52 @@
 'use strict'
 exports.wx = function(req ,res){
 	console.log(req.query);
-	res.end();
+	res.end(req.query.echostr);
 };
 
-var getReturnUrl = function(req) {
-  var returnUrl = req.user.defaultReturnUrl();
-  if (req.session.returnUrl) {
-    returnUrl = req.session.returnUrl;
-    delete req.session.returnUrl;
-  }
-  return returnUrl;
+/**
+ * 用户进入
+ * 用户从分享或者朋友圈或者指定网址点击进入
+ * 1.如果分享的是第三方,则会有一个超链接连接到本站点进行验证然后登录关联等动作
+ * 2.如果是本站内容,用户进入的第一个页面就会自动登录/引导关联/
+ * 
+ * 关联过程
+ * 1.如果是第一次从微信公众号进来(包括分享页面),会获得会员平台的openid,此时引导关联帐号或者注册帐号(库里没有这个openid)
+ * 2.如果是已经关联过会员平台的openid,则使用openid直接登录然后关联第三方的openid(如果有的话)
+ * 
+ */
+
+
+//初始化
+exports._init = function(req ,res ,next){
+	//微信来源
+//	 'user-agent': 'Mozilla/5.0 (Linux; Android 4.4.2; LG-P880 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 MicroMessenger/5.2.380',
+	//普通来源
+//	'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20131029 Firefox/17.0',
+	//判断来源 user-agent 区分是从微信来的还是别的地方来的(是否含有 MicroMessenger) req.headers.user-agent
+	
+	//req.headers.host	主域名
+	//req.url	//后缀
+	var user_agent = req.headers['user-agent'].toLowerCase();
+	
+	if(user_agent.indexOf('micromessenger') != '-1'){
+		res.write('是微信浏览器访问');
+	}else{
+		res.write('不是微信浏览器访问');
+	}
+//	var user_agent = req.headers.user-agent;
+	console.log(user_agent);
+	res.end('end');
 };
+
+
+
+
+
+
+
+
+
 /**
  * 登录
  * 用户从微信访问页面(无论是不是关注用户),都会通过当前对应的appid和密匙获得用户对此公众号的openid
@@ -50,7 +85,6 @@ exports.init = function(req, res ,next){
 		
 		
 	}
-	console.log(req.headers);
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
 	 res.render('weixin/index',{
