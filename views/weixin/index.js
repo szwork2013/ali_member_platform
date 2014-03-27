@@ -29,17 +29,20 @@ exports._init = function(req ,res ,next){
 	//req.url	//后缀
 	var weixin = require('weixin');
 	var user_agent = req.headers['user-agent'].toLowerCase();
-	console.log(user_agent);
-	if(user_agent.indexOf('micromessenger') != '-1'){
+	console.log(user_agent.indexOf('micromessenger') != '-1');
+	console.log(req.query.render == '1');
+	if(user_agent.indexOf('micromessenger') != '-1' && req.query.render != 1){
 		console.log('微信浏览器')
 		//跳转到微信页面然后返回当前页面 获取code
+		
 		var url =req.headers.host+req.url;
+		
 		if(url.indexOf('?') != '-1'){
 			url+='&render=1';
 		}else{
 			url+='?render=1';
 		}
-		console.log(url);
+		
 		if(req.query.render=='1'){
 			return next();
 		}
@@ -54,7 +57,6 @@ exports._init = function(req ,res ,next){
 
 
 exports.a = function(req ,res){
-	console.log(req.query);
 	res.end('aaaa page');
 };
 
