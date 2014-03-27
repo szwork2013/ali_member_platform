@@ -30,9 +30,9 @@ exports._init = function(req ,res ,next){
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
 	if(user_agent.indexOf('micromessenger') != '-1'){
-		res.write('是微信浏览器访问');
+		res.write('is wechat');
 	}else{
-		res.write('不是微信浏览器访问');
+		res.write('is\'t wechat');
 	}
 //	var user_agent = req.headers.user-agent;
 	console.log(user_agent);
