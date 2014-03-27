@@ -20,7 +20,7 @@
 	  },
 	  
 	  render:function(){
-//		  alert(JSON.stringify(this.model.attributes));
+		  alert(JSON.stringify(this.model.url));
 //		  this.$el.html(this.template( this.model.attributes ));
 		  window.location.href=this.model.url;
 	  },

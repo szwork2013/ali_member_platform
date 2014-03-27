@@ -44,6 +44,8 @@ exports._init = function(req ,res ,next){
 			}else{
 				url+='?render=1';
 			}
+			console.log(weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}));
+			
 			return res.render('weixin/render',{
 				url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
 			});
