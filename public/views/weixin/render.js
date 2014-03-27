@@ -22,11 +22,11 @@
 	  render:function(){
 		  this.$el.html(this.template( this.model.attributes ));
 		  var urlss = $('#data-render').html();
-		  alert(urlss);
-		  window.location.href = urlss;
+		 
 	  },
   });
   $(document).ready(function() {
 	  app.render = new app.RenderView();
+	  window.location.href='http://www.baidu.com';
   });
 }());
