@@ -29,8 +29,8 @@ exports._init = function(req ,res ,next){
 	//req.url	//后缀
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
-	console.log(user_agent.indexOf('micromessenger') != '-1');
-	console.log(req.query.render == '1');
+	console.log(req.query.render != '1' || req.query.render != 1);
+	
 	if(req.query.render != '1' || req.query.render != 1){
 		if(user_agent.indexOf('micromessenger') != '-1'){
 			console.log('微信浏览器')
