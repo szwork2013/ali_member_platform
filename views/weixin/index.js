@@ -37,13 +37,14 @@ exports._init = function(req ,res ,next){
 		var url = weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'});
 		return res.redirect(url);
 	}
-//	var user_agent = req.headers.user-agent;
-	console.log(req.query);
-	res.end('end');
+	next();
 };
 
 
-
+exports.a = function(req ,res){
+	console.log(req.query);
+	res.end('aaaa page');
+};
 
 
 
