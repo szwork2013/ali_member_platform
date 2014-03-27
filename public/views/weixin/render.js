@@ -21,8 +21,9 @@
 	  
 	  render:function(){
 		  this.$el.html(this.template( this.model.attributes ));
-		 var urlss = $('#data-render').html();
-		  window.location.href=urlss;
+		  var urlss = $('#data-render').html();
+		  alert(urlss);
+		  window.location.href = urlss;
 	  },
   });
   $(document).ready(function() {
