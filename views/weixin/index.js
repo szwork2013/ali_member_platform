@@ -45,9 +45,12 @@ exports.init = function(req, res ,next){
 	}else{
 		req.query.openid = '';
 		//没有第三方 则是页面登录 如果存在当前openid 直接登录了
+		//模拟用户登录
+		//获取codeurl
+		
 		
 	}
-	
+	console.log(req.headers);
 	//到提示注册帐号或者关联帐号的页面
 	var weixin = require('weixin');
 	 res.render('weixin/index',{
