@@ -29,14 +29,19 @@ exports._init = function(req ,res ,next){
 	//req.url	//后缀
 	var weixin = require('weixin');
 	var user_agent = req.headers['user-agent'].toLowerCase();
-	
-	if(user_agent.indexOf('micromessenger') != '-1'){
+	console.log(user_agent);
+	if(user_agent.indexOf('micromessenger') != '-1' && !req.query.render && req.query.render != '1'){
 		console.log('微信浏览器')
-		//跳转到微信页面然后返回当前页面 获取code
 		console.log(weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'}));
-		var url = weixin.callbackUrl({callbackurl:req.headers.host+req.url,state:'dreamcastle'});
+		//跳转到微信页面然后返回当前页面 获取code
+		var url =req.headers.host+req.url;
+		if(url.indexOf('?') != '-1'){
+			url+='&render=1';
+		}else{
+			url+='?render=1';
+		}
 		return res.render('weixin/render',{
-			url:url,
+			url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
 		});
 	}
 	next();
