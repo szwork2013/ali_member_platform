@@ -44,7 +44,7 @@ exports._init = function(req ,res ,next){
 		}else{
 			url+='?render=1';
 		}
-		
+		console.log(url);
 		if(req.query.render=='1'){
 			return next();
 		}
