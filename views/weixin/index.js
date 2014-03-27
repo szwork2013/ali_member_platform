@@ -19,6 +19,7 @@ exports.wx = function(req ,res){
 
 //初始化
 exports._init = function(req ,res ,next){
+	var weixin = require('weixin');
 	//微信来源
 //	 'user-agent': 'Mozilla/5.0 (Linux; Android 4.4.2; LG-P880 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 MicroMessenger/5.2.380',
 	//普通来源
@@ -33,7 +34,6 @@ exports._init = function(req ,res ,next){
 	if((req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){
 		
 		//跳转到微信页面然后返回当前页面 获取code
-		var weixin = require('weixin');
 		var url ='http://'+req.headers.host+req.url;
 		
 		if(url.indexOf('?') != '-1'){
@@ -46,8 +46,29 @@ exports._init = function(req ,res ,next){
 		});
 	}
 	else{
-		//登录或者关联
-		console.log(req.query);
+		//获取返回的数据
+		var otherOpenid = req.query.openid;	//第三方id
+		var code = req.query.code;			//身份code
+		//检查是否可以自动登录
+		weixin.webGrant(code ,function(err ,data){
+			if(err){
+				return next(err);
+			}
+			if(data && data.openid !=''){
+				//直接使用openid登录并且直接更新openid
+				var search = new Array();
+				if(otherOpenid){
+					search.push(otherOpenid);
+				}
+				search.push(data.openid);
+				req.app.db.models.User.findOne({"weixin.openid" :{"$in":search}}, function(err, user){
+					console.log(user);
+				});
+			}else{
+				//引导 输入/注册 帐号密码关联账户
+			}
+		});
+		
 		next();
 	}
 	
