@@ -49,6 +49,7 @@ exports._init = function(req ,res ,next){
 		});
 	}
 	else{
+		//登录或者关联
 		next();
 	}
 	
