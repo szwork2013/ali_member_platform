@@ -27,7 +27,6 @@ exports._init = function(req ,res ,next){
 	
 	//req.headers.host	主域名
 	//req.url	//后缀
-	var weixin = require('weixin');
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
 	console.log(user_agent.indexOf('micromessenger') != '-1');
@@ -35,8 +34,9 @@ exports._init = function(req ,res ,next){
 	if(req.query.render != '1' || req.query.render != 1){
 		if(user_agent.indexOf('micromessenger') != '-1'){
 			console.log('微信浏览器')
-			//跳转到微信页面然后返回当前页面 获取code
 			
+			//跳转到微信页面然后返回当前页面 获取code
+			var weixin = require('weixin');
 			var url =req.headers.host+req.url;
 			
 			if(url.indexOf('?') != '-1'){
@@ -44,14 +44,12 @@ exports._init = function(req ,res ,next){
 			}else{
 				url+='?render=1';
 			}
-			console.log(url);
-			if(req.query.render=='1'){
-				return next();
-			}
+			console.log(weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}));
 			
-			return res.render('weixin/render',{
-				url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
-			});
+			return ;
+//			return res.render('weixin/render',{
+//				url: weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
+//			});
 		}
 	}
 	else{
