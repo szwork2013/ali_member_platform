@@ -69,6 +69,8 @@ exports._init = function(req ,res ,next){
 					if(err){
 						return next(err);
 					}
+					console.log(user);
+					console.log(search);
 					if(user){
 						//循环对比两个openid是否在里面 不在的话更新一下
 						//获取本次openid长度
@@ -98,13 +100,13 @@ exports._init = function(req ,res ,next){
 							}
 							//更新成功,存入session
 							if(queryObj){
-								req.login(user, function(err) {
-							          if (err) {
-							            return next(err);
-							          }
-				                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '关联微信第三方openid:"' + otherOpenid + '"并登录成功');
-				                      next();
-								});
+//								req.login(user, function(err) {
+//							          if (err) {
+//							            return next(err);
+//							          }
+//				                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '关联微信第三方openid:"' + otherOpenid + '"并登录成功');
+//								});
+								next();
 							}
 						});
 						
