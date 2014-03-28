@@ -49,7 +49,7 @@ exports._init = function(req ,res ,next){
 		});
 	}
 	else{
-		console.log('获取到code');
+		console.log('获取到code:'+req.query.code);
 		//获取返回的数据 有code
 		var otherOpenid = req.query.openid;	//第三方id
 		var code = req.query.code;			//身份code
@@ -58,6 +58,7 @@ exports._init = function(req ,res ,next){
 			if(err){
 				return next(err);
 			}
+			console.log('获取到本地openid:'+data.openid);
 			if(data && data.openid !=''){
 				//直接使用openid登录并且直接更新openid
 				var search = new Array();
@@ -65,13 +66,11 @@ exports._init = function(req ,res ,next){
 					search.push(otherOpenid);
 				}
 				search.push(data.openid);
+				console.log('查询内容:'+search);
 				req.app.db.models.User.findOne({"weixin.openid" :{"$in":search}}, function(err, user){
-					console.log(user);
 					if(err){
 						return next(err);
 					}
-					console.log(user);
-					console.log(search);
 					if(user){
 						//循环对比两个openid是否在里面 不在的话更新一下
 						//获取本次openid长度
@@ -139,8 +138,6 @@ exports._init = function(req ,res ,next){
 
 
 exports.a = function(req ,res){
-	console.log(req.session);
-	
 	res.end('aaaa page');
 };
 
