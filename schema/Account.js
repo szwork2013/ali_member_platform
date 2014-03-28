@@ -1,7 +1,8 @@
 'use strict';
 
 exports = module.exports = function(app, mongoose) {
-  var accountSchema = new mongoose.Schema({
+  var accountSchema;
+  accountSchema = new mongoose.Schema({
     user: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       name: { type: String, default: '' }
@@ -15,14 +16,21 @@ exports = module.exports = function(app, mongoose) {
       full: { type: String, default: '' }
     },
     //积分系统
-    integral:{ //等级
-    	level:{ type: Number, default: 1 },			//等级
-    	levelName:{ type: String, default: '普通用户'},	//等级名称
-    	points:{type: Number, default: 0}	,			//个人积分
-    	consumeMoney:{type: Number, default: 0}	,		//累计消费金额
-    	coin:{type: Number, default: 0},
+    integral: { //等级
+      level: { type: Number, default: 1 },			//等级
+      levelName: { type: String, default: '普通用户'},	//等级名称
+      points: {type: Number, default: 0},			//个人积分
+      consumeMoney: {type: Number, default: 0},		//累计消费金额
+      coin: {type: Number, default: 0},
     },
     company: { type: String, default: '' },
+    address: {
+      country: {type: String, default: '' },
+      state: {type: String, default: '' },
+      city: {type: String, default: '' },
+      district: {type: String, default: '' },
+      detail: {type: String, default: '' }
+    },
     phone: { type: String, default: '' },
     zip: { type: String, default: '' },
     status: {
@@ -42,7 +50,9 @@ exports = module.exports = function(app, mongoose) {
       time: { type: Date, default: Date.now }
     },
     search: [String],
-    products: [{}]
+    products: [
+      {}
+    ]
   });
   accountSchema.plugin(require('./plugins/pagedFind'));
   accountSchema.index({ user: 1 });
