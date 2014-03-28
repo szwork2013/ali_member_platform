@@ -115,6 +115,10 @@ exports._init = function(req ,res ,next){
 						if(req.query.state == req.app.config.weixin.state){
 							return res.render('weixin/relation/index',{
 								oauthMessage: '未检测到您的关联账户,请您先关联账户.',
+								localOpenid:data.openid,
+								otherOpenid:otherOpenid,
+								//第三方
+								
 							});
 						}else{
 							//此openid和外来openid 存入session 导航栏让用户选择是关联帐号或者新建帐号//本地来源 自己自登录
