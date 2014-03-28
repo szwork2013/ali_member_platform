@@ -67,3 +67,7 @@ exports.mysql_cfg = {
   port: 3306,
   charset: 'utf8'
 };
+
+exports.weixin = {
+		state:'dreamcastle',
+}
