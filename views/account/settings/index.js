@@ -46,7 +46,7 @@ var renderSettings = function(req, res, next, oauthMessage) {
       oauthWeibo: !!req.app.get('weibo-oauth-key'),
       oauthWeiboActive: outcome.user.weibo ? !!outcome.user.weibo.id : false,
       oauthQq: !!req.app.get('qq-oauth-key'),
-      oauthQqActive: outcome.user.qq ? !!outcome.user.qq.nickname : false
+      oauthQqActive: outcome.user.qq ? true : false //!!outcome.user.qq.id : false
     });
   };
 
