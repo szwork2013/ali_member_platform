@@ -128,7 +128,7 @@ exports.update = function(req, res, next){
       {form:{reg_uid: req.user.id, code: req.body.serial, access_token: req.app.config.product.key}},
       function(error, response, body){
 
-      var result = JSON.parse(body.trim());
+      var result = JSON.parse(body);
 
       if (error) {
         return workflow.emit('exception', error);
@@ -204,7 +204,8 @@ exports.update = function(req, res, next){
         }
       };
 
-      req.app.db.models.Account.findOneAndUpdate(req.user.roles.account.id, {$push: {products: product}}, function(err, account) {
+      console.log('req.user.roles.account.id: ', req.user.roles.account.id);
+      req.app.db.models.Account.findByIdAndUpdate(req.user.roles.account.id, {$push: {products: product}}, function(err, account) {
         if (err) {
           return workflow.emit('exception', err);
         }
