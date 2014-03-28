@@ -231,7 +231,7 @@ exports.loginWeibo = function(req, res, next){
       if (err) {
         return next(err);
       }
-
+user
       if (!user) {
         res.render('login/index', {
           oauthMessage: '未发现有用户连接到你的新浪微博帐号，你需要先创建一个帐号。',
@@ -262,7 +262,7 @@ exports.loginQq = function(req, res, next){
       return res.redirect('/login/');
     }
 
-    req.app.db.models.User.findOne({ 'qq.id': info.profile._json.id }, function(err, user) {
+    req.app.db.models.User.findOne({ 'qq.id': info.profile.id }, function(err, user) {
       if (err) {
         return next(err);
       }
