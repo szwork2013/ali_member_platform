@@ -172,14 +172,16 @@ app.configure(function(){
     res.locals.user.username = req.user && req.user.username;
 
     //set the nick name and avatar image url
-    if (req.user.qq) {
-      //console.log('QQ Nick: ', req.user.qq.nickname);
-      res.locals.user.nickname = req.user.qq.nickname;
-      res.locals.user.avatar = req.user.qq.figureurl;
-    } else if(req.user.weibo) {
-      //console.log('Weibo Nick: ', req.user.weibo.screen_name);
-      res.locals.user.nickname = req.user.weibo.screen_name;
-      res.locals.user.avatar = req.user.weibo.profile_image_url;
+    if(req.user) {
+      if (req.user.qq) {
+        //console.log('QQ Nick: ', req.user.qq.nickname);
+        res.locals.user.nickname = req.user.qq.nickname;
+        res.locals.user.avatar = req.user.qq.figureurl;
+      } else if(req.user.weibo) {
+        //console.log('Weibo Nick: ', req.user.weibo.screen_name);
+        res.locals.user.nickname = req.user.weibo.screen_name;
+        res.locals.user.avatar = req.user.weibo.profile_image_url;
+      }
     }
 
     next();
