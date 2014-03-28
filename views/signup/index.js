@@ -358,7 +358,7 @@ exports.signupQq = function(req, res, next) {
       return res.redirect('/signup/');
     }
 
-    req.app.db.models.User.findOne({ 'qq.id': info.profile._json.id }, function(err, user) {
+    req.app.db.models.User.findOne({ 'qq.id': info.profile.id }, function(err, user) {
       if (err) {
         return next(err);
       }
