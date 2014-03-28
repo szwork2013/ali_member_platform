@@ -111,7 +111,7 @@ exports._init = function(req ,res ,next){
 					}else{
 						//直接跳入引导页面 第三方来源点击链接后过来
 						if(req.query.state == req.app.config.weixin.state){
-							return res.render('weixin/relation/index':{
+							return res.render('weixin/relation/index',{
 								oauthMessage: '未检测到您的关联账户,请您先关联账户.',
 							});
 						}else{
