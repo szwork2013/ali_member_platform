@@ -35,7 +35,7 @@ exports._init = function(req ,res ,next){
 	
 	//注意:render=1 参数作为是否需要自动为用户跳转登录的标志信息,如果是通过链接点击进来 要加上 值为1
 	if( !req.query.code && (req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){
-		
+		console.log('微信跳转');
 		//跳转到微信页面然后返回当前页面 获取code
 		var url ='http://'+req.headers.host+req.url;
 		
@@ -49,6 +49,7 @@ exports._init = function(req ,res ,next){
 		});
 	}
 	else{
+		console.log('获取到code');
 		//获取返回的数据 有code
 		var otherOpenid = req.query.openid;	//第三方id
 		var code = req.query.code;			//身份code
