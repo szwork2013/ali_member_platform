@@ -31,7 +31,10 @@ exports._init = function(req ,res ,next){
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
 //	&& user_agent.indexOf('micromessenger') != '-1'
-	if((req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){
+	
+	
+	//注意:render=1 参数作为是否需要自动为用户跳转登录的标志信息,如果是通过链接点击进来 要加上 值为1
+	if( !req.query.code && (req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){
 		
 		//跳转到微信页面然后返回当前页面 获取code
 		var url ='http://'+req.headers.host+req.url;
@@ -42,11 +45,11 @@ exports._init = function(req ,res ,next){
 			url+='?render=1';
 		}
 		return res.render('weixin/render',{
-			url:weixin.callbackUrl({callbackurl:url,state:'dreamcastle'}),
+			url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
 		});
 	}
 	else{
-		//获取返回的数据
+		//获取返回的数据 有code
 		var otherOpenid = req.query.openid;	//第三方id
 		var code = req.query.code;			//身份code
 		//检查是否可以自动登录
@@ -63,76 +66,83 @@ exports._init = function(req ,res ,next){
 				search.push(data.openid);
 				req.app.db.models.User.findOne({"weixin.openid" :{"$in":search}}, function(err, user){
 					console.log(user);
+					if(err){
+						return next(err);
+					}
+					if(user){
+						//循环对比两个openid是否在里面 不在的话更新一下
+						//获取本次openid长度
+						var sLength = search.length;
+						var userLenth = user.weixin.openid.length;
+						//对比
+						for(var i=0 ;i < sLength ;i++){
+							var isExist = false;
+							for(var j=0 ; j < userLenth ;j++){
+								if(search[i] == user.weixin.openid[j]){
+									isExist = true;
+									break;
+								}
+							}
+							//不存在 填入user.weixin.openid 数组里面
+							if(!isExist){
+								user.weixin.openid.push(search[i]);
+							}
+						}
+						var fieldsToSet = {
+								'weixin.openid':user.weixin.openid,
+						};
+						//更新
+						req.app.db.models.User.findByIdAndUpdate( user._id ,fieldsToSet ,function(err ,queryObj){
+							if(err){
+								return next(err);
+							}
+							//更新成功,存入session
+							if(queryObj){
+								req.login(user, function(err) {
+							          if (err) {
+							            return next(err);
+							          }
+				                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '关联微信第三方openid:"' + otherOpenid + '"并登录成功');
+				                      next();
+								});
+							}
+						});
+						
+					}else{
+						//直接跳入引导页面 第三方来源点击链接后过来
+						if(req.query.state == req.app.config.weixin.state){
+							return res.render('weixin/relation/index':{
+								oauthMessage: '未检测到您的关联账户,请您先关联账户.',
+							});
+						}else{
+							//此openid和外来openid 存入session 导航栏让用户选择是关联帐号或者新建帐号//本地来源 自己自登录
+							req.session._wx_openid = search;
+							next();
+						}
+						
+					}
+					
 				});
 			}else{
-				//引导 输入/注册 帐号密码关联账户
+				//没有取得openid  程序有错误
+				res.end('error:错误 请重新登录');
+				return ;
 			}
 		});
 		
-		next();
 	}
 	
 };
 
 
 exports.a = function(req ,res){
-	console.log('aaaa page');
+	console.log(req.session);
+	
 	res.end('aaaa page');
 };
 
 
 
-
-
-
-/**
- * 登录
- * 用户从微信访问页面(无论是不是关注用户),都会通过当前对应的appid和密匙获得用户对此公众号的openid
- * 然后通过openid检查用户是否关联帐号,如果关联了,自动登录,如果没有关联(已有帐号),让用户进入关联页面将帐号和openid关联起来
- * 如果用户还没有帐号,则让用户注册,注册后同时关联
- */
-exports.init = function(req, res ,next){
-	 if (req.isAuthenticated()) {
-		 return res.redirect(getReturnUrl(req));
-	 }
-	//判断是否有外来openid
-	if(req.query.openid && req.query.openid!=''){
-		//有外来openid l例如通过口袋通带着openid转过来
-		//查找是否有已关联此openid
-		 req.app.db.models.User.findOne({"weixin.openid" :{"$all":[req.query.openid]}}, function(err, user) {
-			 if(err){
-				console.log(err);
-				return  ;
-			 }
-			 if(user){
-				 //有关联 直接登录
-				 req.login(user, function(err) {
-			          if (err) {
-			            return next(err);
-			          }
-			          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '使用微信已关联openid:'+req.query.openid+'登录成功');
-			         return  res.redirect(getReturnUrl(req));
-			        });
-			 }
-		 });
-	}else{
-		req.query.openid = '';
-		//没有第三方 则是页面登录 如果存在当前openid 直接登录了
-		//模拟用户登录
-		//获取codeurl
-		
-		
-	}
-	//到提示注册帐号或者关联帐号的页面
-	var weixin = require('weixin');
-	 res.render('weixin/index',{
-		 error : req.query.error,
-		 	//	生成可以获得code的url
-		 relationUrl: weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/relation/?openid='+req.query.openid,state:'dreamcastle'}),
-		 signupUrl: weixin.callbackUrl({callbackurl:'http://beta.alithefox.cn/weixin/signup/?openid='+req.query.openid,state:'dreamcastle'}),
-	 });
-	
-};
 
 
 
