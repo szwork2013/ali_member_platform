@@ -47,8 +47,7 @@ exports._init = function(req ,res ,next){
 		return res.render('weixin/render',{
 			url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
 		});
-	}
-	else{
+	}else{
 		console.log('获取到code:'+req.query.code);
 		//获取返回的数据 有code
 		var otherOpenid = req.query.openid;	//第三方id
