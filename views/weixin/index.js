@@ -3,7 +3,9 @@ exports.wx = function(req ,res){
 	console.log(req.query);
 	res.end(req.query.echostr);
 };
-
+exports.test = function(req ,res){
+	res.end('test page!');
+};
 /**
  * 用户进入
  * 用户从分享或者朋友圈或者指定网址点击进入
@@ -31,7 +33,10 @@ exports._init = function(req ,res ,next){
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	
 //	&& user_agent.indexOf('micromessenger') != '-1'
-	
+	//其他浏览器
+	if(user_agent.indexOf('micromessenger') == '-1'){
+		return next();
+	}
 	
 	//注意:render=1 参数作为是否需要自动为用户跳转登录的标志信息,如果是通过链接点击进来 要加上 值为1
 	if( !req.query.code && (req.query.render != '1' || req.query.render != 1) && user_agent.indexOf('micromessenger') != '-1'){

@@ -51,7 +51,7 @@ block body
   script(type='text/template', id='tmpl-login-localOpenid') !{localOpenid}
   script(type='text/template', id='tmpl-login-otherOpenid') !{otherOpenid}
   script(type='text/template', id='tmpl-login')
-    form(action='/weixin/')
+    form(action='/weixin/test/')
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
