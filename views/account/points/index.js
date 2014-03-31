@@ -1,6 +1,7 @@
 'use strict';
 
 exports.init = function(req, res){
+  var Integral = new (require('member_integral')(req))();
   res.render('account/points/index',{
 	  levelName : req.user.roles.account.integral.levelName,
 	  consumeMomey : req.user.roles.account.integral.consumeMoney,
