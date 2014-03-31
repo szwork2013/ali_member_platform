@@ -181,6 +181,9 @@ app.configure(function(){
         //console.log('Weibo Nick: ', req.user.weibo.screen_name);
         res.locals.user.nickname = req.user.weibo.screen_name;
         res.locals.user.avatar = req.user.weibo.profile_image_url;
+      } else {
+        res.locals.user.nickname = '';
+        res.locals.user.avatar = 'http://www.a-li.com.cn/uc_server/images/noavatar_small.gif';
       }
     }
 
