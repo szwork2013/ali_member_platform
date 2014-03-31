@@ -142,6 +142,13 @@ exports._init = function(req ,res ,next){
 
 
 exports.a = function(req ,res){
+	return res.render('weixin/relation/index',{
+		oauthMessage: '未检测到您的关联账户,请您先关联账户.',
+		localOpenid:'aaaaaaaaaaa',
+		otherOpenid:'bbbbbbbbbbb',
+		//第三方
+		
+	});
 	res.end('aaaa page');
 };
 

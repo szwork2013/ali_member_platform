@@ -16,6 +16,7 @@ exports = module.exports = function(app, mongoose) {
       full: { type: String, default: '' }
     },
     //积分系统
+    /**/
     integral: { //等级
       level: { type: Number, default: 1 },			//等级
       levelName: { type: String, default: '普通用户'},	//等级名称
