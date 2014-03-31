@@ -22,7 +22,7 @@ block body
           |<%- err %>
         |<% }); %>
       div.form-group(class!='<%- errfor.username ? "has-error" : "" %>')
-        label.control-label 输入你的帐号:
+        label.control-label 输入你的用户名:
         input.form-control(type='text', name='username', value!='<%= username %>')
         span.help-block <%- errfor.username %>
       div.form-group(class!='<%- errfor.email ? "has-error" : "" %>')

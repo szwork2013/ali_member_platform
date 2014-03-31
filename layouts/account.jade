@@ -19,6 +19,8 @@ html
             span.icon-bar
         div.navbar-collapse.my-navbar-collapse.collapse
           ul.nav.navbar-nav
+            li: |<img src='#{user.avatar}' style='padding:10px'>
+                |<span style='padding-right:10px'>#{user.nickname}</span>
             li: a(href='/account/') 我的帐号
             li: a(href='/account/settings/') 设置
           ul.nav.navbar-nav.pull-right
