@@ -182,7 +182,7 @@ app.configure(function(){
         res.locals.user.nickname = req.user.weibo.screen_name;
         res.locals.user.avatar = req.user.weibo.profile_image_url;
       } else {
-        res.locals.user.nickname = '';
+        res.locals.user.nickname = req.user.name.full;
         res.locals.user.avatar = 'http://www.a-li.com.cn/uc_server/images/noavatar_small.gif';
       }
     }
