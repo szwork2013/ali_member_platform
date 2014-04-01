@@ -60,7 +60,7 @@ exports = module.exports = function(app, passport) {
 
   app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }));
   app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
-  app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/', scope: ['user:email'] }));
+  app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/' }));
   app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
 
   //login/out

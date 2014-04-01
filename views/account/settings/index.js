@@ -180,7 +180,7 @@ exports.connectQq = function(req, res, next){
         renderSettings(req, res, next, '已经有另一个用户连接到此QQ帐号。');
       }
       else {
-        req.app.db.models.User.findByIdAndUpdate(req.user.id, { qq: info.profile._json }, function(err, user) {
+        req.app.db.models.User.findByIdAndUpdate(req.user.id, { qq: info.profile }, function(err, user) {
           if (err) {
             return next(err);
           }

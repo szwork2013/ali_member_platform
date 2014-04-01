@@ -365,7 +365,7 @@ exports.signupQq = function(req, res, next) {
       
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.nickname || ''});
       }
       else {
         res.render('signup/index', {
