@@ -1,4 +1,13 @@
 'use strict'
+exports.init = function(req ,res){
+	res.render('weixin/relation/index',{
+		oauthMessage: '未检测到您的关联账户,请您先关联账户.',
+		localOpenid: req.session.tmp_openid.localOpenid,
+		otherOpenid: req.session.tmp_openid.tpOpenid,
+		//第三方
+	});
+};
+
 
 exports.local_relation = function(req ,res){
 	  var workflow = req.app.utility.workflow(req, res);
