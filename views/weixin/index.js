@@ -4,6 +4,8 @@ exports.wx = function(req ,res){
 	res.end(req.query.echostr);
 };
 exports.test = function(req ,res){
+	console.log(req.body);
+	console.log(req.query);
 	res.end('test page!');
 };
 /**

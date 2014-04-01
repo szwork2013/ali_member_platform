@@ -6,7 +6,7 @@
   app = app || {};
 
   app.Login = Backbone.Model.extend({
-    url: '/weixin/relation/',
+    url: '/weixin/local_relation/',
     defaults: {
       errors: [],
       errfor: {},
