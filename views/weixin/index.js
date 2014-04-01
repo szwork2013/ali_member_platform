@@ -29,7 +29,7 @@ exports.init = function(req ,res ,next){
 	 workflow.on('checkUserAgent',function(){
 		 console.log('checkUserAgent');
 		 if(!req.session.tmp_openid){
-			 req.session.tmp_openid={};
+			 req.session.tmp_openid=null;
 		 }
 		 var user_agent = req.headers['user-agent'].toLowerCase();
 		if(user_agent.indexOf('micromessenger') == '-1'){
