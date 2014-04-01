@@ -261,7 +261,8 @@ exports.loginQq = function(req, res, next){
     if (!info || !info.profile) {
       return res.redirect('/login/');
     }
-
+    console.log('loginQq info:', info);
+    console.log('loginQq info.profile:', info.profile);
     req.app.db.models.User.findOne({ 'qq.id': info.profile.id }, function(err, user) {
       if (err) {
         return next(err);
