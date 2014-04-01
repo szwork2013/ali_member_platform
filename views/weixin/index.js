@@ -159,24 +159,24 @@ exports.init = function(req ,res ,next){
 				if(!isExist){
 					req.user.weixin.openid(searchArr[i]);
 				}
-				if(userLenth < req.user.weixin.openid.length){
-					var fieldsToSet = {
-							'weixin.openid':req.user.weixin.openid,
-					};
-					req.app.db.models.User.findByIdAndUpdate( req.user._id ,fieldsToSet ,function(err ,queryObj){
-						if(err){
-							return next(err);
-						}
-						//更新成功,存入session
-						if(queryObj){
-							console.log('自动关联openid并更新成功');
-							req.session.tmp_openid ='';
-						}
-						next();
-					});
-				}else{
+			}
+		 if(userLenth < req.user.weixin.openid.length){
+				var fieldsToSet = {
+						'weixin.openid':req.user.weixin.openid,
+				};
+				req.app.db.models.User.findByIdAndUpdate( req.user._id ,fieldsToSet ,function(err ,queryObj){
+					if(err){
+						return next(err);
+					}
+					//更新成功,存入session
+					if(queryObj){
+						console.log('自动关联openid并更新成功');
+						req.session.tmp_openid ='';
+					}
 					next();
-				}
+				});
+			}else{
+				next();
 			}
 	 });
 	 
