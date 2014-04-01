@@ -203,6 +203,11 @@ exports = module.exports = function(app, passport) {
   //account > coupons
   app.get('/account/coupons/', require('./views/account/coupons/index').init);
 
+  //verify
+  app.get('/verify/', require('./views/verify/index').init);
+  app.get('/verify/fetch/', require('./views/verify/index').read);
+  app.post('/verify/', require('./views/verify/index').update);
+
   //route not found
   app.all('*', require('./views/http/index').http404);
 };

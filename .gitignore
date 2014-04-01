@@ -41,6 +41,7 @@ validation-report.json
 node_modules/*
 !node_modules/drywall*
 !node_modules/passport-weibo
+!node_modules/passport-qq
 bower_components
 !node_modules/passport-ali_discuz
 !node_modules/member_integral
