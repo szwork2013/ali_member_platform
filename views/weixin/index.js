@@ -45,6 +45,7 @@ exports.init = function(req ,res ,next){
 	 
 	 //判断用户是否已经登录(session)并且是否存在openid
 	 workflow.on('userIsLogin',function(){
+		 console.log(req.user);
 		 //已经登录 有session并且weixin对象和openid属性存在并且不为空
 		 if(req.user && req.use.weixin && req.user.weixin.openid && req.user.weixin.openid != []){
 			 
