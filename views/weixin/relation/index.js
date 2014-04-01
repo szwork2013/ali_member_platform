@@ -1,11 +1,24 @@
 'use strict'
+var getReturnUrl = function(req) {
+  var returnUrl = req.user.defaultReturnUrl();
+  if (req.session.returnUrl) {
+    returnUrl = req.session.returnUrl;
+    delete req.session.returnUrl;
+  }
+  return returnUrl;
+};
+
 exports.init = function(req ,res){
-	res.render('weixin/relation/index',{
-		oauthMessage: '未检测到您的关联账户,请您先关联账户.',
-		localOpenid: req.session.tmp_openid.localOpenid,
-		otherOpenid: req.session.tmp_openid.tpOpenid,
-		//第三方
-	});
+	if (req.isAuthenticated()) {
+		res.redirect(getReturnUrl(req));
+	}else{
+		res.render('weixin/relation/index',{
+			oauthMessage: '未检测到您的关联账户,请您先关联账户.',
+			localOpenid: req.session.tmp_openid.localOpenid,
+			otherOpenid: req.session.tmp_openid.tpOpenid,
+			//第三方
+		});
+	}
 };
 
 
