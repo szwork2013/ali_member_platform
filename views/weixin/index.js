@@ -138,6 +138,7 @@ exports.init = function(req ,res ,next){
 	 
 	 //关联openid
 	 workflow.on('relation',function(search){
+		 console.log(search);
 		 var sLength = search.length;
 		 var userLenth = req.user.weixin.openid.length;
 		 //对比
