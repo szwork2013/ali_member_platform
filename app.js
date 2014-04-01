@@ -176,7 +176,7 @@ app.configure(function(){
       if (typeof(req.user.qq) != 'undefined' && req.user.qq != null) {
         console.log('QQ Nick: ', req.user.qq.profile.nickname);
         res.locals.user.nickname = req.user.qq.profile.nickname;
-        res.locals.user.avatar = req.user.qq.profile.figureurl;
+        res.locals.user.avatar = req.user.qq.profile.figureurl_qq_1;
       } else if(req.user.weibo.length != 0) {
         console.log('Weibo Nick: ', typeof(req.user.weibo));
         res.locals.user.nickname = req.user.weibo.screen_name;
