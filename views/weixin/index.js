@@ -50,6 +50,7 @@ exports.init = function(req ,res ,next){
 		 if(req.user && req.user.weixin && req.user.weixin.openid && req.user.weixin.openid != []){
 			 
 			 console.log('存在session并且openid不为空');
+			 console.log(req.user.weixin);
 			 
 			 workflow.emit('relation');
 		 }else if(req.session.tmp_openid && req.session.tmp_openid.localOpenid){
@@ -76,7 +77,11 @@ exports.init = function(req ,res ,next){
 			 var url ='http://'+req.headers.host+req.url;
 			 
 			 return res.render('weixin/render',{
-					url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
+					url:weixin.callbavar search = new Array();
+			 search.push(data.openid);
+			 if(req.query.tpOpenid){
+				search.push(req.query.tpOpenid);  
+			 }ckUrl({callbackurl:url,state:req.app.config.weixin.state}),
 			 });
 			 
 		 }else{
