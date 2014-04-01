@@ -29,7 +29,7 @@ exports.init = function(req ,res ,next){
 	 workflow.on('checkUserAgent',function(){
 		 console.log('checkUserAgent');
 		 if(!req.session.tmp_openid){
-			 req.session.tmp_openid=null;
+			 req.session.tmp_openid = null;
 		 }
 		 var user_agent = req.headers['user-agent'].toLowerCase();
 		if(user_agent.indexOf('micromessenger') == '-1'){
@@ -51,7 +51,7 @@ exports.init = function(req ,res ,next){
 			 console.log('存在session并且openid不为空');
 			 
 			 workflow.emit('relation');
-		 }else if(req.session.tmp_openid){
+		 }else if(req.session.tmp_openid && req.session.tmp_openid.localOpenid){
 			 //是否已经存有openid的session但是没有进行关联登录
 			 console.log('是否已经存有openid的session但是没有进行关联登录');
 			 console.log(req.session.tmp_openid);
