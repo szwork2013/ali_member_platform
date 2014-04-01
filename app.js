@@ -173,16 +173,17 @@ app.configure(function(){
 
     //set the nick name and avatar image url
     if(req.user) {
-      if (req.user.qq) {
-        //console.log('QQ Nick: ', req.user.qq.nickname);
+      if (typeof(req.user.qq) != 'undefined' && req.user.qq != null) {
+        console.log('QQ Nick: ', req.user.qq.nickname);
         res.locals.user.nickname = req.user.qq.nickname;
         res.locals.user.avatar = req.user.qq.figureurl;
-      } else if(req.user.weibo) {
-        //console.log('Weibo Nick: ', req.user.weibo.screen_name);
+      } else if(req.user.weibo.length != 0) {
+        console.log('Weibo Nick: ', typeof(req.user.weibo));
         res.locals.user.nickname = req.user.weibo.screen_name;
         res.locals.user.avatar = req.user.weibo.profile_image_url;
       } else {
-        res.locals.user.nickname = req.user.name.full;
+        console.log('Nick: ', req.user.username);
+        res.locals.user.nickname = req.user.username;
         res.locals.user.avatar = 'http://www.a-li.com.cn/uc_server/images/noavatar_small.gif';
       }
     }
