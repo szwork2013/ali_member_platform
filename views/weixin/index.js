@@ -116,7 +116,7 @@ exports.init = function(req ,res ,next){
 								 }
 								 req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '微信登录成功');
 							});
-							 workflow.emit('relation','aa');
+							 workflow.emit('relation',search);
 						 }else{
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
 							 req.session.tmp_openid = {
@@ -137,22 +137,22 @@ exports.init = function(req ,res ,next){
 	 });
 	 
 	 //关联openid
-	 workflow.on('relation',function(search){
-		 console.log(search);
-		 var sLength = search.length;
+	 workflow.on('relation',function(searchArr){
+		 console.log(searchArr);
+		 var sLength = searchArr.length;
 		 var userLenth = req.user.weixin.openid.length;
 		 //对比
 		 for(var i=0 ;i < sLength ;i++){
 				var isExist = false;
 				for(var j=0 ; j < userLenth ;j++){
-					if(search[i] == req.user.weixin.openid[j]){
+					if(searchArr[i] == req.user.weixin.openid[j]){
 						isExist = true;
 						break;
 					}
 				}
 				//不存在 填入user.weixin.openid 数组里面
 				if(!isExist){
-					req.user.weixin.openid(search[i]);
+					req.user.weixin.openid(searchArr[i]);
 				}
 				if(userLenth < req.user.weixin.openid.length){
 					var fieldsToSet = {
