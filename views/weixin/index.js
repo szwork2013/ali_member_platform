@@ -105,6 +105,9 @@ exports.init = function(req ,res ,next){
 							return next(err);
 						 }
 						 //如果查找到 自动帮助用户登录
+						 
+						 console.log(user);
+						 
 						 if(user){
 							 req.login(user, function(err) {
 								 if (err) {
