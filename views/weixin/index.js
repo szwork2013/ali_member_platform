@@ -35,7 +35,7 @@ exports.init = function(req ,res ,next){
 			console.log('其他浏览器');
 			//其他浏览器
 			next();
-		}else if(user_agent.indexOf('micromessenger') != '-1'){
+		}else{
 			console.log('微信浏览器');
 			//微信浏览器
 			workflow.emit('userIsLogin');
