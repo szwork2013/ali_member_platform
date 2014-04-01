@@ -27,6 +27,7 @@ exports.init = function(req ,res ,next){
 	
 	//通过文件头检查来源
 	 workflow.on('checkUserAgent',function(){
+		 console.log('checkUserAgent');
 		 if(!req.session.tmp_openid){
 			 req.session.tmp_openid={};
 		 }
