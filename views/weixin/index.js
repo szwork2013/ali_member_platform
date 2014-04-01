@@ -51,8 +51,9 @@ exports.init = function(req ,res ,next){
 			 
 			 console.log('存在session并且openid不为空');
 			 console.log(req.user.weixin);
-			 
-			 workflow.emit('relation',new Array(req.query.tpOpenid));
+			 var tpOpenid = new Array();
+			 tpOpenid.push(req.query.tpOpenid);
+			 workflow.emit('relation',tpOpenid);
 		 }else if(req.session.tmp_openid && req.session.tmp_openid.localOpenid){
 			 //是否已经存有openid的session但是没有进行关联登录
 			 console.log('是否已经存有openid的session但是没有进行关联登录');
