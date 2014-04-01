@@ -77,11 +77,7 @@ exports.init = function(req ,res ,next){
 			 var url ='http://'+req.headers.host+req.url;
 			 
 			 return res.render('weixin/render',{
-					url:weixin.callbavar search = new Array();
-			 search.push(data.openid);
-			 if(req.query.tpOpenid){
-				search.push(req.query.tpOpenid);  
-			 }ckUrl({callbackurl:url,state:req.app.config.weixin.state}),
+					url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
 			 });
 			 
 		 }else{
