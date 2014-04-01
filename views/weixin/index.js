@@ -116,6 +116,7 @@ exports.init = function(req ,res ,next){
 								 }
 								 req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '微信登录成功');
 							});
+							 console.log(search);
 							 workflow.emit('relation',search);
 						 }else{
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
