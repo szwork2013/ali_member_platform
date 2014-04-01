@@ -24,7 +24,7 @@ exports.test = function(req ,res){
 exports.init = function(req ,res ,next){
 	var weixin = require('weixin');
 	var workflow = req.app.utility.workflow(req, res);
-	
+	console.log('init');
 	//通过文件头检查来源
 	 workflow.on('checkUserAgent',function(){
 		 console.log('checkUserAgent');
