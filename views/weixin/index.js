@@ -112,7 +112,7 @@ exports._init = function(req ,res ,next){
 //							          }
 //				                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '关联微信第三方openid:"' + otherOpenid + '"并登录成功');
 //								});
-								next();
+								return next();
 							}
 						});
 						
@@ -129,7 +129,7 @@ exports._init = function(req ,res ,next){
 						}else{
 							//此openid和外来openid 存入session 导航栏让用户选择是关联帐号或者新建帐号//本地来源 自己自登录
 							req.session._wx_openid = search;
-							next();
+							return next();
 						}
 						
 					}
@@ -150,8 +150,8 @@ exports._init = function(req ,res ,next){
 exports.a = function(req ,res){
 	return res.render('weixin/relation/index',{
 		oauthMessage: '未检测到您的关联账户,请您先关联账户.',
-		localOpenid:'aaaaaaaaaaa',
-		otherOpenid:'bbbbbbbbbbb',
+		localOpenid:'aaaa',
+		otherOpenid:'',
 		//第三方
 		
 	});

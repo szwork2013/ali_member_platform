@@ -55,7 +55,7 @@
       },{
         success: function(model, response) {
           if (response.success) {
-            location.href = '/weixin/relation/';
+            location.href = '/login/';
           }
           else {
             model.set(response);

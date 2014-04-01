@@ -13,7 +13,7 @@ exports.local_relation = function(req ,res){
 	      workflow.outcome.errfor.password = 'required';
 	    }
 	    if (!req.body.localOpenid) {
-	    	workflow.outcome.errfor.username = '获取openid失败,请重新进入页面进行关联操作';
+	    	workflow.outcome.errfor.openid = '获取openid失败,请重新进入页面进行关联操作';
 		}
 	    
 	    if (workflow.hasErrors()) {
