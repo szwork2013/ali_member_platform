@@ -77,7 +77,7 @@ exports.init = function(req ,res ,next){
 			  */
 			 console.log('用户被动点击,需要模拟用户点击请求code');
 			 var url ='http://'+req.headers.host+req.url;
-			 
+			 console.log(weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}));
 			 return res.render('weixin/render',{
 					url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
 			 });
