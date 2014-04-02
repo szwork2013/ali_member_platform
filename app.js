@@ -182,7 +182,7 @@ app.configure(function(){
         res.locals.user.nickname = req.user.weibo.screen_name;
         res.locals.user.avatar = req.user.weibo.profile_image_url;
       } else {
-        console.log('Nick: ', req.user.username);
+        console.log('Nick : ', req.user.username);
         res.locals.user.nickname = req.user.username;
         res.locals.user.avatar = 'http://www.a-li.com.cn/uc_server/images/noavatar_small.gif';
       }
