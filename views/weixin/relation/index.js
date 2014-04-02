@@ -9,6 +9,7 @@ var getReturnUrl = function(req) {
 };
 
 exports.init = function(req ,res){
+	console.log(req.session.tmp_openid);
 	if (req.isAuthenticated()) {
 		res.redirect(getReturnUrl(req));
 	}else{
