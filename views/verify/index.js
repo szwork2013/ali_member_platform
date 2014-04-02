@@ -40,8 +40,8 @@ var renderSettings = function(req, res, next) {
     }
 
     // 渲染页面，index.jade 页末的!{data.products}即为此数据
-    res.render('account/products/index');
-//    res.render('account/products/index', {
+    res.render('verify/index');
+//    res.render('verify/index', {
 //      data: {
 //        products: escape(JSON.stringify(outcome.products))
 //      }
@@ -54,7 +54,7 @@ var renderSettings = function(req, res, next) {
 
 exports.init = function(req, res, next){
   if(req.user) {
-    res.redirect('account/products/index');
+    res.redirect('verify/index');
   } else {
     renderSettings(req, res, next);
   }
@@ -109,7 +109,7 @@ exports.update = function(req, res, next){
   var workflow = req.app.utility.workflow(req, res);
 
   workflow.on('validate', function() {
-      if (!req.body.serial) {
+      if (!req.body.serial && !req.body.mobile) {
         workflow.outcome.errfor.serial = 'required';
       }
 
@@ -125,7 +125,7 @@ exports.update = function(req, res, next){
 
     //使用POST方式提交关联请求
     request.post(req.app.config.product.url+'associate',
-      {form:{reg_uid: null, code: req.body.serial, access_token: req.app.config.product.key}},
+      {form:{reg_uid: req.body.mobile, code: req.body.serial, access_token: req.app.config.product.key}},
       function(error, response, body){
 
       var result = JSON.parse(body);

@@ -1,12 +1,13 @@
-extends ../../../layouts/default
+extends ../../layouts/default
+
 block head
   title 正品验证
 
 block neck
-  link(rel='stylesheet', href='/views/account/index.min.css?#{cacheBreaker}')
+  link(rel='stylesheet', href='/views/verify/index.min.css?#{cacheBreaker}')
 
 block feet
-  script(src='/views/account/products/index.min.js?#{cacheBreaker}')
+  script(src='/views/verify/index.min.js?#{cacheBreaker}')
 
 block body
   div.row
@@ -26,7 +27,6 @@ block body
 
   script(type='text/template', id='tmpl-serial')
     fieldset
-      legend 验证产品防伪码
       div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
@@ -42,6 +42,10 @@ block body
         label.control-label 产品防伪码:
         input.form-control(type='text', name='serial')
         span.help-block <%- errfor.serial %>
+      div.control-group(class!='<%- errfor.mobile ? "has-error" : "" %>')
+        label.control-label 手机号码:
+        input.form-control(type='text', name='mobile')
+        span.help-block <%- errfor.mobile %>
       div.control-group
         button.btn.btn-primary.btn-send(type='button') 提交
 
@@ -49,5 +53,4 @@ block body
     | <% _.each(data.products, function(p) { %>
     div.col-sm-4
       div.stat-label: <img class='img-polaroid' src=<%= p.p_info.thumb %> title=<%= p.p_info.name %> alt=<%= p.p_info.name %> />
-      div.stat-value: a(href='../points/') <%= p.total %>
     | <% }); %>

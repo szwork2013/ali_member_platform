@@ -7,16 +7,17 @@
 
   app.Products = Backbone.Model.extend({
     idAttribute: '_id',
-    url: '/account/products/fetch/'
+    url: '/verify/fetch/'
   });
 
   app.Serial = Backbone.Model.extend({
-    url: '/account/products/',
+    url: '/verify/',
     defaults: {
       success: false,
       errors: [],
       errfor: {},
-      serial: ''
+      serial: '',
+      mobile: ''
     }
   });
 
@@ -37,7 +38,8 @@
     },
     send: function() {
       this.model.save({
-        serial: this.$el.find('[name="serial"]').val()
+        serial: this.$el.find('[name="serial"]').val(),
+        mobile: this.$el.find('[name="mobile"]').val()
       });
     }
   });
