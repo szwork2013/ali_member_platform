@@ -99,7 +99,7 @@ exports.init = function(req ,res ,next){
 					 search.push(data.openid);
 					 
 					 //用户是否已经登录过了
-					 if(req.user.weixin){
+					 if(req.user && req.user.weixin){
 						 console.log("用户已经登录过了,现在跳转");
 						 return workflow.emit('relation',search);
 					 }
