@@ -34,8 +34,9 @@ exports.init = function(req ,res ,next){
 		var user_agent = req.headers['user-agent'].toLowerCase();
 		if(user_agent.indexOf('micromessenger') == '-1'){
 			console.log('其他浏览器');
+			workflow.emit('userIsLogin');
 			//其他浏览器
-			next();
+//			next();
 		}else{
 			console.log('微信浏览器');
 			//微信浏览器
@@ -47,7 +48,7 @@ exports.init = function(req ,res ,next){
 	 workflow.on('userIsLogin',function(){
 		 console.log(req.user);
 		 //已经登录 有session并且weixin对象和openid属性存在并且不为空
-		 if(req.user && req.user.weixin && req.user.weixin.openid && req.user.weixin.openid != []){
+		 if(req.user && req.user.weixin && req.user.weixin.openid.length >= 0){
 			 
 			 console.log('存在session并且openid不为空');
 			 console.log(req.user.weixin);
@@ -140,6 +141,7 @@ exports.init = function(req ,res ,next){
 	 //关联openid
 	 workflow.on('relation',function(searchArr){
 		 console.log(searchArr);
+		 console.log(req.user.weixin.openid);
 		 var sLength = searchArr.length;
 		 var userLenth = req.user.weixin.openid.length;
 		 //对比
@@ -153,7 +155,7 @@ exports.init = function(req ,res ,next){
 				}
 				//不存在 填入user.weixin.openid 数组里面
 				if(!isExist){
-					req.user.weixin.openid(searchArr[i]);
+					req.user.weixin.openid.push(searchArr[i]);
 				}
 			}
 		 if(userLenth < req.user.weixin.openid.length){
@@ -167,7 +169,7 @@ exports.init = function(req ,res ,next){
 					//更新成功,存入session
 					if(queryObj){
 						console.log('自动关联openid并更新成功');
-						req.session.tmp_openid ='';
+						req.session.tmp_openid =null;
 					}
 					next();
 				});
