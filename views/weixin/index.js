@@ -48,7 +48,7 @@ exports.init = function(req ,res ,next){
 	 workflow.on('userIsLogin',function(){
 		 console.log(req.user);
 		 //已经登录 有session并且weixin对象和openid属性存在并且不为空
-		 if(req.user && req.user.weixin && req.user.weixin.openid.length >= 0){
+		 if(req.user && req.user.weixin && req.user.weixin.openid.length > 0){
 			 
 			 console.log('存在session并且openid不为空');
 			 console.log(req.user.weixin);
@@ -57,7 +57,7 @@ exports.init = function(req ,res ,next){
 				 tpOpenid.push(req.query.tpOpenid);
 			 console.log(tpOpenid);
 			 workflow.emit('relation',tpOpenid);
-		 }else if(req.session.tmp_openid && req.session.tmp_openid.localOpenid){
+		 }else if(!req.user && req.session.tmp_openid && req.session.tmp_openid.localOpenid){
 			 //是否已经存有openid的session但是没有进行关联登录
 			 console.log('是否已经存有openid的session但是没有进行关联登录');
 			 console.log(req.session.tmp_openid);
@@ -98,9 +98,12 @@ exports.init = function(req ,res ,next){
 				 if(data && data.openid !=''){
 					 var search = new Array();
 					 search.push(data.openid);
-					 if(req.query.tpOpenid){
-						search.push(req.query.tpOpenid);  
+					 
+					 //用户是否已经登录过了
+					 if(req.user.weixin){
+						 return workflow.emit('relation',search);
 					 }
+					 
 					 //查找是否有用户存在,有的话直接登录
 					 req.app.db.models.User.findOne({"weixin.openid" :{"$in":search}}, function(err, user){
 						 if(err){
