@@ -126,7 +126,7 @@ exports.init = function(req ,res ,next){
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
 							 req.session.tmp_openid = {
 									 localOpenid : data.openid,
-									 tpOpenid    : req.query.tpOpenid,
+									 tpOpenid    : req.query.tpOpenid || '',
 							 };
 							 console.log(req.session);
 							 next();
