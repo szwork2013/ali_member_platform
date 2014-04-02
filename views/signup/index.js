@@ -358,14 +358,14 @@ exports.signupQq = function(req, res, next) {
       return res.redirect('/signup/');
     }
 
-    req.app.db.models.User.findOne({ 'qq.id': info.profile.id }, function(err, user) {
+    req.app.db.models.User.findOne({ 'qq.id': info.profile._json.id }, function(err, user) {
       if (err) {
         return next(err);
       }
       
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.nickname || ''});
       }
       else {
         res.render('signup/index', {
