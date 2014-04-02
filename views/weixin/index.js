@@ -34,9 +34,8 @@ exports.init = function(req ,res ,next){
 		var user_agent = req.headers['user-agent'].toLowerCase();
 		if(user_agent.indexOf('micromessenger') == '-1'){
 			console.log('其他浏览器');
-			workflow.emit('userIsLogin');
 			//其他浏览器
-//			next();
+			next();
 		}else{
 			console.log('微信浏览器');
 			//微信浏览器
@@ -101,6 +100,7 @@ exports.init = function(req ,res ,next){
 					 
 					 //用户是否已经登录过了
 					 if(req.user.weixin){
+						 console.log("用户已经登录过了,现在跳转");
 						 return workflow.emit('relation',search);
 					 }
 					 
