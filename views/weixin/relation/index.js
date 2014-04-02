@@ -14,8 +14,8 @@ exports.init = function(req ,res){
 	}else{
 		res.render('weixin/relation/index',{
 			oauthMessage: '未检测到您的关联账户,请您先关联账户.',
-			localOpenid: req.session.tmp_openid.localOpenid,
-			otherOpenid: req.session.tmp_openid.tpOpenid,
+			localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
+			otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
 			//第三方
 		});
 	}
