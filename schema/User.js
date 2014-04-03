@@ -15,6 +15,7 @@ exports = module.exports = function(app, mongoose) {
     resetPasswordExpires: Date,
     weixin:{
     	openid:[],
+    	source:{},
     },
     twitter: {},
     github: {},

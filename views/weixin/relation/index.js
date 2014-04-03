@@ -9,17 +9,11 @@ var getReturnUrl = function(req) {
 };
 
 exports.init = function(req ,res){
-	console.log(req.session.tmp_openid);
-	if (req.isAuthenticated()) {
-		res.redirect(getReturnUrl(req));
-	}else{
-		res.render('weixin/relation/index',{
-			oauthMessage: '未检测到您的关联账户,请您先关联账户.',
-			localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
-			otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
-			//第三方
-		});
-	}
+	res.render('weixin/relation/index',{
+		localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
+		otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
+		//第三方
+	});
 };
 
 
@@ -126,18 +120,6 @@ exports.local_relation = function(req ,res){
 					});
 				}
 			});
-			  
-			  
-			  
-			  
-			  
-	        req.login(user, function(err) {
-	          if (err) {
-	            return workflow.emit('exception', err);
-	          }
-	          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '本地登录成功');
-	          workflow.emit('response');
-	        });
 	      }
 	    })(req, res);
 	  });
