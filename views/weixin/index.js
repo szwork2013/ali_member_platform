@@ -95,7 +95,7 @@ exports.init = function(req ,res ,next){
 					 
 					 //用户是否已经登录过了
 					 if(req.user){
-						 console.log("用户已经登录过了,现在跳转");
+						 console.log("用户已经登录过了,现在开始关联帐号");
 						 return workflow.emit('relation',search);
 					 }
 					 
@@ -105,10 +105,9 @@ exports.init = function(req ,res ,next){
 							return next(err);
 						 }
 						 //如果查找到 自动帮助用户登录
-						 
-						 console.log(user);
-						 
 						 if(user){
+							 console.log('已查询到用户');
+							 console.log(user);
 							 req.login(user, function(err) {
 								 if (err) {
 									 return next(err);
@@ -120,11 +119,7 @@ exports.init = function(req ,res ,next){
 						 }else{
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
 							 //直接注册
-							 req.session.tmp_openid = {
-									 localOpenid : data.openid,
-									 tpOpenid    : req.query.tpOpenid || '',
-							 };
-							 console.log(req.session);
+							 console.log('自动注册临时帐号');
 							 next();
 						 }
 					 });
