@@ -9,11 +9,15 @@ var getReturnUrl = function(req) {
 };
 
 exports.init = function(req ,res){
-	res.render('weixin/relation/index',{
-		localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
-		otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
-		//第三方
-	});
+	if (req.isAuthenticated()) {
+		res.render('weixin/relation/index',{
+			localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
+			otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
+			//第三方
+		});
+	  }else{
+		  res.end('请您先登录');
+	  }
 };
 
 

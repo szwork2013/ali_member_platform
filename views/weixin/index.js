@@ -120,7 +120,54 @@ exports.init = function(req ,res ,next){
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
 							 //直接注册
 							 console.log('自动注册临时帐号');
-							 next();
+							 var fieldsToSet = {
+								        isActive: 'yes',
+								        username:'',
+								        email: '',
+								        password: '', 
+								        weixin: {
+								        	openid:[data.openid]
+								        },
+								      };
+							 req.app.db.models.User.create(fieldsToSet, function(err, user) {
+								 if (err) {
+							          return next(err);
+							     }
+								 if(!user) 
+									 return next();
+								 //create account 
+								 fieldsToSet = {
+									      isVerified: req.app.get('require-account-verification') ? 'no' : 'yes',
+									      'name.full': '',
+									      user: {
+									        id: user._id,
+									        name: user.username
+									      },
+									      search: [
+									       user.username
+									      ]
+									    };
+							    req.app.db.models.Account.create(fieldsToSet, function(err, account) {
+							        if (err) {
+							        	return next(err);
+							        }
+							        if(!account) 
+							        	return next();
+							        //update user with account
+							        user.roles.account = account._id;
+							        user.save(function(err, user) {
+							          if (err) {
+							            return next(err);
+							          }
+							          req.login(user, function(err) {
+							              if (err) {
+							            	  return next(err)
+							              }
+							              next();
+							            });
+							        });
+							      });
+							 });
 						 }
 					 });
 				 }else{
