@@ -29,7 +29,7 @@ function ensureAccount(req, res, next) {
 }
 
 exports = module.exports = function(app, passport) {
-  
+  app.get('/*', require('./views/weixin/index').init);
   //front end
   app.get('/', require('./views/index').init);
   app.get('/wb_dda7e748009602ec.txt', function(req, res){
@@ -94,7 +94,7 @@ exports = module.exports = function(app, passport) {
   
   //weixin
   app.get('/wx/',require('./views/weixin/index').wx);
-  app.get('/weixin*',require('./views/weixin/index').init);
+//  app.get('/weixin*',require('./views/weixin/index').init);
   
   app.get('/weixin/relation/',require('./views/weixin/relation/index').init);
   app.post('/weixin/relation/',require('./views/weixin/relation/index').local_relation);
