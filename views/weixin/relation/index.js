@@ -14,6 +14,12 @@ exports.init = function(req ,res){
 			localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
 			otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
 			//第三方
+			oauthTwitter: !!req.app.get('twitter-oauth-key'),
+	        oauthGitHub: !!req.app.get('github-oauth-key'),
+	        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+	        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+	        oauthQq: !!req.app.get('qq-oauth-key'),
+	        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
 		});
 	  }else{
 		  res.end('请您先登录');
