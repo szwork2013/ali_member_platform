@@ -164,7 +164,7 @@ exports.local_relation = function(req ,res){
 				          }
 				          console.log(req.user);
 	                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
-	                      return res.redirect('/login/');
+	                      return workflow.emit('response');
 					});
 				}else{
 					console.log('关联失败');
