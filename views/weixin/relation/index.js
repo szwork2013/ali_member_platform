@@ -106,10 +106,40 @@ exports.local_relation = function(req ,res){
 	      }
 	      else {
 	    	  
+	    	 console.log('查询到有用户了');
+	    	 console.log('开始关联');
+	    	 //将查询到的user openid 循环添加到关联帐号
+	    	 //关联到的账户的openid
+	    	 var userLenth = user.weixin.openid.length;
+	    	 
+	    	 //临时帐号的openid
+	    	 var tmpUserLength =  req.user.weixin.openid.length
+	    	 
+	    	 //循环对比
+	    	 for(var i=0 ;i < tmpUserLength ;i++){
+	    		 var isExist = false;
+	    		 for(var j=0 ; j < userLenth ;j++){
+					if(userLenth[j] == tmpUserLength[i]){
+						isExist = true;
+						break;
+					}
+	    		 }
+	    		//不存在 填入user.weixin.openid 数组里面
+				if(!isExist){
+					user.weixin.openid.push(tmpUserLength[i]);
+				}
+	    	 }
+	    	 
 	    	  //存入openid并且更新
 			var fieldsToSet = {
-					'weixin.openid' :req.user.weixin.openid,
+					'weixin.openid' :user.weixin.openid,
 			};
+			console.log('临时帐号openid');
+			console.log(req.user.weixin.openid);
+			console.log('关联帐号openid');
+			console.log(user.weixin.openid);
+			
+			console.log('更新关联帐号的openid');
 			
 			req.app.db.models.User.findByIdAndUpdate( user._id ,fieldsToSet ,function(err ,queryObj){
 				if(err){
@@ -117,17 +147,22 @@ exports.local_relation = function(req ,res){
 				}
 				//更新成功,存入session
 				if(queryObj){
-					
+					console.log('更新成功,开始删除临时帐号');
 					//删除临时user account
 					req.app.db.models.User.remove({_id : req.user._id});
 					req.app.db.models.Account.remove({'user.id' : req.user._id});
 					//等级新session
+					console.log('使用关联帐号登录');
 					req.login(user, function(err) {
 				          if (err) {
 				            return next(err);
 				          }
-	                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信,登录成功');
+	                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
 					});
+				}else{
+					console.log('关联失败');
+					workflow.outcome.errors.push('更新用户失败');
+			        return workflow.emit('response');
 				}
 			});
 	      }
