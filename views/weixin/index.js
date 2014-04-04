@@ -27,10 +27,6 @@ exports.init = function(req ,res ,next){
 	console.log('init');
 	//通过文件头检查来源
 	 workflow.on('checkUserAgent',function(){
-		 console.log('checkUserAgent');
-		 if(!req.session.tmp_openid){
-			 req.session.tmp_openid = null;
-		 }
 		var user_agent = req.headers['user-agent'].toLowerCase();
 		if(user_agent.indexOf('micromessenger') == '-1'){
 			console.log('其他浏览器');
@@ -47,25 +43,24 @@ exports.init = function(req ,res ,next){
 	 workflow.on('userIsLogin',function(){
 		 console.log(req.user);
 		 //已经登录 有session并且weixin对象和openid属性存在并且不为空
-		 if(req.user && req.user.weixin && req.user.weixin.openid && req.user.weixin.openid != []){
-			 
+		 if(req.user && req.user.weixin && req.user.weixin.openid.length > 0){
 			 console.log('存在session并且openid不为空');
 			 console.log(req.user.weixin);
 			 var tpOpenid = new Array();
+			 //添加第三方
 			 if(req.query.tpOpenid)
 				 tpOpenid.push(req.query.tpOpenid);
 			 console.log(tpOpenid);
+			 //直接关联
 			 workflow.emit('relation',tpOpenid);
-		 }else if(req.session.tmp_openid && req.session.tmp_openid.localOpenid){
-			 //是否已经存有openid的session但是没有进行关联登录
-			 console.log('是否已经存有openid的session但是没有进行关联登录');
-			 console.log(req.session.tmp_openid);
-			 next();
 		 }else{
 			 console.log('不存在session或者openid为空');
+			 //获取openid
 			 workflow.emit('getOpenid');
 		 }
 	 });
+	
+	 
 	 
 	 //从code获取本地openid
 	 workflow.on('getOpenid',function(){
@@ -75,9 +70,9 @@ exports.init = function(req ,res ,next){
 			 /**
 			  * @todo
 			  */
-			 console.log('用户被动点击,需要模拟用户点击请求code');
+			 console.log('需要模拟用户点击请求code');
 			 var url ='http://'+req.headers.host+req.url;
-			 
+			 console.log(weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}));
 			 return res.render('weixin/render',{
 					url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
 			 });
@@ -98,18 +93,23 @@ exports.init = function(req ,res ,next){
 					 var search = new Array();
 					 search.push(data.openid);
 					 if(req.query.tpOpenid){
-						search.push(req.query.tpOpenid);  
+						 search.push(req.query.tpOpenid);
+		              }
+					 //用户是否已经登录过了
+					 if(req.user){
+						 console.log("用户已经登录过了,现在开始关联帐号");
+						 return workflow.emit('relation',search);
 					 }
-					 //查找是否有用户存在,有的话直接登录
+					 
+					 //查找是否有用户存在,有的话直接登录并关联
 					 req.app.db.models.User.findOne({"weixin.openid" :{"$in":search}}, function(err, user){
 						 if(err){
 							return next(err);
 						 }
 						 //如果查找到 自动帮助用户登录
-						 
-						 console.log(user);
-						 
 						 if(user){
+							 console.log('已查询到用户');
+							 console.log(user);
 							 req.login(user, function(err) {
 								 if (err) {
 									 return next(err);
@@ -120,12 +120,56 @@ exports.init = function(req ,res ,next){
 							 workflow.emit('relation',search);
 						 }else{
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
-							 req.session.tmp_openid = {
-									 localOpenid : data.openid,
-									 tpOpenid    : req.query.tpOpenid,
-							 };
-							 console.log(req.session);
-							 next();
+							 //直接注册
+							 console.log('自动注册临时帐号');
+							 var fieldsToSet = {
+								        isActive: 'yes',
+								        username:'',
+								        email: '',
+								        password: '', 
+								        weixin: {
+								        	openid:[data.openid]
+								        },
+								      };
+							 req.app.db.models.User.create(fieldsToSet, function(err, user) {
+								 if (err) {
+							          return next(err);
+							     }
+								 if(!user) 
+									 return next();
+								 //create account 
+								 fieldsToSet = {
+									      isVerified: req.app.get('require-account-verification') ? 'no' : 'yes',
+									      'name.full': '',
+									      user: {
+									        id: user._id,
+									        name: user.username
+									      },
+									      search: [
+									       user.username
+									      ]
+									    };
+							    req.app.db.models.Account.create(fieldsToSet, function(err, account) {
+							        if (err) {
+							        	return next(err);
+							        }
+							        if(!account) 
+							        	return next();
+							        //update user with account
+							        user.roles.account = account._id;
+							        user.save(function(err, user) {
+							          if (err) {
+							            return next(err);
+							          }
+							          req.login(user, function(err) {
+							              if (err) {
+							            	  return next(err)
+							              }
+							              workflow.emit('relation',search);
+							            });
+							        });
+							      });
+							 });
 						 }
 					 });
 				 }else{
@@ -140,6 +184,7 @@ exports.init = function(req ,res ,next){
 	 //关联openid
 	 workflow.on('relation',function(searchArr){
 		 console.log(searchArr);
+		 console.log(req.user.weixin.openid);
 		 var sLength = searchArr.length;
 		 var userLenth = req.user.weixin.openid.length;
 		 //对比
@@ -153,7 +198,7 @@ exports.init = function(req ,res ,next){
 				}
 				//不存在 填入user.weixin.openid 数组里面
 				if(!isExist){
-					req.user.weixin.openid(searchArr[i]);
+					req.user.weixin.openid.push(searchArr[i]);
 				}
 			}
 		 if(userLenth < req.user.weixin.openid.length){
@@ -167,7 +212,6 @@ exports.init = function(req ,res ,next){
 					//更新成功,存入session
 					if(queryObj){
 						console.log('自动关联openid并更新成功');
-						req.session.tmp_openid ='';
 					}
 					next();
 				});

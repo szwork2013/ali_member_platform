@@ -9,17 +9,21 @@ var getReturnUrl = function(req) {
 };
 
 exports.init = function(req ,res){
-	console.log(req.session.tmp_openid);
 	if (req.isAuthenticated()) {
-		res.redirect(getReturnUrl(req));
-	}else{
 		res.render('weixin/relation/index',{
-			oauthMessage: '未检测到您的关联账户,请您先关联账户.',
 			localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
 			otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
 			//第三方
+			oauthTwitter: !!req.app.get('twitter-oauth-key'),
+	        oauthGitHub: !!req.app.get('github-oauth-key'),
+	        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+	        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+	        oauthQq: !!req.app.get('qq-oauth-key'),
+	        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
 		});
-	}
+	  }else{
+		  res.end('请您先登录');
+	  }
 };
 
 
@@ -103,21 +107,23 @@ exports.local_relation = function(req ,res){
 	        });
 	      }
 	      else {
+	    	  
 	    	  //存入openid并且更新
-			var search = new Array();
-			if(req.body.otherOpenid){
-				search.push(req.body.otherOpenid);
-			}
-			search.push(req.body.localOpenid);
 			var fieldsToSet = {
-					'weixin.openid' : search,
+					'weixin.openid' :req.user.weixin.openid,
 			};
+			
 			req.app.db.models.User.findByIdAndUpdate( user._id ,fieldsToSet ,function(err ,queryObj){
 				if(err){
 					return next(err);
 				}
 				//更新成功,存入session
 				if(queryObj){
+					
+					//删除临时user account
+					req.app.db.models.User.remove({_id : req.user._id});
+					req.app.db.models.Account.remove({'user.id' : req.user._id});
+					//等级新session
 					req.login(user, function(err) {
 				          if (err) {
 				            return next(err);
@@ -126,18 +132,6 @@ exports.local_relation = function(req ,res){
 					});
 				}
 			});
-			  
-			  
-			  
-			  
-			  
-	        req.login(user, function(err) {
-	          if (err) {
-	            return workflow.emit('exception', err);
-	          }
-	          req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '本地登录成功');
-	          workflow.emit('response');
-	        });
 	      }
 	    })(req, res);
 	  });
@@ -145,3 +139,7 @@ exports.local_relation = function(req ,res){
 	  workflow.emit('validate');
 }
 
+exports.Ali_discuz_relation = function(req ,res){
+	console.log(req.query);
+	res.end('end');
+};
