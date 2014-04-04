@@ -11,8 +11,6 @@ var getReturnUrl = function(req) {
 exports.init = function(req ,res){
 	if (req.isAuthenticated()) {
 		res.render('weixin/relation/index',{
-			localOpenid: !(req.session.tmp_openid && req.session.tmp_openid.localOpenid) ? '' : req.session.tmp_openid.localOpenid,
-			otherOpenid: !(req.session.tmp_openid && req.session.tmp_openid.tpOpenid) ? '' : req.session.tmp_openid.tpOpenid,
 			//第三方
 			oauthTwitter: !!req.app.get('twitter-oauth-key'),
 	        oauthGitHub: !!req.app.get('github-oauth-key'),
@@ -39,8 +37,8 @@ exports.local_relation = function(req ,res){
 	    if (!req.body.password) {
 	      workflow.outcome.errfor.password = 'required';
 	    }
-	    if (!req.body.localOpenid) {
-	    	workflow.outcome.errfor.openid = '获取openid失败,请重新进入页面进行关联操作';
+	    if (!req.user.weixin.openid) {
+	    	workflow.outcome.errfor.openid = '获取openid失败,请注销后重新登录';
 		}
 	    
 	    if (workflow.hasErrors()) {

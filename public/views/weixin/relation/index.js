@@ -12,8 +12,6 @@
       errfor: {},
       username: '',
       password: '',
-      otherOpenid:'',
-      localOpenid:'',
     }
   });
 
