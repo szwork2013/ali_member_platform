@@ -180,7 +180,7 @@ app.configure(function(){
         console.log('QQ Nick: ', req.user.qq.profile.nickname);
         res.locals.user.nickname = req.user.qq.profile.nickname;
         res.locals.user.avatar = req.user.qq.profile.figureurl_qq_1;
-      } else if(req.user.weibo.length != 0) {
+      } else if(req.user.weibo && req.user.weibo.length != 0) {
         console.log('Weibo Nick: ', typeof(req.user.weibo));
         res.locals.user.nickname = req.user.weibo.screen_name;
         res.locals.user.avatar = req.user.weibo.profile_image_url;
