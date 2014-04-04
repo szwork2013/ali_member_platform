@@ -139,3 +139,6 @@ exports.local_relation = function(req ,res){
 	  workflow.emit('validate');
 }
 
+exports.Ali_discuz_relation = function(req ,res){
+	
+};
