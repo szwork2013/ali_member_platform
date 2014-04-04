@@ -126,7 +126,7 @@ exports.local_relation = function(req ,res){
 	    		 }
 	    		//不存在 填入user.weixin.openid 数组里面
 				if(!isExist){
-					user.weixin.openid.push(tmpUserLength[i]);
+					user.weixin.openid.push(req.user.weixin.openid[i]);
 				}
 	    	 }
 	    	 
