@@ -119,7 +119,7 @@ exports.local_relation = function(req ,res){
 	    	 for(var i=0 ;i < tmpUserLength ;i++){
 	    		 var isExist = false;
 	    		 for(var j=0 ; j < userLenth ;j++){
-					if(userLenth[j] == tmpUserLength[i]){
+					if(user.weixin.openid[j] == req.user.weixin.openid[i]){
 						isExist = true;
 						break;
 					}
