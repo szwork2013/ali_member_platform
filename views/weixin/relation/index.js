@@ -140,5 +140,6 @@ exports.local_relation = function(req ,res){
 }
 
 exports.Ali_discuz_relation = function(req ,res){
-	
+	console.log(req.query);
+	res.end('end');
 };
