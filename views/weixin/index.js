@@ -124,8 +124,8 @@ exports.init = function(req ,res ,next){
 							 console.log('自动注册临时帐号');
 							 var fieldsToSet = {
 								        isActive: 'yes',
-								        username:'',
-								        email: '',
+								        username: data.openid,
+								        email: data.openid+'@example.com',
 								        password: '', 
 								        weixin: {
 								        	openid:[data.openid]
