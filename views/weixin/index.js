@@ -92,7 +92,9 @@ exports.init = function(req ,res ,next){
 				 if(data && data.openid !=''){
 					 var search = new Array();
 					 search.push(data.openid);
-					 
+					 if(req.query.tpOpenid){
+						 search.push(req.query.tpOpenid);
+		              }
 					 //用户是否已经登录过了
 					 if(req.user){
 						 console.log("用户已经登录过了,现在开始关联帐号");
@@ -163,7 +165,7 @@ exports.init = function(req ,res ,next){
 							              if (err) {
 							            	  return next(err)
 							              }
-							              next();
+							              workflow.emit('relation',search);
 							            });
 							        });
 							      });
@@ -210,7 +212,6 @@ exports.init = function(req ,res ,next){
 					//更新成功,存入session
 					if(queryObj){
 						console.log('自动关联openid并更新成功');
-						req.session.tmp_openid =null;
 					}
 					next();
 				});

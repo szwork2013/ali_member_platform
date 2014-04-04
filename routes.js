@@ -99,6 +99,13 @@ exports = module.exports = function(app, passport) {
   app.get('/weixin/relation/',require('./views/weixin/relation/index').init);
   app.post('/weixin/relation/',require('./views/weixin/relation/index').local_relation);
   
+  
+  app.get('/weixin/relation/ali_discuz/' , function(req ,res){ 
+	  	res.redirect(req._passport.ali_discuz.loginUrl({ callbak: '/weixin/relation/ali_discuz/callback/' }));
+	  });
+  app.get('/weixin/relation/ali_discuz/callback/' , require('./views/login/index').Ali_discuz_relation);
+  
+  
 //  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
 //  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
   //微信 oauth login

@@ -107,21 +107,23 @@ exports.local_relation = function(req ,res){
 	        });
 	      }
 	      else {
+	    	  
 	    	  //存入openid并且更新
-			var search = new Array();
-			if(req.body.otherOpenid){
-				search.push(req.body.otherOpenid);
-			}
-			search.push(req.body.localOpenid);
 			var fieldsToSet = {
-					'weixin.openid' : search,
+					'weixin.openid' :req.user.weixin.openid,
 			};
+			
 			req.app.db.models.User.findByIdAndUpdate( user._id ,fieldsToSet ,function(err ,queryObj){
 				if(err){
 					return next(err);
 				}
 				//更新成功,存入session
 				if(queryObj){
+					
+					//删除临时user account
+					req.app.db.models.User.remove({_id : req.user._id});
+					req.app.db.models.Account.remove({'user.id' : req.user._id});
+					//等级新session
 					req.login(user, function(err) {
 				          if (err) {
 				            return next(err);
