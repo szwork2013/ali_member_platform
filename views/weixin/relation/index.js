@@ -243,10 +243,9 @@ exports.Ali_discuz_relation = function(req ,res){
 							        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
 								});
 			    		 }
-			    		 
-			   		     });
-			    		 
-			    	 });
+			    		});
+			         }
+			    	});
 			      }
 			    }); 
 		 	});
