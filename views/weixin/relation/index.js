@@ -138,6 +138,7 @@ exports.local_relation = function(req ,res){
 }
 
 exports.Ali_discuz_relation = function(req ,res){
+	var weixin = require('weixin');
 	var workflow = req.app.utility.workflow(req, res);
 	 
 	 workflow.on('getaccesstoken',function(){
