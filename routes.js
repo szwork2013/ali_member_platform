@@ -29,7 +29,7 @@ function ensureAccount(req, res, next) {
 }
 
 exports = module.exports = function(app, passport) {
-  app.get('/*', require('./views/weixin/index').init);
+  app.get('/[^loginout]*', require('./views/weixin/index').init);
   //front end
   app.get('/', require('./views/index').init);
   app.get('/wb_dda7e748009602ec.txt', function(req, res){
