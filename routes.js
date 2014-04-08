@@ -29,7 +29,8 @@ function ensureAccount(req, res, next) {
 }
 
 exports = module.exports = function(app, passport) {
-  app.get('[^logout]*', require('./views/weixin/index').init);
+  
+  app.get('/*', require('./views/weixin/index').init);
   //front end
   app.get('/', require('./views/index').init);
   app.get('/wb_dda7e748009602ec.txt', function(req, res){
@@ -62,7 +63,7 @@ exports = module.exports = function(app, passport) {
   app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
   app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/' }));
   app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
-
+  app.get('/logout/', require('./views/logout/index').init);
   //login/out
   app.get('/login/', require('./views/login/index').init);
   app.post('/login/', require('./views/login/index').login);
@@ -71,7 +72,6 @@ exports = module.exports = function(app, passport) {
   app.get('/login/reset/', require('./views/login/reset/index').init);
   app.get('/login/reset/:email/:token/', require('./views/login/reset/index').init);
   app.put('/login/reset/:email/:token/', require('./views/login/reset/index').set);
-  app.get('/logout/', require('./views/logout/index').init);
   
   //ali_discuz login
   app.get('/login/ali_discuz/' , function(req ,res){ 
