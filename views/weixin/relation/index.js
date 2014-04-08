@@ -26,6 +26,7 @@ exports.init = function(req ,res){
 
 
 exports.local_relation = function(req ,res){
+	  var weixin = require('weixin');
 	  var workflow = req.app.utility.workflow(req, res);
 	  
 	  //验证数据
@@ -108,70 +109,27 @@ exports.local_relation = function(req ,res){
 	    	  
 	    	 console.log('查询到有用户了');
 	    	 console.log('开始关联');
-	    	 //将查询到的user openid 循环添加到关联帐号
-	    	 //关联到的账户的openid
-	    	 var userLenth = user.weixin.openid.length;
-	    	 
-	    	 //临时帐号的openid
-	    	 var tmpUserLength =  req.user.weixin.openid.length
-	    	 
-	    	 //循环对比
-	    	 for(var i=0 ;i < tmpUserLength ;i++){
-	    		 var isExist = false;
-	    		 for(var j=0 ; j < userLenth ;j++){
-					if(user.weixin.openid[j] == req.user.weixin.openid[i]){
-						isExist = true;
-						break;
-					}
+	    	 weixin.mergeOpenid(req , user ,function(err ,user){
+	    		 if(err){
+	    			 return workflow.outcome.errors.push(err);
 	    		 }
-	    		//不存在 填入user.weixin.openid 数组里面
-				if(!isExist){
-					user.weixin.openid.push(req.user.weixin.openid[i]);
-				}
-	    	 }
-	    	 
-	    	  //存入openid并且更新
-			var fieldsToSet = {
-					'weixin.openid' :user.weixin.openid,
-			};
-			console.log('临时帐号openid');
-			console.log(req.user.weixin.openid);
-			console.log('关联帐号openid');
-			console.log(user.weixin.openid);
-			
-			console.log('更新关联帐号的openid');
-			
-			req.app.db.models.User.findByIdAndUpdate( user._id ,fieldsToSet ,function(err ,queryObj){
-				if(err){
-					return next(err);
-				}
-				//更新成功,存入session
-				if(queryObj){
-					console.log('更新成功,开始删除临时帐号');
-					//删除临时user account
-					console.log(req.user);
-					req.app.db.models.User.remove({_id : req.user._id},function(err){
+	    		 //删除临时帐号
+	    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
 						if(err){
 							console.log('errRemove');
 						}
-					});
-					req.app.db.models.Account.remove({'user.id' : req.user._id});
-					//等级新session
-					console.log('使用关联帐号登录');
-					req.login(user, function(err) {
-				          if (err) {
-				            return next(err);
-				          }
-				          console.log(req.user);
-	                      req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
-	                      return workflow.emit('response');
-					});
-				}else{
-					console.log('关联失败');
-					workflow.outcome.errors.push('更新用户失败');
-			        return workflow.emit('response');
-				}
-			});
+						req.app.db.models.Account.remove({'user.id' : req.user._id});
+				  });
+	    		 req.login(user, function(err) {
+	   	           if (err) {
+	   	             return next(err);
+	   	           }
+	   	           console.log(req.user);
+	               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
+	               return workflow.emit('response');
+	   		     });
+	    		 
+	    	 });
 	      }
 	    })(req, res);
 	  });
@@ -180,6 +138,98 @@ exports.local_relation = function(req ,res){
 }
 
 exports.Ali_discuz_relation = function(req ,res){
-	console.log(req.query);
-	res.end('end');
+	var workflow = req.app.utility.workflow(req, res);
+	 
+	 workflow.on('getaccesstoken',function(){
+		 //获取accesstoken 然后获取用户信息 如果用户不存在,则自动注册进入mongodb
+		 if(!req.query.accesstoken || req.query.error){
+			 if (req.isAuthenticated()) {
+				return res.render('weixin/relation/index',{
+						oauthMessage: '关联失败,请重新登录。error:'+req.query.error,
+						//第三方
+						oauthTwitter: !!req.app.get('twitter-oauth-key'),
+				        oauthGitHub: !!req.app.get('github-oauth-key'),
+				        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+				        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+				        oauthQq: !!req.app.get('qq-oauth-key'),
+				        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+					});
+				  }else{
+					  res.end('请您先登录');
+				  }
+		 }else{
+			 workflow.emit('getuserinfo');
+		 }
+	 });
+	 workflow.on('getuserinfo',function(){
+		 req._passport.ali_discuz.authenticate(req.query.accesstoken ,function(err ,info){
+			 if(err){
+				 return res.render('weixin/relation/index',{
+						oauthMessage: '获取关联帐号信息失败,请重新登录。error:'+req.query.error,
+						//第三方
+						oauthTwitter: !!req.app.get('twitter-oauth-key'),
+				        oauthGitHub: !!req.app.get('github-oauth-key'),
+				        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+				        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+				        oauthQq: !!req.app.get('qq-oauth-key'),
+				        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+					});
+			 }
+			 if (!info) {
+				 return res.render('weixin/relation/index',{
+						oauthMessage: '无此关联账户信息,请重新确认。error:'+req.query.error,
+						//第三方
+						oauthTwitter: !!req.app.get('twitter-oauth-key'),
+				        oauthGitHub: !!req.app.get('github-oauth-key'),
+				        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+				        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+				        oauthQq: !!req.app.get('qq-oauth-key'),
+				        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+					});
+			 }
+			 req.app.db.models.User.findOne({ 'ali_discuz.uid': info._json.uid }, function(err, user) {
+				  if (err) {
+			        return next(err);
+			      }
+			      if (!user) {
+			    	  return res.render('weixin/relation/index',{
+							oauthMessage: '无此账户信息,您可以先进行注册。error:'+req.query.error,
+							//第三方
+							oauthTwitter: !!req.app.get('twitter-oauth-key'),
+					        oauthGitHub: !!req.app.get('github-oauth-key'),
+					        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+					        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+					        oauthQq: !!req.app.get('qq-oauth-key'),
+					        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+						});
+			      }
+			      else {
+			    	 console.log('查询到有用户了');
+			    	 console.log('开始关联');
+			    	 weixin.mergeOpenid(req , user ,function(err ,user){
+			    		 if(err){
+			    			 return workflow.outcome.errors.push(err);
+			    		 }
+			    		 //删除临时帐号
+			    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
+								if(err){
+									console.log('errRemove');
+								}
+								req.app.db.models.Account.remove({'user.id' : req.user._id});
+						  });
+			    		 req.login(user, function(err) {
+			   	           if (err) {
+			   	             return next(err);
+			   	           }
+			   	           console.log(req.user);
+			               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
+			               return res.redirect(getReturnUrl(req));
+			   		     });
+			    		 
+			    	 });
+			      }
+			    }); 
+		 	});
+	 });		 
+	 workflow.emit('getaccesstoken');	 
 };
