@@ -1,12 +1,6 @@
 'use strict'
 exports.wx = function(req ,res){
-	console.log(req.query);
 	res.end(req.query.echostr);
-};
-exports.test = function(req ,res){
-	console.log(req.body);
-	console.log(req.query);
-	res.end('test page!');
 };
 /**
  * 用户进入
@@ -41,16 +35,14 @@ exports.init = function(req ,res ,next){
 	 
 	 //判断用户是否已经登录(session)并且是否存在openid
 	 workflow.on('userIsLogin',function(){
-		 console.log(req.user);
 		 //已经登录 有session并且weixin对象和openid属性存在并且不为空
 		 if(req.user && req.user.weixin && req.user.weixin.openid.length > 0){
 			 console.log('存在session并且openid不为空');
-			 console.log(req.user.weixin);
 			 var tpOpenid = new Array();
 			 //添加第三方
 			 if(req.query.tpOpenid)
 				 tpOpenid.push(req.query.tpOpenid);
-			 console.log(tpOpenid);
+			 
 			 //直接关联
 			 workflow.emit('relation',tpOpenid);
 		 }else{
@@ -72,7 +64,7 @@ exports.init = function(req ,res ,next){
 			  */
 			 console.log('需要模拟用户点击请求code');
 			 var url ='http://'+req.headers.host+req.url;
-			 console.log(weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}));
+			 
 			 return res.render('weixin/render',{
 					url:weixin.callbackUrl({callbackurl:url,state:req.app.config.weixin.state}),
 			 });
@@ -109,14 +101,12 @@ exports.init = function(req ,res ,next){
 						 //如果查找到 自动帮助用户登录
 						 if(user){
 							 console.log('已查询到用户');
-							 console.log(user);
 							 req.login(user, function(err) {
 								 if (err) {
 									 return next(err);
 								 }
 								 req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '微信登录成功');
 							});
-							 console.log(search);
 							 workflow.emit('relation',search);
 						 }else{
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
@@ -183,8 +173,6 @@ exports.init = function(req ,res ,next){
 	 
 	 //关联openid
 	 workflow.on('relation',function(searchArr){
-		 console.log(searchArr);
-		 console.log(req.user.weixin.openid);
 		 var sLength = searchArr.length;
 		 var userLenth = req.user.weixin.openid.length;
 		 //对比

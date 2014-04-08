@@ -125,7 +125,7 @@ exports.local_relation = function(req ,res){
 		   	           if (err) {
 		   	             return next(err);
 		   	           }
-		   	           console.log(req.user);
+		   	           
 		               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
 		               return workflow.emit('response');
 		   		     });
@@ -227,7 +227,6 @@ exports.Ali_discuz_relation = function(req ,res){
 				   	           if (err) {
 				   	             return next(err);
 				   	           }
-				   	           console.log(req.user);
 				               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
 				               return res.redirect(getReturnUrl(req));
 				    		 });
