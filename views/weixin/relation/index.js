@@ -113,22 +113,26 @@ exports.local_relation = function(req ,res){
 	    		 if(err){
 	    			 return workflow.outcome.errors.push(err);
 	    		 }
-	    		 //删除临时帐号
-	    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
-						if(err){
-							console.log('errRemove');
-						}
-						req.app.db.models.Account.remove({'user.id' : req.user._id});
-				  });
-	    		 req.login(user, function(err) {
-	   	           if (err) {
-	   	             return next(err);
-	   	           }
-	   	           console.log(req.user);
-	               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
-	               return workflow.emit('response');
-	   		     });
-	    		 
+	    		 if(user){
+		    		 //删除临时帐号
+		    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
+							if(err){
+								console.log('errRemove');
+							}
+							req.app.db.models.Account.remove({'user.id' : req.user._id});
+					  });
+		    		 req.login(user, function(err) {
+		   	           if (err) {
+		   	             return next(err);
+		   	           }
+		   	           console.log(req.user);
+		               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
+		               return workflow.emit('response');
+		   		     });
+	    		 }else{
+	    			workflow.outcome.errors.push('关联失败,请返回页面后重新尝试');
+	   	            return workflow.emit('response');
+	    		 }
 	    	 });
 	      }
 	    })(req, res);
