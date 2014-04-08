@@ -230,7 +230,7 @@ exports.Ali_discuz_relation = function(req ,res){
 				   	           console.log(req.user);
 				               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
 				               return res.redirect(getReturnUrl(req));
-				    		 }
+				    		 });
 			    		 }else{
 			    			 return res.render('weixin/relation/index',{
 									oauthMessage: '关联失败,请您返回页面后重新尝试。error:'+req.query.error,
@@ -241,14 +241,12 @@ exports.Ali_discuz_relation = function(req ,res){
 							        oauthWeibo: !!req.app.get('weibo-oauth-key'),
 							        oauthQq: !!req.app.get('qq-oauth-key'),
 							        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
-								});
+								});// return res.render('weixin/relation/index',{
 			    		 }
-			    		});
-			         }
-			    	});
-			      }
-			    }); 
-		 	});
-	 });		 
+			    		});//weixin.mergeOpenid
+			          }
+			    	});//req.app.db.models.User.findOne
+			    }); //req._passport.ali_discuz.authenticate
+	 });//
 	 workflow.emit('getaccesstoken');	 
 };
