@@ -211,20 +211,35 @@ exports.Ali_discuz_relation = function(req ,res){
 			    		 if(err){
 			    			 return workflow.outcome.errors.push(err);
 			    		 }
-			    		 //删除临时帐号
-			    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
-								if(err){
-									console.log('errRemove');
-								}
-								req.app.db.models.Account.remove({'user.id' : req.user._id});
-						  });
-			    		 req.login(user, function(err) {
-			   	           if (err) {
-			   	             return next(err);
-			   	           }
-			   	           console.log(req.user);
-			               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
-			               return res.redirect(getReturnUrl(req));
+			    		 if(user){
+			    			//删除临时帐号
+				    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
+									if(err){
+										console.log('errRemove');
+									}
+									req.app.db.models.Account.remove({'user.id' : req.user._id});
+							  });
+				    		 req.login(user, function(err) {
+				   	           if (err) {
+				   	             return next(err);
+				   	           }
+				   	           console.log(req.user);
+				               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '帐号关联微信');
+				               return res.redirect(getReturnUrl(req));
+				    		 }
+			    		 }else{
+			    			 return res.render('weixin/relation/index',{
+									oauthMessage: '关联失败,请您返回页面后重新尝试。error:'+req.query.error,
+									//第三方
+									oauthTwitter: !!req.app.get('twitter-oauth-key'),
+							        oauthGitHub: !!req.app.get('github-oauth-key'),
+							        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+							        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+							        oauthQq: !!req.app.get('qq-oauth-key'),
+							        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+								});
+			    		 }
+			    		 
 			   		     });
 			    		 
 			    	 });
