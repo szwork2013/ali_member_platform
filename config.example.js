@@ -70,4 +70,6 @@ exports.mysql_cfg = {
 
 exports.weixin = {
 		state:'dreamcastle',
+		AppId:'wxce7ebe6fb9d479b1',
+		AppSecret:'e16b8a0a7b72a80e9440b2d999bb9328',
 }

@@ -16,7 +16,7 @@ exports.wx = function(req ,res){
  * 一般第三方过来的openid的属性名称为 tpOpenid(测试)
  */
 exports.init = function(req ,res ,next){
-	var weixin = require('weixin');
+	var weixin = require('weixin')(req);
 	var workflow = req.app.utility.workflow(req, res);
 	console.log('init');
 	//通过文件头检查来源
