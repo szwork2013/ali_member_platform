@@ -72,4 +72,23 @@ exports.weixin = {
 		state:'dreamcastle',
 		AppId:'wxce7ebe6fb9d479b1',
 		AppSecret:'e16b8a0a7b72a80e9440b2d999bb9328',
-}
+		source:new Array(
+				{
+					name:'dreamcastle',
+					fullname:'梦之城会员'
+				},
+				{
+					name:'ali',
+					fullname:'阿狸会员'
+				},
+				{
+					name:'daxiong',
+					fullname:'大熊会员'
+				},
+				{
+					name:'taozi',
+					fullname:'桃子会员'
+				}
+		)
+
+};
