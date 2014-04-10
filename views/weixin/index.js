@@ -132,7 +132,7 @@ exports.init = function(req ,res ,next){
 								 var fullname ='';
 								 var sourceLength = req.app.config.weixin.source;
 								 for(var i=0 ;i < sourceLength ;i++){
-									 if(req.query.state == req.app.config.weixin.source[i]){
+									 if(req.query.state == req.app.config.weixin.source[i].name){
 										 fullname = req.app.config.weixin.source[i].fullname;
 										 break;
 									 }
