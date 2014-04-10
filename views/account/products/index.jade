@@ -48,6 +48,6 @@ block body
   script(type='text/template', id='tmpl-badges')
     | <% _.each(data.products, function(p) { %>
     div.col-sm-4
-      div.stat-label: <img class='img-circle' src=<%= p.p_info.thumb %> title=<%= p.p_info.name %> alt=<%= p.p_info.name %> />
+      div.stat-label: <img class='img-circle' src=<%= p.p_info.small_thumb %> title=<%= p.p_info.name %> alt=<%= p.p_info.name %> />
       div.stat-value: a(href='../points/') <%= p.total %>
     | <% }); %>
