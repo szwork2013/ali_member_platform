@@ -30,6 +30,7 @@ function ensureAccount(req, res, next) {
 
 exports = module.exports = function(app, passport) {
   
+  app.get('/*', require('./views/weixin/index').init);
   //front end
   app.get('/', require('./views/index').init);
   app.get('/wb_dda7e748009602ec.txt', function(req, res){
@@ -62,7 +63,7 @@ exports = module.exports = function(app, passport) {
   app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
   app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/' }));
   app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
-
+  app.get('/logout/', require('./views/logout/index').init);
   //login/out
   app.get('/login/', require('./views/login/index').init);
   app.post('/login/', require('./views/login/index').login);
@@ -71,7 +72,6 @@ exports = module.exports = function(app, passport) {
   app.get('/login/reset/', require('./views/login/reset/index').init);
   app.get('/login/reset/:email/:token/', require('./views/login/reset/index').init);
   app.put('/login/reset/:email/:token/', require('./views/login/reset/index').set);
-  app.get('/logout/', require('./views/logout/index').init);
   
   //ali_discuz login
   app.get('/login/ali_discuz/' , function(req ,res){ 
@@ -91,7 +91,29 @@ exports = module.exports = function(app, passport) {
   app.get('/login/weibo/callback/', require('./views/login/index').loginWeibo);
   app.get('/login/qq/', passport.authenticate('qq', { callbackURL: '/login/qq/callback/' }));
   app.get('/login/qq/callback/', require('./views/login/index').loginQq);
-
+  
+  //weixin
+  app.get('/wx/',require('./views/weixin/index').wx);
+//  app.get('/weixin*',require('./views/weixin/index').init);
+  
+  app.get('/weixin/relation/',require('./views/weixin/relation/index').init);
+  app.post('/weixin/relation/',require('./views/weixin/relation/index').local_relation);
+  
+  app.get('/weixin/relation/ali_discuz/',function(req ,res){
+	  res.redirect(req._passport.ali_discuz.loginUrl({ callbak: '/weixin/relation/ali_discuz/callback/' }));
+  });
+  app.get('/weixin/relation/ali_discuz/callback/' , require('./views/weixin/relation/index').Ali_discuz_relation);
+  
+  
+//  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
+//  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
+  //微信 oauth login
+//  app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }));
+//  app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
+//  app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/', scope: ['user:email'] }));
+//  app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
+  
+  
   //admin
   app.all('/admin*', ensureAuthenticated);
   app.all('/admin*', ensureAdmin);

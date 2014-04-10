@@ -1,0 +1,71 @@
+extends ../../../layouts/default
+
+block head
+  title 帐号关联
+
+block feet
+  script(src='/views/weixin/relation/index.js?#{cacheBreaker}')
+
+block body
+  div.row
+    div.col-sm-6
+      div.page-header
+        h1 帐号关联
+      div#login
+      if oauthAliDiscuz || oauthTwitter || oauthGitHub || oauthFacebook || oauthWeibo || oauthQq
+        hr
+        p 或者使用第三方帐号登录
+        if oauthMessage
+          div.alerts
+            div.alert.alert-info.alert-dismissable
+              button.close(type='button', data-dismiss='alert') &times;
+              |#{oauthMessage}&nbsp;
+              b
+                a(href='/signup/') 注册帐号
+        div.form-actions
+          div.btn-group.btn-group-justified
+            if oauthTwitter
+              a.btn.btn-info(href='/login/twitter/')
+                i.fa.fa-twitter.fa-lg
+                |  Twitter
+            if oauthGitHub
+              a.btn.btn-info(href='/login/github/')
+                i.fa.fa-github.fa-lg
+                |  GitHub
+            if oauthFacebook
+              a.btn.btn-info(href='/login/facebook/')
+                i.fa.fa-facebook-square.fa-lg
+                |  Facebook
+            if oauthWeibo
+              a.btn.btn-info(href='/login/weibo/')
+                i.fa.fa-weibo-square.fa-lg
+                |  新浪微博
+            if oauthQq
+              a.btn.btn-info(href='/login/qq/')
+                i.fa.fa-qq-square.fa-lg
+                |  腾讯QQ
+            if oauthAliDiscuz
+              a.btn.btn-info(href='/weixin/relation/ali_discuz/')
+                i.fa.fa-al_discuz-square.fa-lg
+                |  阿狸官网
+  script(type='text/template', id='tmpl-login')
+    form
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-danger.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          |<%- err %>
+        |<% }); %>
+      div.form-group(class!='<%- errfor.username ? "has-error" : "" %>')
+        label.control-label 用户名或Email:
+        input.form-control(type='text', name='username', value!='<%= username %>')
+        span.help-block <%- errfor.username %>
+      div.form-group(class!='<%- errfor.password ? "has-error" : "" %>')
+        label.control-label 密码:
+        input.form-control(type='password', name='password', value!='<%= password %>')
+        span.help-block <%- errfor.password %>
+      div.form-actions
+        button.btn.btn-primary.btn-login(type='button') 登录
+        |&nbsp;
+        a.btn.btn-link(href='/login/forgot/') 忘记密码？
+        

@@ -8,7 +8,6 @@ exports.init = function(req, res, next){
       if (err) {
         return callback(err, null);
       }
-
       outcome.fullname = account.name.full;
       callback(null, 'done');
     });

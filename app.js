@@ -173,6 +173,9 @@ app.configure(function(){
 
     //set the nick name and avatar image url
     if(req.user) {
+      if(req.user && req.user.username){
+    	  console.log(req.user.roles.account);
+      }
       if (typeof(req.user.qq) != 'undefined' && req.user.qq != null) {
         console.log('QQ Nick: ', req.user.qq.profile.nickname);
         res.locals.user.nickname = req.user.qq.profile.nickname;
@@ -182,7 +185,7 @@ app.configure(function(){
         res.locals.user.nickname = req.user.weibo.screen_name;
         res.locals.user.avatar = req.user.weibo.profile_image_url;
       } else {
-        console.log('Nick: ', req.user.username);
+        console.log('Nick : ', req.user.username);
         res.locals.user.nickname = req.user.username;
         res.locals.user.avatar = 'http://www.a-li.com.cn/uc_server/images/noavatar_small.gif';
       }
