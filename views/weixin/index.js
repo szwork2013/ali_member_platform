@@ -129,9 +129,22 @@ exports.init = function(req ,res ,next){
 								 if(!user) 
 									 return next();
 								 //create account 
+								 var fullname ='';
+								 var sourceLength = req.app.config.weixin.source;
+								 for(var i=0 ;i < sourceLength ;i++){
+									 if(req.query.state == req.app.config.weixin.source[i].name){
+										 fullname = req.app.config.weixin.source[i].fullname;
+										 break;
+									 }
+								 }
+								 if(fullname){
+									 fullname = req.app.config.weixin.source[0].fullname
+								 }
+								 
+								 
 								 fieldsToSet = {
 									      isVerified: req.app.get('require-account-verification') ? 'no' : 'yes',
-									      'name.full': '',
+									      'name.full': fullname,
 									      user: {
 									        id: user._id,
 									        name: user.username
