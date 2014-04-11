@@ -17,7 +17,7 @@ exports.wx = function(req ,res){
  */
 exports.init = function(req ,res ,next){
 	var weixin = require('weixin').init(req);
-	
+	console.log(req.app.config.weixin.source);
 	var workflow = req.app.utility.workflow(req, res);
 	console.log('init');
 	//通过文件头检查来源
@@ -126,11 +126,12 @@ exports.init = function(req ,res ,next){
 								 if (err) {
 							          return next(err);
 							     }
+								 console.log(req.app.config.weixin.source);
 								 if(!user) 
 									 return next();
 								 //create account 
 								 var fullname ='';
-								 var sourceLength = req.app.config.weixin.source;
+								 var sourceLength = req.app.config.weixin.source.length;
 								 for(var i=0 ;i < sourceLength ;i++){
 									 if(req.query.state == req.app.config.weixin.source[i].name){
 										 fullname = req.app.config.weixin.source[i].fullname;
