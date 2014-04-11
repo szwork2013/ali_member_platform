@@ -171,7 +171,7 @@ exports.init = function(req ,res ,next){
 //							              }
 //							              workflow.emit('relation',search);
 //							            });
-//							        });
+							        });
 							          workflow.emit('relation',search);
 							      });
 							 });
