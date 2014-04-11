@@ -7,29 +7,20 @@ html
     link(rel='stylesheet', href='/layouts/core.min.css?#{cacheBreaker}')
     block neck
   body
-    div.navbar.navbar-default.navbar-fixed-top
-      div.container
-        div.navbar-header
-          a.navbar-brand(href='/account/')
-            img.navbar-logo(src='/media/logo-symbol-64x64.png')
-            span.navbar-brand-label #{projectName}
-          button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.my-navbar-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-        div.navbar-collapse.my-navbar-collapse.collapse
-          ul.nav.navbar-nav
-            li: |<img src='#{user.avatar}' style='padding:10px; height: 50px;'>
-                |<span style='padding-right:10px'>#{user.nickname}</span>
-            li: a(href='/account/') 我的帐号
-            li: a(href='/account/settings/') 设置
-            
-            li: a(href='/weixin/relation/') 关联帐号
-            
-          ul.nav.navbar-nav.pull-right
-            li: a(href='/logout/')
-              i.fa.fa-user
-              |  退出
+    div.navbar.navbar-default.navbar-static-top
+      a.navbar-brand(href='/account/')
+        img.navbar-logo(src='/media/logo-symbol-64x64.png')
+        span.navbar-brand-label #{projectName}
+        span.icon-bar
+      img(src='#{user.avatar}' style='padding:10px; height: 50px;')
+      span(style='padding-right:10px') #{user.nickname}
+      ul.nav.nav-tabs.pull-right
+        li: a(href='/account/') 我的帐号
+        li: a(href='/account/settings/') 设置
+        li: a(href='/weixin/relation/') 关联帐号
+        li: a(href='/logout/')
+          i.fa.fa-user
+          |  退出
 
     div.page
       div.container
