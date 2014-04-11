@@ -45,7 +45,7 @@ var renderSettings = function(req, res, next) {
       weixin_warning_msg = '请注意：如果你还没有与你已有用户绑定，请先绑定。否则合并操作会删除当前用户的产品徽章和积分！';
     }
 
-    console.log('Weixin warning', weixin_warning);
+    console.log('Weixin warning', weixin_warning_msg);
     // 渲染页面，index.jade 页末的!{data.products}即为此数据
     res.render('account/products/index', {weixin_waring: weixin_warning_msg});
 //    res.render('account/products/index', {
