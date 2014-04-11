@@ -15,6 +15,8 @@ block body
         h1 我的正品
       div.row
         div.col-sm-10
+          div.alert.alert-danger
+            |#{weixin_warning}
           div#serial
 
     div.col-sm-6.special
@@ -38,16 +40,8 @@ block body
           button.close(type='button', data-dismiss='alert') &times;
           | 防伪码已成功验证。
         |<% } %>
-        |<% if (weixin_warning) { %>
-        div.alert.alert-danger
-          |<%- weixin_warning %>
-        |<% } %>
       div.control-group(class!='<%- errfor.serial ? "has-error" : "" %>')
         label.control-label 产品防伪码:
-        |<% if (weixin_warning) { %>
-        div.alert.alert-danger
-          |<%- weixin_warning %>
-        |<% } %>
         input.form-control(type='text', name='serial')
         span.help-block <%- errfor.serial %>
       div.control-group
