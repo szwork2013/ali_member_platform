@@ -39,8 +39,14 @@ var renderSettings = function(req, res, next) {
       return next(err);
     }
 
+    var user_agent = req.headers['user-agent'].toLowerCase();
+    var weixin_warning;
+    if(user_agent.indexOf('micromessenger') > 0){
+      weixin_warning = '请注意：如果你还没有与你已有用户绑定，请先绑定。否则合并操作会删除当前用户的产品徽章和积分！';
+    }
+
     // 渲染页面，index.jade 页末的!{data.products}即为此数据
-    res.render('account/products/index');
+    res.render('account/products/index', {weixin_waring: weixin_warning});
 //    res.render('account/products/index', {
 //      data: {
 //        products: escape(JSON.stringify(outcome.products))

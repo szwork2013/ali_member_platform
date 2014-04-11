@@ -40,6 +40,10 @@ block body
         |<% } %>
       div.control-group(class!='<%- errfor.serial ? "has-error" : "" %>')
         label.control-label 产品防伪码:
+        |<% if (weixin_warning) { %>
+        div.alert.alert-danger
+          |<%- weixin_warning %>
+        |<% } %>
         input.form-control(type='text', name='serial')
         span.help-block <%- errfor.serial %>
       div.control-group
