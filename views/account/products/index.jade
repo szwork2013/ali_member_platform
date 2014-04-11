@@ -38,14 +38,11 @@ block body
           button.close(type='button', data-dismiss='alert') &times;
           | 防伪码已成功验证。
         |<% } %>
-        |<%= navigator.userAgent%>
-        |<% if (navigator.userAgent.match(/(MicroMessenger)/)) { %>
-        |微信！
-        |<% } %>
       div.control-group(class!='<%- errfor.serial ? "has-error" : "" %>')
         label.control-label 产品防伪码:
         |<% if (navigator.userAgent.match(/(MicroMessenger)/)) { %>
-        |微信！
+        div.alert.alert-danger
+          |微信用户请先关联已有用户，否则在以后合并的话会丢失当前用户的产品资料和积分
         |<% } %>
         input.form-control(type='text', name='serial')
         span.help-block <%- errfor.serial %>
