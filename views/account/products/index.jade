@@ -38,8 +38,15 @@ block body
           button.close(type='button', data-dismiss='alert') &times;
           | 防伪码已成功验证。
         |<% } %>
+        |<%= navigator.userAgent%>
+        |<% if (navigator.userAgent.match(/(micromessenger)/)) { %>
+        |微信！
+        |<% } %>
       div.control-group(class!='<%- errfor.serial ? "has-error" : "" %>')
         label.control-label 产品防伪码:
+        |<% if (navigator.userAgent.match(/(micromessenger)/)) { %>
+        |微信！
+        |<% } %>
         input.form-control(type='text', name='serial')
         span.help-block <%- errfor.serial %>
       div.control-group
