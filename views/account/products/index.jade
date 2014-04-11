@@ -42,7 +42,7 @@ block body
         label.control-label 产品防伪码:
         |<% if (navigator.userAgent.match(/(MicroMessenger)/)) { %>
         div.alert.alert-danger
-          |微信用户如已注册过，请先关联合并到已有用户。如果在登记产品以后才合并用户，会丢失当前微信用户的产品资料和积分
+          |<a href="/weixin/relation/">微信用户如已注册过，请先关联合并到已有用户。如果在登记产品以后才合并用户，会丢失当前微信用户的产品资料和积分</a>
         |<% } %>
         input.form-control(type='text', name='serial')
         span.help-block <%- errfor.serial %>
