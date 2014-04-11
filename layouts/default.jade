@@ -21,7 +21,7 @@ html
         if user && user.username
           li: a(href='#{user.defaultReturnUrl}')
             i.fa.fa-user
-            |  #{user.username}
+            |  #{user.nickname}
         else
           li: a(href='/login/')
             i.fa.fa-user
