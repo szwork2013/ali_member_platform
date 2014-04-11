@@ -102,12 +102,12 @@ exports.init = function(req ,res ,next){
 						 //如果查找到 自动帮助用户登录
 						 if(user){
 							 console.log('已查询到用户');
-							 req.login(user, function(err) {
-								 if (err) {
-									 return next(err);
-								 }
-								 req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '微信登录成功');
-							});
+//							 req.login(user, function(err) {
+//								 if (err) {
+//									 return next(err);
+//								 }
+//								 req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'login', '用户' + user.username + '微信登录成功');
+//							});
 							 workflow.emit('relation',search);
 						 }else{
 							 console.log('查询openid获取不到用户,将存入session后自动跳转');
@@ -140,7 +140,7 @@ exports.init = function(req ,res ,next){
 								 if(fullname){
 									 fullname = req.app.config.weixin.source[0].fullname
 								 }
-								 
+								 console.log("state="+req.query.state+"fullname="+fullname);
 								 
 								 fieldsToSet = {
 									      isVerified: req.app.get('require-account-verification') ? 'no' : 'yes',
@@ -165,13 +165,14 @@ exports.init = function(req ,res ,next){
 							          if (err) {
 							            return next(err);
 							          }
-							          req.login(user, function(err) {
-							              if (err) {
-							            	  return next(err)
-							              }
-							              workflow.emit('relation',search);
-							            });
-							        });
+//							          req.login(user, function(err) {
+//							              if (err) {
+//							            	  return next(err)
+//							              }
+//							              workflow.emit('relation',search);
+//							            });
+//							        });
+							          workflow.emit('relation',search);
 							      });
 							 });
 						 }
