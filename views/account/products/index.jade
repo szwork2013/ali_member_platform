@@ -15,8 +15,9 @@ block body
         h1 我的正品
       div.row
         div.col-sm-10
-          div.alert.alert-danger
-            |#{weixin_warning}
+          if weixin_warning
+            div.alert.alert-danger
+              |#{weixin_warning}
           div#serial
 
     div.col-sm-6.special
