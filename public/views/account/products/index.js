@@ -34,13 +34,6 @@
     },
     render: function() {
       this.$el.html(this.template( this.model.attributes ));
-
-      var isWeixin = navigator.userAgent.match(/(micromessenger)/);
-      if(isWeixin) {
-        this.$el.find('[class="alerts"]').val('微信用户请先关联已有用户，否则在以后合并的话会丢失当前用户的产品资料和积分');
-      } else {
-        this.$el.find('[class="alerts"]').val('非微信用户');
-      }
     },
     send: function() {
       this.model.save({
