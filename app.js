@@ -172,9 +172,9 @@ app.configure(function(){
 
     //set the nick name and avatar image url
     if(req.user) {
-      if(req.user && req.user.username){
-    	  console.log(req.user.roles.account.name.full);
-      }
+//      if(req.user && req.user.username){
+//    	  console.log(req.user.roles.account.name.full);
+//      }
       if (typeof(req.user.qq) != 'undefined' && req.user.qq != null) {
         console.log('QQ Nick: ', req.user.qq.profile.nickname);
         res.locals.user.nickname = req.user.qq.profile.nickname;
