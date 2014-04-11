@@ -16,12 +16,13 @@ html
         span.icon-bar
       ul.nav.nav-tabs.pull-right
         li: a(href='/about/') 关于
-        li: a(href='/signup/') 注册
+        if !user 
+          li: a(href='/signup/') 注册
         li: a(href='/contact/') 联系我们
         if user && user.username
           li: a(href='#{user.defaultReturnUrl}')
             i.fa.fa-user
-            |  #{user.username}
+            |  #{user.nickname}
         else
           li: a(href='/login/')
             i.fa.fa-user
