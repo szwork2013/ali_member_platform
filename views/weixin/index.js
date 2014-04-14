@@ -11,7 +11,7 @@ var getReturnUrl = function(req) {
 exports.wx = function(req ,res){
 	res.end(req.query.echostr);
 };
-exports.filter = function(req,res){
+exports.filter = function(req ,res ,next){
 	var user_agent = req.headers['user-agent'].toLowerCase();
 	if(user_agent.indexOf('micromessenger') == '-1'){
 		console.log('其他浏览器');
