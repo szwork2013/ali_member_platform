@@ -328,6 +328,8 @@ exports.signupWeibo = function(req, res, next) {
       return res.redirect('/signup/');
     }
 
+    console.log('signupWeibo.info.profile: ', info.profile);
+
     req.app.db.models.User.findOne({ 'weibo.id': info.profile._json.id }, function(err, user) {
       if (err) {
         return next(err);
@@ -335,7 +337,7 @@ exports.signupWeibo = function(req, res, next) {
 
       if (!user) {
         req.session.socialProfile = info.profile;
-        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '' ,username: info.profile.username || ''});
+        res.render('signup/social', { email: info.profile.emails && info.profile.emails[0].value || '', username: info.profile.username || ''});
       }
       else {
         res.render('signup/index', {
