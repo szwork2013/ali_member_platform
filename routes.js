@@ -104,7 +104,7 @@ exports = module.exports = function(app, passport) {
   app.get('/weixin/relation/qq/',passport.authenticate('qq', { callbackURL: '/weixin/relation/qq/callback/' }));
   app.get('/weixin/relation/qq/callback/',require('./views/weixin/relation/index').qq_relation);
 //weibo  
-  app.get('/weixin/relation/weibo/',passport.authenticate('qq', { callbackURL: '/weixin/relation/weibo/callback/' }));
+  app.get('/weixin/relation/weibo/',passport.authenticate('weibo', { callbackURL: '/weixin/relation/weibo/callback/' }));
   app.get('/weixin/relation/weibo/callback/',require('./views/weixin/relation/index').weibo_relation);
   
   
