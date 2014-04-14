@@ -311,3 +311,66 @@ exports.qq_relation = function(req ,res){
 		    });
 		  })(req, res, next);
 };
+
+
+
+exports.weibo_relation = function(req ,res){
+	  req._passport.instance.authenticate('weibo', { callbackURL: '/weixin/relation/weibo/callback/' }, function(err, user, info) {
+		    if (!info || !info.profile) {
+		      return res.redirect('/login/');
+		    }
+
+		    req.app.db.models.User.findOne({ 'weibo.id': info.profile._json.id }, function(err, user) {
+		      if (err) {
+		        return next(err);
+		      }
+		user
+		      if (!user) {
+		        res.render('login/index', {
+		          oauthMessage: '未发现有用户连接到你的新浪微博帐号，你需要先创建一个帐号。',
+		          oauthTwitter: !!req.app.get('twitter-oauth-key'),
+		          oauthGitHub: !!req.app.get('github-oauth-key'),
+		          oauthFacebook: !!req.app.get('facebook-oauth-key'),
+		          oauthWeibo: !!req.app.get('weibo-oauth-key'),
+		          oauthQq: !!req.app.get('qq-oauth-key'),
+		          oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+		        });
+		      }else {
+		    	 console.log('查询到有用户了');
+		    	 console.log('开始关联');
+		    	 weixin.mergeOpenid(req , user ,function(err ,user){
+		    		 if(err){
+		    			 return workflow.outcome.errors.push(err);
+		    		 }
+		    		 if(user){
+		    			//删除临时帐号
+			    		 req.app.db.models.User.remove({_id : req.user._id},function(err){
+								if(err){
+									console.log('errRemove');
+								}
+								req.app.db.models.Account.remove({'user.id' : req.user._id});
+						  });
+			    		 req.login(user, function(err) {
+			   	           if (err) {
+			   	             return next(err);
+			   	           }
+			               req.app.logger.log(req.app, user.username, req.app.reqip.getClientIp(req), 'INFO', 'relation', '用户' + user.username + '帐号关联微信');
+			               return res.redirect(getReturnUrl(req));
+			    		 });
+		    		 }else{
+		    			 return res.render('weixin/relation/index',{
+								oauthMessage: '关联失败,请您返回页面后重新尝试。error:'+req.query.error,
+								//第三方
+								oauthTwitter: !!req.app.get('twitter-oauth-key'),
+						        oauthGitHub: !!req.app.get('github-oauth-key'),
+						        oauthFacebook: !!req.app.get('facebook-oauth-key'),
+						        oauthWeibo: !!req.app.get('weibo-oauth-key'),
+						        oauthQq: !!req.app.get('qq-oauth-key'),
+						        oauthAliDiscuz: !! req.app.get('ali_discuz-oauth-key'),
+							});// return res.render('weixin/relation/index',{
+		    		 }
+		    		});//weixin.mergeOpenid		         
+		      }
+		    });
+		  })(req, res, next);	  
+};

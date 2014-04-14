@@ -94,30 +94,18 @@ exports = module.exports = function(app, passport) {
   
   //weixin
   app.get('/wx/',require('./views/weixin/index').wx);
-//  app.get('/weixin*',require('./views/weixin/index').init);
-  
+//local  
   app.get('/weixin/relation/',require('./views/weixin/relation/index').init);
   app.post('/weixin/relation/',require('./views/weixin/relation/index').local_relation);
-  
-  app.get('/weixin/relation/ali_discuz/',function(req ,res){
-	  res.redirect(req._passport.ali_discuz.loginUrl({ callbak: '/weixin/relation/ali_discuz/callback/' }));
-  });
+//ali_discuz  
+  app.get('/weixin/relation/ali_discuz/',function(req ,res){res.redirect(req._passport.ali_discuz.loginUrl({ callbak: '/weixin/relation/ali_discuz/callback/' }));});
   app.get('/weixin/relation/ali_discuz/callback/' , require('./views/weixin/relation/index').Ali_discuz_relation);
-  
-  
+//qq  
   app.get('/weixin/relation/qq/',passport.authenticate('qq', { callbackURL: '/weixin/relation/qq/callback/' }));
   app.get('/weixin/relation/qq/callback/',require('./views/weixin/relation/index').qq_relation);
-  
-  
-  
-  
-//  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
-//  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
-  //微信 oauth login
-//  app.get('/signup/weibo/', passport.authenticate('weibo', { callbackURL: '/signup/weibo/callback/' }));
-//  app.get('/signup/weibo/callback/', require('./views/signup/index').signupWeibo);
-//  app.get('/signup/qq/', passport.authenticate('qq', { callbackURL: '/signup/qq/callback/', scope: ['user:email'] }));
-//  app.get('/signup/qq/callback/', require('./views/signup/index').signupQq);
+//weibo  
+  app.get('/weixin/relation/weibo/',passport.authenticate('qq', { callbackURL: '/weixin/relation/weibo/callback/' }));
+  app.get('/weixin/relation/weibo/callback/',require('./views/weixin/relation/index').weibo_relation);
   
   
   //admin
