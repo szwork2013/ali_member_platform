@@ -230,7 +230,7 @@ exports.loginWeibo = function(req, res, next){
       if (err) {
         return next(err);
       }
-      
+
       if (!user) {
         res.render('login/index', {
           oauthMessage: '未发现有用户连接到你的新浪微博帐号，你需要先创建一个帐号。',

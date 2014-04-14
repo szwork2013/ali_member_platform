@@ -104,9 +104,17 @@ exports = module.exports = function(app, passport) {
   app.get('/weixin/relation/qq/',passport.authenticate('qq', { callbackURL: '/weixin/relation/qq/callback/' }));
   app.get('/weixin/relation/qq/callback/',require('./views/weixin/relation/index').qq_relation);
 //weibo  
-  app.get('/weixin/relation/weibo/',passport.authenticate('weibo', { callbackURL: '/weixin/relation/weibo/callback/' }));
+  app.get('/weixin/relation/weibo/', passport.authenticate('weibo', { callbackURL: '/weixin/relation/weibo/callback/' }));
   app.get('/weixin/relation/weibo/callback/',require('./views/weixin/relation/index').weibo_relation);
-  
+//github
+  app.get('/weixin/relation/github/', passport.authenticate('github', { callbackURL: '/weixin/relation/github/callback/' }));
+  app.get('/weixin/relation/github/callback/', require('./views/weixin/relation/index').gitHub_relation);
+//facebook
+  app.get('/weixin/relation/facebook/', passport.authenticate('facebook', { callbackURL: '/weixin/relation/facebook/callback/' }));
+  app.get('/weixin/relation/facebook/callback/', require('./views/weixin/relation/index').facebook_relation);
+//twitter
+  app.get('/weixin/relation/twitter/', passport.authenticate('twitter', { callbackURL: '/weixin/relation/twitter/callback/' }));
+  app.get('/weixin/relation/twitter/callback/', require('./views/weixin/relation/index').twitter_relation);
   
   //admin
   app.all('/admin*', ensureAuthenticated);
