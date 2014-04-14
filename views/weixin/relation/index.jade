@@ -51,6 +51,12 @@ block body
   script(type='text/template', id='tmpl-login')
     form
       div.alerts
+        |<% if (navigator.userAgent.match(/(MicroMessenger)/)) { %>
+        div.alert.alert-danger.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          |<a href="/weixin/relation/">如过你之前已通过网页注册过，请先关联合并到已有用户。如果在登记产品以后才合并用户，会丢失当前微信用户的产品资料和积分</a>
+        |<% } %>
+      div.alerts
         |<% _.each(errors, function(err) { %>
         div.alert.alert-danger.alert-dismissable
           button.close(type='button', data-dismiss='alert') &times;

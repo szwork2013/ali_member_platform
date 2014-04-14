@@ -1,7 +1,26 @@
 'use strict'
+var getReturnUrl = function(req) {
+	  var returnUrl = req.user.defaultReturnUrl();
+	  if (req.session.returnUrl) {
+	    returnUrl = req.session.returnUrl;
+	    delete req.session.returnUrl;
+	  }
+	  return returnUrl;
+};
+	
 exports.wx = function(req ,res){
 	res.end(req.query.echostr);
 };
+exports.filter = function(req,res){
+	var user_agent = req.headers['user-agent'].toLowerCase();
+	if(user_agent.indexOf('micromessenger') == '-1'){
+		console.log('其他浏览器');
+		//其他浏览器 跳转到首页
+		return res.redirect(getReturnUrl(req));
+	}else{
+		next();
+	}
+}
 /**
  * 用户进入
  * 用户从分享或者朋友圈或者指定网址点击进入

@@ -13,7 +13,7 @@ html
       ul.nav.nav-tabs.pull-right
         li: a(href='/account/') 我的帐号
         li: a(href='/account/settings/') 设置
-        li: a(href='/weixin/relation/') 关联帐号
+        li: a(href='/weixin/relation/' id='relation') 关联帐号
         li: a(href='/logout/')
           i.fa.fa-user
           |  退出
@@ -40,3 +40,7 @@ html
     script(src='/layouts/core.min.js?#{cacheBreaker}')
 
     block feet
+    script(type='text/javascript', id='relation').
+      if(navigator.userAgent.match(/(MicroMessenger)/)){
+        document.getElementById('relation').style.display='block';
+      }
