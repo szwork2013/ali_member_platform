@@ -105,6 +105,12 @@ exports = module.exports = function(app, passport) {
   app.get('/weixin/relation/ali_discuz/callback/' , require('./views/weixin/relation/index').Ali_discuz_relation);
   
   
+  app.get('/weixin/relation/qq/',passport.authenticate('qq', { callbackURL: '/weixin/relation/qq/callback/' }));
+  app.get('/weixin/relation/qq/callback/',require('./views/weixin/relation/index').qq_relation);
+  
+  
+  
+  
 //  app.get('/weixin/signup/',require('./views/weixin/signup/index').signup_init);
 //  app.post('/weixin/signup/',require('./views/weixin/signup/index').signup);
   //微信 oauth login
