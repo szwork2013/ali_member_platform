@@ -463,14 +463,10 @@ exports.signupSocial = function(req, res){
         req.body.email
       ]
     };
-//    console.log('Provider:', req.session.socialProfile.provider);
-//    console.log('socialProfile._json:', req.session.socialProfile._json);
-    fieldsToSet[req.session.socialProfile.provider] = {id: 123456, debug: true};  //req.session.socialProfile._json;
 
-    console.log('fieldsToSet: ', fieldsToSet);
+    fieldsToSet[req.session.socialProfile.provider] = req.session.socialProfile._json;
 
     req.app.db.models.User.create(fieldsToSet, function(err, user) {
-      console.log('user: ', user);
       if (err) {
         return workflow.emit('exception', err);
       }

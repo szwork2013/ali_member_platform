@@ -20,7 +20,7 @@ exports = module.exports = function(app, mongoose) {
     twitter: {},
     github: {},
     facebook: {},
-    weibo: [String],
+    weibo: {},
     qq: {},
     ali_discuz:{},
     search: [String]
