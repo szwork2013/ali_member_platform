@@ -15,6 +15,7 @@ block body
       div#header
   div.row
     div.col-sm-8
+      div#integrals
       div#details
       div#login
       div#delete
@@ -32,6 +33,34 @@ block body
         a(href='/admin/accounts/') 帐号
         |  / <%- name.full %>
 
+  script(type='text/template', id='tmpl-integrals')
+    fieldset
+      legend 积分信息
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-danger.alert-dismissable
+          |<%- err %>
+        |<% }); %>
+        |<% if (success) { %>
+        div.alert.alert-info.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          | 修改已保存。
+        |<% } %>
+      div.control-group(class!='<%- errfor.consumeMoney ? "has-error" : "" %>')
+        label.control-label 累计消费金额:
+        input.form-control(type='text', name='consumeMoney', value!='<%- consumeMoney %>')
+        span.help-block <%- errfor.consumeMoney %>
+      div.control-group(class!='<%- errfor.points ? "has-error" : "" %>')
+        label.control-label 积分:
+        input.form-control(type='text', name='points', value!='<%- points %>')
+        span.help-block <%- errfor.points %>
+      div.control-group(class!='<%- errfor.coins ? "has-error" : "" %>')
+        label.control-label 金币:
+        input.form-control(type='text', name='coins', value!='<%- coins %>')
+        span.help-block <%- errfor.coins %>
+      div.control-group
+        button.btn.btn-primary.btn-update(type='button') 确认修改
+      
   script(type='text/template', id='tmpl-details')
     fieldset
       legend 联络信息

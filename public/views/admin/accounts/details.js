@@ -23,7 +23,25 @@
       return '/admin/accounts/'+ app.mainView.model.id +'/';
     }
   });
-
+  
+  app.Integrals = Backbone.Model.extend({
+	  idAttribute: '_id',
+	  defaults: {
+	      success: false,
+	      errors: [],
+	      errfor: {},
+	      consumeMoney:'',
+	      level:'',
+	      levelName:'',
+	      points:'',
+	      coins:''
+	    },
+	  url:function(){
+		 return '/admin/accounts/integral/'+ app.mainView.model.id +'/';
+	  }
+  });
+  
+  
   app.Details = Backbone.Model.extend({
     idAttribute: '_id',
     defaults: {
@@ -135,7 +153,47 @@
       this.$el.html(this.template( this.model.attributes ));
     }
   });
-
+  
+  app.IntegralsView = Backbone.View.extend({
+	  el: '#integrals',
+	  template: _.template( $('#tmpl-integrals').html() ),
+	  events: {
+	      'click .btn-update': 'update'
+	    },
+	  initialize: function() {
+	    this.model = new app.Integrals();
+	    this.syncUp();
+	    this.listenTo(this.model, 'sync', this.render);
+	    this.render();
+	  },
+      syncUp: function() {
+        this.model.set({
+          _id: app.mainView.model.id,
+          consumeMoney: app.mainView.model.get('integral').consumeMoney,
+          points: app.mainView.model.get('integral').points,
+          levelName: app.mainView.model.get('integral').levelName,
+          level: app.mainView.model.get('integral').level,
+          coins: app.mainView.model.get('integral').coins,
+        });
+      },
+	  render: function() {
+		  this.$el.html(this.template( this.model.attributes ));
+		  
+		  for (var key in this.model.attributes) {
+		        if (this.model.attributes.hasOwnProperty(key)) {
+		          this.$el.find('[name="'+ key +'"]').val(this.model.attributes[key]);
+		        }
+		  }
+	  },
+	  update: function() {
+	    this.model.save({
+	      consumeMoney: this.$el.find('[name="consumeMoney"]').val(),
+	      points: this.$el.find('[name="points"]').val(),
+	      coins: this.$el.find('[name="coins"]').val(),
+	    });
+	  }
+  });
+  
   app.DetailsView = Backbone.View.extend({
     el: '#details',
     template: _.template( $('#tmpl-details').html() ),
@@ -452,12 +510,14 @@
   });
 
   app.MainView = Backbone.View.extend({
-    el: '.page .container',
-    initialize: function() {
-      app.mainView = this;
-      this.model = new app.Account( JSON.parse( unescape($('#data-record').html()) ) );
+	    el: '.page .container',
+	  initialize: function() {
+		  
+	  app.mainView = this;
+	  this.model = new app.Account( JSON.parse( unescape($('#data-record').html()) ) );
 
       app.headerView = new app.HeaderView();
+      app.integrals = new app.IntegralsView();
       app.detailsView = new app.DetailsView();
       app.deleteView = new app.DeleteView();
       app.loginView = new app.LoginView();

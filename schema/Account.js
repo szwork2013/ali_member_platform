@@ -22,7 +22,7 @@ exports = module.exports = function(app, mongoose) {
       levelName: { type: String, default: '普通用户'},	//等级名称
       points: {type: Number, default: 0},			//个人积分
       consumeMoney: {type: Number, default: 0},		//累计消费金额
-      coin: {type: Number, default: 0},
+      coins: {type: Number, default: 0},
     },
     company: { type: String, default: '' },
     address: {

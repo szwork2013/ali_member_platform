@@ -158,6 +158,7 @@ exports = module.exports = function(app, passport) {
   app.post('/admin/accounts/', require('./views/admin/accounts/index').create);
   app.get('/admin/accounts/:id/', require('./views/admin/accounts/index').read);
   app.put('/admin/accounts/:id/', require('./views/admin/accounts/index').update);
+  app.put('/admin/accounts/integral/:id/', require('./views/admin/accounts/index').updateIntegral);
   app.put('/admin/accounts/:id/user/', require('./views/admin/accounts/index').linkUser);
   app.delete('/admin/accounts/:id/user/', require('./views/admin/accounts/index').unlinkUser);
   app.post('/admin/accounts/:id/notes/', require('./views/admin/accounts/index').newNote);

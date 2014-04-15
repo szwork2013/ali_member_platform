@@ -77,7 +77,7 @@ exports.read = function(req, res, next){
       if (err) {
         return callback(err, null);
       }
-
+      
       outcome.statuses = statuses;
       return callback(null, 'done');
     });
@@ -212,6 +212,43 @@ exports.update = function(req, res, next){
   });
 
   workflow.emit('validate');
+};
+
+exports.updateIntegral = function(req ,res ,next){
+	var workflow = req.app.utility.workflow(req, res);
+	workflow.on('validate', function() {
+		if (req.body.consumeMoney == '') {
+	      workflow.outcome.errfor.consumeMoney = 'consumeMoney必须的';
+	    }
+
+	    if (req.body.points == '') {
+	      workflow.outcome.errfor.points = 'points必须的';
+	    }
+	    if (req.body.coins =='') {
+	      workflow.outcome.errfor.coins = 'coins必须的';
+	    }
+
+	    if (workflow.hasErrors()) {
+	      return workflow.emit('response');
+	    }
+	    
+	    workflow.emit('patchAccount');
+	});
+    workflow.on('patchAccount', function() {
+    	var Integral = new (require('member_integral')(req))();
+    	Integral.checkChange( req.params.id ,req.body ,function(err ,result){
+    		if(err){
+    			return workflow.emit('exception', err);
+    		}
+    		//result 用于写入日志
+    		
+    		return workflow.emit('response');
+    		
+    	});
+
+  });	
+    
+    workflow.emit('validate');
 };
 
 exports.linkUser = function(req, res, next){
