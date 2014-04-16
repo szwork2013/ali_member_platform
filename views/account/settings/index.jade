@@ -95,8 +95,10 @@ block body
         label.control-label 工作单位:
         input.form-control(type='text', name='company', value!='<%- company %>')
         span.help-block <%- errfor.company %>
-      div.control-group(class!='<%- errfor.address ? "has-error" : "" %>')
-        label.control-label 地址:
+      div.control-group(class!='<%- errfor.detail ? "has-error" : "" %>')
+        label.control-label 地址(便于我们联系您和给您派发礼品):
+        input.form-control(type='text', name='detail', value!='<%- detail %>')
+        span.help-block <%- errfor.detail %>
         div#address
       div.control-group(class!='<%- errfor.phone ? "has-error" : "" %>')
         label.control-label 电话:

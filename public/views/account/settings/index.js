@@ -25,6 +25,7 @@
       middle: '',
       last: '',
       company: '',
+      detail:'',
       phone: '',
       zip: ''
     },
@@ -98,6 +99,7 @@
         first: app.mainView.account.get('name').first,
 //        middle: app.mainView.account.get('name').middle,
         last: app.mainView.account.get('name').last,
+        detail:app.mainView.account.get('address').detail,
         company: app.mainView.account.get('company'),
         phone: app.mainView.account.get('phone'),
         zip: app.mainView.account.get('zip')
@@ -118,6 +120,7 @@
         middle: this.$el.find('[name="middle"]').val(),
         last: this.$el.find('[name="last"]').val(),
         company: this.$el.find('[name="company"]').val(),
+        detail: this.$el.find('[name="detail"]').val(),
         phone: this.$el.find('[name="phone"]').val(),
         zip: this.$el.find('[name="zip"]').val()
       });
@@ -131,7 +134,7 @@
       'click .btn-update': 'update'
     },
     initialize: function() {
-      this.model = new app.Identity();
+      this.model = new app.Identitycompany();
       this.syncUp();
       this.listenTo(app.mainView.user, 'change', this.syncUp);
       this.listenTo(this.model, 'sync', this.render);
